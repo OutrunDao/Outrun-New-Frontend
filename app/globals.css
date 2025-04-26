@@ -1,0 +1,558 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    /* 添加以下属性 */
+    overflow-x: hidden;
+    /* 禁止水平滚动 */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+  }
+
+  /* 添加以下规则来隐藏 WebKit 浏览器的滚动条 */
+  body::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+:root {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+}
+
+/* 优化滚动条样式 */
+.token-list::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+}
+
+.token-list::-webkit-scrollbar-track {
+  background: rgba(26, 4, 69, 0.4);
+  border-radius: 10px;
+}
+
+.token-list::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.5);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.token-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(236, 72, 153, 0.6);
+}
+
+.token-list {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168, 85, 247, 0.5) rgba(26, 4, 69, 0.4);
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+}
+
+/* 全局滚动条 */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+/* 平滑滚动 - 仅对用户手动滚动生效，不影响程序滚动 */
+html {
+  /* 移除全局平滑滚动设置 */
+  /* scroll-behavior: smooth; */
+}
+
+/* 仅对用户交互的元素应用平滑滚动 */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* 霓虹文字效果 */
+.neon-text {
+  text-shadow: 0 0 5px rgba(168, 85, 247, 0.5), 0 0 10px rgba(168, 85, 247, 0.3), 0 0 15px rgba(236, 72, 153, 0.3), 0 0
+    20px rgba(59, 130, 246, 0.3);
+}
+
+/* 导航项悬停效果 */
+.nav-item-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item-hover::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #a855f7, #ec4899);
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-item-hover:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* 当前活动导航项样式 */
+.nav-item.active {
+  color: rgba(255, 255, 255, 1);
+  text-shadow: 0 0 4px rgba(168, 85, 247, 0.4), 0 0 8px rgba(236, 72, 153, 0.3);
+}
+
+.nav-item.active .nav-item-bg {
+  opacity: 0.2;
+  background: linear-gradient(45deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+}
+
+.dropdown-item.active {
+  background: linear-gradient(45deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+  color: white;
+  font-weight: 500;
+  text-shadow: 0 0 4px rgba(168, 85, 247, 0.3), 0 0 8px rgba(236, 72, 153, 0.2);
+}
+
+/* Outrun 导航样式 */
+
+/* 排版样式 */
+.nav-text {
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+.nav-text:hover {
+  color: rgba(255, 255, 255, 1);
+  text-shadow: 0 0 4px rgba(168, 85, 247, 0.3), 0 0 8px rgba(236, 72, 153, 0.2);
+}
+
+.dropdown-text {
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.01em;
+  font-weight: 400;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+.dropdown-text:hover {
+  color: rgba(255, 255, 255, 1);
+  font-weight: 500;
+  text-shadow: 0 0 4px rgba(168, 85, 247, 0.25), 0 0 8px rgba(236, 72, 153, 0.15);
+}
+
+.mobile-nav-text {
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.02em;
+  font-weight: 600;
+  text-shadow: 0 0 3px rgba(168, 85, 247, 0.2);
+}
+
+.mobile-dropdown-text {
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.01em;
+  font-weight: 400;
+  transition: all 0.2s ease;
+}
+
+.mobile-dropdown-text:hover {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 0 2px rgba(168, 85, 247, 0.2);
+}
+
+/* 导航项背景 */
+.nav-item-bg {
+  background: linear-gradient(45deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+  box-shadow: 0 0 5px rgba(168, 85, 247, 0.15);
+  border-radius: 8px;
+}
+
+/* 下拉菜单样式 */
+.dropdown-menu {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2), 0 0 10px rgba(168, 85, 247, 0.2), 0 0 20px rgba(236, 72, 153, 0.1);
+}
+
+.dropdown-bg {
+  background: linear-gradient(135deg, rgba(15, 3, 38, 0.95), rgba(26, 4, 69, 0.95));
+  backdrop-filter: blur(12px);
+}
+
+.dropdown-grid {
+  background-image: linear-gradient(rgba(168, 85, 247, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.3;
+}
+
+.dropdown-item-bg {
+  background: linear-gradient(45deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+  box-shadow: 0 0 5px rgba(168, 85, 247, 0.15);
+  border-radius: 8px;
+}
+
+/* 启动应用按钮样式 */
+.launch-app-btn {
+  transition: all 0.3s ease;
+}
+
+.launch-app-btn:hover {
+  transform: translateY(-2px);
+}
+
+.launch-btn-bg {
+  background: linear-gradient(45deg, #a855f7, #ec4899, #3b82f6);
+  background-size: 200% 200%;
+  animation: gradient-shift 5s ease infinite;
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+/* 移动菜单样式 */
+.mobile-menu-bg {
+  background: linear-gradient(135deg, rgba(15, 3, 38, 0.95), rgba(26, 4, 69, 0.95));
+  backdrop-filter: blur(12px);
+}
+
+.mobile-menu-grid {
+  background-image: linear-gradient(rgba(168, 85, 247, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.3;
+}
+
+.mobile-nav-item {
+  position: relative;
+  display: inline-block;
+}
+
+.mobile-nav-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, #a855f7, transparent);
+}
+
+.mobile-dropdown-item:hover {
+  background: linear-gradient(90deg, rgba(168, 85, 247, 0.05), transparent);
+  border-radius: 4px;
+}
+
+.mobile-menu-btn-bg {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+}
+
+.mobile-launch-btn-bg {
+  background: linear-gradient(45deg, #a855f7, #ec4899, #3b82f6);
+  background-size: 200% 200%;
+  animation: gradient-shift 5s ease infinite;
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+/* 导航指示器动画 */
+.nav-indicator {
+  box-shadow: 0 0 5px rgba(168, 85, 247, 0.4), 0 0 10px rgba(236, 72, 153, 0.2);
+}
+
+/* 流动虚线动画 */
+.flowing-dash-line-right {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: bottom;
+  background-size: 8px 2px; /* 更小的虚线 */
+  background-repeat: repeat-x;
+  animation: flow-right 0.8s linear infinite;
+}
+
+/* 为小屏幕添加媒体查询 */
+@media (max-width: 640px) {
+  .flowing-dash-line-right {
+    background-size: 6px 2px; /* 移动设备上更小的虚线 */
+    animation: flow-right 0.6s linear infinite; /* 移动设备上稍快的动画 */
+  }
+}
+
+@keyframes flow-right {
+  0% {
+    background-position: 0px bottom;
+  }
+  100% {
+    background-position: 8px bottom; /* 匹配较小的虚线大小 */
+  }
+}
+
+/* 为移动设备添加特定动画 */
+@media (max-width: 640px) {
+  @keyframes flow-right {
+    0% {
+      background-position: 0px bottom;
+    }
+    100% {
+      background-position: 6px bottom; /* 匹配较小的虚线大小 */
+    }
+  }
+}
+
+/* 动画 */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* 工具提示样式 */
+.tooltip {
+  z-index: 99999 !important;
+  pointer-events: none !important;
+}
+
+.tooltip-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.tooltip-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 200ms, transform 200ms;
+}
+
+.tooltip-exit {
+  opacity: 1;
+}
+
+.tooltip-exit-active {
+  opacity: 0;
+  transition: opacity 100ms;
+}
+
+/* 页面过渡效果 */
+.page-transition {
+  opacity: 1;
+  transition: opacity 300ms ease;
+}
+
+/* 确保页面内容在过渡期间可见 */
+#__next {
+  position: relative;
+}
+
+/* 页面过渡动画类 */
+.page-transition-enter {
+  opacity: 0;
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease;
+}
+
+.page-transition-exit {
+  opacity: 1;
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+/* 性能优化：减少重绘和重排 */
+.hardware-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
+}
+
+/* Add a CSS-based grid pattern to replace the SVG */
+@layer utilities {
+  .bg-grid-pattern {
+    background-image: linear-gradient(to right, rgba(168, 85, 247, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(168, 85, 247, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+}
+
+/* Add these styles to the end of your globals.css file */
+
+/* Liquidity page specific styles */
+.liquidity-stats-card {
+  background: linear-gradient(to right, rgba(15, 3, 38, 0.8), rgba(26, 4, 69, 0.8));
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+  border: 1px solid rgba(236, 72, 153, 0.2);
+  backdrop-filter: blur(12px);
+}
+
+/* 更新流动性池表格样式，使其更符合Outrun风格 */
+.liquidity-table-row:hover {
+  background: linear-gradient(90deg, rgba(15, 3, 38, 0.4), rgba(26, 4, 69, 0.3), rgba(15, 3, 38, 0.4));
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.1) inset;
+}
+
+.liquidity-table-header {
+  background: linear-gradient(to bottom, rgba(15, 3, 38, 0.9), rgba(26, 4, 69, 0.7));
+  box-shadow: 0 1px 0 rgba(168, 85, 247, 0.1);
+}
+
+.liquidity-pagination-button {
+  transition: all 0.2s ease;
+}
+
+.liquidity-pagination-button:hover {
+  background: rgba(26, 4, 69, 0.6);
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.2);
+}
+
+.liquidity-pagination-active {
+  background: rgba(26, 4, 69, 0.7);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.2), 0 0 15px rgba(168, 85, 247, 0.1) inset;
+}
+
+/* 添加表格网格线效果，增强Outrun风格 */
+.liquidity-table-grid {
+  background-image: linear-gradient(to right, rgba(168, 85, 247, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(168, 85, 247, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center center;
+}
+
+.liquidity-table-row:hover {
+  background: linear-gradient(90deg, rgba(168, 85, 247, 0.05), transparent);
+}
+
+.liquidity-table-header {
+  background: linear-gradient(to bottom, rgba(26, 4, 69, 0.8), rgba(15, 3, 38, 0.8));
+}
+
+.liquidity-pagination-active {
+  background: linear-gradient(to right, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.3));
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+}
+
+/* Pool pair token icons overlap effect */
+.token-pair-icons {
+  display: flex;
+  margin-right: 0.5rem;
+}
+
+.token-pair-icons > *:not(:first-child) {
+  margin-left: -0.5rem;
+}
+
+/* Glow effect for important numbers */
+.tvl-value,
+.volume-value {
+  text-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .liquidity-table-container {
+    margin: 0 -1rem;
+    width: calc(100% + 2rem);
+    overflow-x: auto;
+  }
+
+  .liquidity-table {
+    min-width: 800px;
+  }
+}
+
+/* 添加一些全局样式，确保数字显示使用更硬朗的字体 */
+
+/* 在文件末尾添加以下样式 */
+
+/* 添加更多硬朗的数字显示样式 */
+.tvl-value,
+.volume-value,
+.font-mono {
+  font-family: "JetBrains Mono", "Roboto Mono", "SF Mono", Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}

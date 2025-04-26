@@ -12,6 +12,15 @@ export function GlobalBackground() {
       {/* 星空背景 */}
       <SeamlessStarryBackground />
 
+      {/* 网格背景 - 添加全局网格背景 */}
+      <div
+        className="fixed inset-0 bg-grid-pattern bg-center opacity-10 -z-20 pointer-events-none"
+        style={{
+          opacity: isVisible ? 0.14 : 0, // 网格透明度
+          transition: "opacity 0.3s ease-in-out",
+        }}
+      />
+
       {/* 粒子效果 - 仅在客户端水合后显示，避免闪烁 */}
       <ParticleCanvas className="fixed inset-0 w-full h-full -z-10" />
 

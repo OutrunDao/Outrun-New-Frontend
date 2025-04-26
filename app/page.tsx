@@ -33,7 +33,8 @@ export default function Home() {
           <RetroSun />
         </motion.div>
 
-        <motion.div style={{ opacity: gridOpacity }} className="absolute inset-0 bg-grid-pattern bg-center -z-10" />
+        {/* 移除这个重复的网格背景，因为我们已经在GlobalBackground中添加了全局网格 */}
+        {/* <motion.div style={{ opacity: gridOpacity }} className="absolute inset-0 bg-grid-pattern bg-center -z-10" /> */}
 
         <div className="container px-4 md:px-6 mx-auto pt-24 pb-12">
           <div className="flex flex-col items-center text-center space-y-12">

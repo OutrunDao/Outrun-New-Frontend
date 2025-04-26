@@ -26,8 +26,8 @@ export default function MemeversePage() {
 
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden pt-20">
-        {/* Grid background - UPDATED to match main page */}
-        <div className="absolute inset-0 bg-grid-pattern bg-center opacity-10" />
+        {/* 移除这个重复的网格背景，因为我们已经在GlobalBackground中添加了全局网格 */}
+        {/* <div className="absolute inset-0 bg-grid-pattern bg-center opacity-10" /> */}
 
         {/* Hero overlay - UPDATED to match main page */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326]/40 via-[#1a0445]/40 to-[#000000]/30 opacity-30" />

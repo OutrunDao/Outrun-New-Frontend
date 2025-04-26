@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback, useMemo } from "react"
+import { COMMON_TOKENS } from "@/constants/tokens"
 import type { Token } from "@/types"
 
 interface UseTokenSwapProps {
@@ -24,9 +25,15 @@ interface UseTokenSwapReturn {
   handleMaxClick: () => void
   getMinReceived: (slippage: string) => string
   toggleRateDirection: () => void
+  calculateSwap: (fromToken: Token, toToken: Token, amount: number) => number
 }
 
-export function useTokenSwap({ initialFromToken, initialToToken }: UseTokenSwapProps): UseTokenSwapReturn {
+export function useTokenSwap(
+  { initialFromToken, initialToToken }: UseTokenSwapProps = {
+    initialFromToken: COMMON_TOKENS[0],
+    initialToToken: COMMON_TOKENS[1],
+  },
+): UseTokenSwapReturn {
   const [fromToken, setFromToken] = useState<Token>(initialFromToken)
   const [toToken, setToToken] = useState<Token>(initialToToken)
   const [fromAmount, setFromAmount] = useState("")
@@ -109,6 +116,13 @@ export function useTokenSwap({ initialFromToken, initialToToken }: UseTokenSwapP
     setIsRateReversed((prev) => !prev)
   }, [])
 
+  // 添加计算交换的函数
+  const calculateSwap = useCallback((fromToken: Token, toToken: Token, amount: number): number => {
+    if (!fromToken.price || !toToken.price) return 0
+    const rate = fromToken.price / toToken.price
+    return amount * rate
+  }, [])
+
   return {
     fromToken,
     toToken,
@@ -125,5 +139,6 @@ export function useTokenSwap({ initialFromToken, initialToToken }: UseTokenSwapP
     handleMaxClick,
     getMinReceived,
     toggleRateDirection,
+    calculateSwap,
   }
 }

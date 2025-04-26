@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useMemo, useEffect } from "react"
 import { motion } from "framer-motion"
-import { ChevronDown, RefreshCw, Settings, ArrowDownUp } from "lucide-react"
+import { ChevronDown, RefreshCw, Settings, ArrowDownUp, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { TokenIcon } from "@/components/ui/token-icon"
 import { TokenSelectionModal } from "@/components/token-selection-modal"
@@ -17,7 +17,7 @@ import { useWallet } from "@/contexts/wallet-context"
 const tokens = COMMON_TOKENS
 
 export function EnhancedSwapInterface() {
-  // Use our custom hook for token swap logic
+  // 使用我们的自定义hook进行token交换逻辑
   const {
     fromToken,
     toToken,
@@ -47,10 +47,9 @@ export function EnhancedSwapInterface() {
   const [swapDeadline, setSwapDeadline] = useState("10")
   const [antiMEV, setAntiMEV] = useState(false)
   const [showRouteModal, setShowRouteModal] = useState(false)
-  const [isConnected, setIsConnected] = useState(false)
 
   // 使用 useWallet hook
-  const { isConnected: walletIsConnected, connectWallet } = useWallet()
+  const { isConnected, isConnecting, connectWallet } = useWallet()
 
   // Mock route data
   const routeData = useMemo(
@@ -135,24 +134,6 @@ export function EnhancedSwapInterface() {
       </div>
     )
   }, [fromToken, toToken, isRateReversed, showDetails, toggleRateDirection])
-
-  const [isVisible, setIsVisible] = useState(false)
-  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-
-  const handleMouseEnter = useCallback(() => {
-    if (hideTimeoutRef.current) {
-      clearTimeout(hideTimeoutRef.current)
-      hideTimeoutRef.current = null
-    }
-    setIsVisible(true)
-  }, [])
-
-  const handleMouseLeave = useCallback(() => {
-    // Add a delay before hiding the tooltip
-    hideTimeoutRef.current = setTimeout(() => {
-      setIsVisible(false)
-    }, 300) // 300ms delay
-  }, [])
 
   return (
     <div className="w-full max-w-sm mx-auto">
@@ -489,7 +470,7 @@ export function EnhancedSwapInterface() {
           )}
 
           {/* Swap Button */}
-          {walletIsConnected ? (
+          {isConnected ? (
             <Button
               className="w-full bg-gradient-to-r from-purple-600/90 to-pink-600/90 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-xl h-10 text-sm shadow-[0_0_10px_rgba(168,85,247,0.3)]"
               disabled={!fromAmount || !toAmount}
@@ -506,16 +487,17 @@ export function EnhancedSwapInterface() {
               style={{
                 boxShadow: "0 0 15px rgba(168,85,247,0.4), 0 0 30px rgba(236,72,153,0.2)",
               }}
-              onClick={async () => {
-                try {
-                  await connectWallet()
-                  setIsConnected(true)
-                } catch (error) {
-                  console.error("Failed to connect wallet:", error)
-                }
-              }}
+              onClick={connectWallet}
+              disabled={isConnecting}
             >
-              Connect Wallet
+              {isConnecting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Connecting...
+                </>
+              ) : (
+                "Connect Wallet"
+              )}
             </Button>
           )}
         </div>

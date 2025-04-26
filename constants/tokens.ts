@@ -23,7 +23,7 @@ export const TOKEN_COLORS: Record<string, string> = {
 }
 
 // 定义常用的代币列表
-export const COMMON_TOKENS: Token[] = [
+export const TOKENS: Token[] = [
   {
     symbol: "ETH",
     name: "Ethereum",
@@ -68,3 +68,5 @@ export const COMMON_TOKENS: Token[] = [
     address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
   },
 ]
+
+export const COMMON_TOKENS = TOKENS

@@ -64,7 +64,7 @@ export default function OutStakePage() {
                 size="lg"
                 className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-8 h-12 text-base shadow-[0_0_15px_rgba(168,85,247,0.5)]"
               >
-                Start Staking000000000000000
+                Start Staking
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
 

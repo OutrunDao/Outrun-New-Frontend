@@ -190,7 +190,7 @@ export function Navbar() {
                             isActive ? "text-white font-semibold" : ""
                           }`}
                         >
-                          <span className="relative z-10">{item.title}</span>
+                          <span className="relative z-10">Trade</span>
                           {item.children && (
                             <ChevronDown className="h-4 w-4 opacity-70 relative z-10 transition-transform duration-300 group-hover:rotate-180" />
                           )}

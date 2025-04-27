@@ -44,10 +44,10 @@ export function WalletButton({ isHomePage = false }: WalletButtonProps) {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-4" style={{ marginRight: "-12px" }}>
       {!isHomePage && <NetworkIcon selectedNetwork={network} networks={networks} onNetworkChange={switchNetwork} />}
       <Button
-        className={`launch-app-btn bg-transparent border-0 rounded-md px-4 h-[34px] flex items-center justify-center relative overflow-hidden group text-sm ml-auto ${isConnected && !isHomePage ? "text-purple-300" : "text-white"} w-[135px]`}
+        className={`launch-app-btn bg-transparent border-0 rounded-md px-4 h-[34px] flex items-center justify-center relative overflow-hidden group text-sm ml-auto ${isConnected && !isHomePage ? "text-purple-300" : "text-white"} w-[125px]`}
         onClick={handleClick}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}

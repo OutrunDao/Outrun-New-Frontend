@@ -16,7 +16,9 @@ export function WalletButton({ isHomePage = false }: WalletButtonProps) {
   const router = useRouter()
   const { isConnected, isConnecting, address, connectWallet, disconnectWallet } = useWallet()
   const { network, networks, switchNetwork } = useNetwork()
-  const [isHovering, setIsHovering] = useState(false)
+  const [isHoveringState, setIsHoveringState] = useState(false)
+  const isHovering = isHoveringState
+  const setIsHovering = setIsHoveringState
 
   const handleClick = async () => {
     if (isHomePage) {
@@ -45,7 +47,7 @@ export function WalletButton({ isHomePage = false }: WalletButtonProps) {
     <div className="flex items-center gap-2">
       {!isHomePage && <NetworkIcon selectedNetwork={network} networks={networks} onNetworkChange={switchNetwork} />}
       <Button
-        className={`launch-app-btn bg-transparent border-0 rounded-full px-4 h-[34px] flex items-center justify-center relative overflow-hidden group text-sm ml-auto ${isConnected && !isHomePage ? "text-purple-300" : "text-white"} w-[135px]`}
+        className={`launch-app-btn bg-transparent border-0 rounded-md px-4 h-[34px] flex items-center justify-center relative overflow-hidden group text-sm ml-auto ${isConnected && !isHomePage ? "text-purple-300" : "text-white"} w-[135px]`}
         onClick={handleClick}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}

@@ -11,7 +11,7 @@ export function TokenCard({ title, description, formula, gradient, delay = 0 }: 
       transition={{ duration: 0.5, delay }}
       viewport={{ once: true }}
       whileHover={{ y: -5 }}
-      className="relative overflow-hidden rounded-2xl"
+      className="relative overflow-hidden rounded-lg"
     >
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-20`} />

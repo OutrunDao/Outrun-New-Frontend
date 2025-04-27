@@ -1,16 +1,17 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
-// 导入部分，将 Input 替换为 Search
-import { Plus } from "lucide-react"
+import { Plus, Filter, X, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ParticleCanvas } from "@/components/particle-canvas"
 import { LiquidityPoolsTable } from "@/components/liquidity-pools-table"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search } from "@/components/ui/search"
+import { useMobile } from "@/hooks/use-mobile"
 
 export default function LiquidityPage() {
+  const isMobile = useMobile()
   const [activeTab, setActiveTab] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
   const { scrollYProgress } = useScroll()
@@ -19,13 +20,38 @@ export default function LiquidityPage() {
   const titleOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0.8])
   const titleY = useTransform(scrollYProgress, [0, 0.1], [0, -20])
 
+  // 移动端搜索状态
+  // const [showMobileSearch, setShowMobileSearch] = useState(false)
+  const [showFilterMenu, setShowFilterMenu] = useState(false)
+  const [sortOption, setSortOption] = useState<string | null>(null)
+
+  // 处理移动端搜索框显示/隐藏
+  // useEffect(() => {
+  //   if (!isMobile) {
+  //     setShowMobileSearch(false)
+  //   }
+  // }, [isMobile])
+
+  // 防止滚动穿透
+  useEffect(() => {
+    if (showFilterMenu) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [showFilterMenu])
+
   return (
     <div ref={containerRef} className="relative flex flex-col min-h-screen">
       {/* Background elements */}
       <ParticleCanvas className="fixed inset-0 -z-10" />
 
-      {/* Hero Section */}
-      <section className="relative pt-24 pb-6 overflow-hidden">
+      {/* Hero Section - 在移动端简化显示 */}
+      <section className={`relative ${isMobile ? "pt-24 pb-4" : "pt-24 pb-6"} overflow-hidden`}>
         {/* Grid background */}
         <div className="absolute inset-0 bg-grid-pattern bg-center opacity-10" />
 
@@ -35,22 +61,38 @@ export default function LiquidityPage() {
         <div className="container px-4 md:px-6 mx-auto max-w-5xl">
           <div className="flex flex-col items-start text-left space-y-6 max-w-4xl">
             <motion.div style={{ opacity: titleOpacity, y: titleY }} className="space-y-6">
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-[#ff6b6b] drop-shadow-[0_0_8px_rgba(255,107,107,0.5)]">
+              <h1
+                className={`${isMobile ? "text-3xl" : "text-4xl md:text-5xl"} font-bold tracking-tighter text-[#ff6b6b] drop-shadow-[0_0_8px_rgba(255,107,107,0.5)]`}
+              >
                 EARN WITH
                 <br />
                 YOUR LIQUIDITY
               </h1>
 
-              <div className="grid grid-cols-2 gap-8 max-w-md">
-                <div className="space-y-1">
-                  <p className="text-zinc-400 text-sm">Volume (24H):</p>
-                  <p className="text-2xl md:text-4xl font-mono font-bold text-white">$1.26M</p>
+              {/* 移动端将Volume和TVL放在同一行 */}
+              {isMobile ? (
+                <div className="flex justify-between items-center gap-4 w-full max-w-md">
+                  <div className="space-y-1">
+                    <p className="text-zinc-400 text-sm">Volume (24H):</p>
+                    <p className="text-xl font-mono font-bold text-white">$1.26M</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-zinc-400 text-sm">TVL:</p>
+                    <p className="text-xl font-mono font-bold text-white">$23.52M</p>
+                  </div>
                 </div>
-                <div className="space-y-1">
-                  <p className="text-zinc-400 text-sm">TVL:</p>
-                  <p className="text-2xl md:text-4xl font-mono font-bold text-white">$23.52M</p>
+              ) : (
+                <div className="grid grid-cols-2 gap-8 max-w-md">
+                  <div className="space-y-1">
+                    <p className="text-zinc-400 text-sm">Volume (24H):</p>
+                    <p className="text-2xl md:text-4xl font-mono font-bold text-white">$1.26M</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-zinc-400 text-sm">TVL:</p>
+                    <p className="text-2xl md:text-4xl font-mono font-bold text-white">$23.52M</p>
+                  </div>
                 </div>
-              </div>
+              )}
             </motion.div>
           </div>
         </div>
@@ -59,48 +101,192 @@ export default function LiquidityPage() {
       {/* Pools Section */}
       <section className="py-4 relative">
         <div className="container px-4 md:px-6 mx-auto max-w-5xl">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center">
-              <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] drop-shadow-[0_0_8px_rgba(255,107,107,0.5)]">
-                TOP POOLS
-              </h2>
+          {/* 标题和创建按钮 - 只在PC端显示 */}
+          {!isMobile && (
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center">
+                <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] drop-shadow-[0_0_8px_rgba(255,107,107,0.5)]">
+                  TOP POOLS
+                </h2>
+              </div>
+              <Button className="bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] hover:from-[#ff5a5a] hover:to-[#ff7a7a] text-white border-0 rounded-lg px-4 h-9 text-sm shadow-[0_0_15px_rgba(255,107,107,0.5)] w-auto flex items-center justify-center">
+                <Plus className="mr-0.25 h-4 w-4" />
+                Create Position
+              </Button>
             </div>
-            <Button className="bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] hover:from-[#ff5a5a] hover:to-[#ff7a7a] text-white border-0 rounded-full px-4 h-9 text-sm shadow-[0_0_15px_rgba(255,107,107,0.5)] w-auto flex items-center justify-center">
-              <Plus className="mr-0.25 h-4 w-4" />
-              Create Position
-            </Button>
-          </div>
+          )}
 
-          {/* 将搜索框部分替换为新的 Search 组件 */}
-          <div className="flex flex-col md:flex-row justify-between gap-4 mb-3">
-            <div className="relative w-full md:w-2/5">
+          {/* 搜索和筛选 - PC端显示完整版，移动端简化 */}
+          {!isMobile ? (
+            <div className="flex flex-col md:flex-row justify-between gap-4 mb-3">
+              <div className="relative w-full md:w-2/5">
+                <Search
+                  placeholder="Search pools by tokens"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onClear={() => setSearchQuery("")}
+                  className="bg-black/40 border border-white/10 text-white rounded-lg focus:outline-none focus:ring-0 focus:border-[#ff6b6b]/50 transition-all duration-300 shadow-inner shadow-black/20"
+                />
+              </div>
+
+              <div className="flex justify-end">
+                <Tabs defaultValue="all" className="w-auto">
+                  <TabsList className="bg-black/40 border border-white/10">
+                    <TabsTrigger value="all">All</TabsTrigger>
+                    <TabsTrigger value="stablecoin">Stablecoin</TabsTrigger>
+                    <TabsTrigger value="memecoin">Memecoin</TabsTrigger>
+                    <TabsTrigger value="defi">DeFi</TabsTrigger>
+                    <TabsTrigger value="game">Game</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              </div>
+            </div>
+          ) : (
+            // 移动端搜索框 - 默认显示
+            <div className="flex flex-col mb-2">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] drop-shadow-[0_0_8px_rgba(255,107,107,0.5)]">
+                  TOP POOLS
+                </h2>
+                <div className="flex items-center gap-2">
+                  <Button className="bg-gradient-to-r from-[#ff6b6b]/90 to-[#ff8e8e]/90 hover:from-[#ff5a5a] hover:to-[#ff7a7a] text-white border-0 rounded-lg px-2 h-8 text-sm shadow-[0_0_10px_rgba(255,107,107,0.4)] flex items-center justify-center">
+                    <Plus className="-mr-1 h-3 w-3" />
+                    Create Position
+                  </Button>
+                  <button
+                    className="p-2 rounded-lg bg-[#150a2e] border border-[#2a1b4a]/30 hover:bg-[#1d0c3e] transition-all duration-200 flex items-center justify-center shadow-[0_0_10px_rgba(168,85,247,0.15)]"
+                    onClick={() => setShowFilterMenu(true)}
+                    aria-label="Filter and sort"
+                  >
+                    <Filter size={18} className="text-white/80" />
+                  </button>
+                </div>
+              </div>
               <Search
                 placeholder="Search pools by tokens"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onClear={() => setSearchQuery("")}
-                className="bg-black/40 border border-white/10 text-white rounded-lg focus:outline-none focus:ring-0 focus:border-[#ff6b6b]/50 transition-all duration-300 shadow-inner shadow-black/20"
+                className="bg-black/40 border border-white/10 text-white rounded-lg focus:outline-none focus:ring-0 focus:border-[#ff6b6b]/50 transition-all duration-300 shadow-inner shadow-black/20 mb-1"
               />
             </div>
+          )}
 
-            <div className="flex justify-end">
-              <Tabs defaultValue="all" className="w-auto">
-                <TabsList className="bg-black/40 border border-white/10">
-                  <TabsTrigger value="all">All</TabsTrigger>
-                  <TabsTrigger value="stablecoin">Stablecoin</TabsTrigger>
-                  <TabsTrigger value="memecoin">Memecoin</TabsTrigger>
-                  <TabsTrigger value="defi">DeFi</TabsTrigger>
-                  <TabsTrigger value="game">Game</TabsTrigger>
-                </TabsList>
-              </Tabs>
-            </div>
-          </div>
-
-          <div className="bg-black/30 backdrop-blur-sm border border-white/5 rounded-xl overflow-hidden max-w-5xl mx-auto mt-2">
-            <LiquidityPoolsTable />
+          {/* 流动性池表格 - 组件内部已经处理了移动端和PC端的不同显示 */}
+          <div
+            className={`${isMobile ? "w-full" : "bg-black/30 backdrop-blur-sm border border-white/5 rounded-xl overflow-hidden"} max-w-5xl mx-auto mt-1`}
+          >
+            <LiquidityPoolsTable poolType={activeTab} sortOption={sortOption} searchTerm={searchQuery} />
           </div>
         </div>
       </section>
+
+      {/* 移动端浮动搜索按钮 */}
+      {/* {isMobile && !showMobileSearch && (
+        <button
+          className="fixed bottom-20 right-4 w-12 h-12 rounded-full bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] flex items-center justify-center shadow-lg z-10"
+          onClick={() => setShowMobileSearch(true)}
+        >
+          <Filter size={20} className="text-white" />
+        </button>
+      )} */}
+
+      {/* 移动端筛选菜单 */}
+      {isMobile && showFilterMenu && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setShowFilterMenu(false)}></div>
+          <div
+            className="w-full max-w-xs bg-gradient-to-b from-[#0f0326] via-[#1a0445] to-[#0f0326] rounded-xl overflow-hidden z-10 p-4 m-4 border border-[#2a1b4a]/50"
+            style={{
+              boxShadow: "0 0 20px rgba(168,85,247,0.3), 0 0 40px rgba(168,85,247,0.1)",
+            }}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">Filter Pools</h3>
+              <button
+                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
+                onClick={() => setShowFilterMenu(false)}
+              >
+                <X size={20} className="text-white/80" />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <p className="text-[#9d8cb0] mb-2 text-sm font-medium">Pool Type</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { id: "all", label: "All Pools" },
+                    { id: "stablecoin", label: "Stablecoin" },
+                    { id: "memecoin", label: "Memecoin" },
+                    { id: "defi", label: "DeFi" },
+                  ].map((option) => (
+                    <button
+                      key={option.id}
+                      className={`relative py-2 px-3 rounded-lg text-center transition-all duration-300 ${
+                        activeTab === option.id ? "text-white font-medium" : "text-[#9d8cb0] hover:text-white"
+                      }`}
+                      onClick={() => setActiveTab(option.id)}
+                    >
+                      <div
+                        className={`absolute inset-0 rounded-lg ${
+                          activeTab === option.id ? "bg-[#2d0f5e]" : "bg-[#150a2e] hover:bg-[#1d0c3e]"
+                        }`}
+                      ></div>
+                      {activeTab === option.id && (
+                        <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-[#9d4edd]/30 to-transparent opacity-50"></div>
+                      )}
+                      <span className="relative z-10">{option.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-[#9d8cb0] mb-2 text-sm font-medium">Sort By</p>
+                <div className="grid grid-cols-1 gap-2">
+                  {[
+                    { id: "tvl-desc", label: "TVL: High to Low" },
+                    { id: "tvl-asc", label: "TVL: Low to High" },
+                    { id: "apr-desc", label: "APR: High to Low" },
+                    { id: "apr-asc", label: "APR: Low to High" },
+                    { id: "volume-desc", label: "Volume: High to Low" },
+                    { id: "volume-asc", label: "Volume: Low to High" },
+                  ].map((option) => (
+                    <button
+                      key={option.id}
+                      className={`relative py-2 px-3 rounded-lg text-left transition-all duration-300 ${
+                        sortOption === option.id ? "text-white font-medium" : "text-[#9d8cb0] hover:text-white"
+                      }`}
+                      onClick={() => setSortOption(option.id)}
+                    >
+                      <div
+                        className={`absolute inset-0 rounded-lg ${
+                          sortOption === option.id ? "bg-[#2d0f5e]" : "bg-[#150a2e] hover:bg-[#1d0c3e]"
+                        }`}
+                      ></div>
+                      {sortOption === option.id && (
+                        <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-[#9d4edd]/30 to-transparent opacity-50"></div>
+                      )}
+                      <span className="relative z-10 flex items-center">
+                        {option.label}
+                        {sortOption === option.id && <Check size={16} className="ml-auto text-[#9d4edd]" />}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                className="w-full mt-4 py-3 rounded-lg bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] text-white font-medium transition-all duration-300 hover:from-[#ff5a5a] hover:to-[#ff7a7a] hover:shadow-[0_0_15px_rgba(255,107,107,0.5)]"
+                onClick={() => setShowFilterMenu(false)}
+              >
+                Apply Filters
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

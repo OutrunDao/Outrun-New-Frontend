@@ -18,7 +18,7 @@ export function TechSpecCard({
       transition={{ duration: 0.5, delay }}
       viewport={{ once: true }}
       className={cn(
-        "bg-card rounded-xl p-6 shadow-lg border border-white/10 backdrop-blur-sm",
+        "bg-card rounded-lg p-6 shadow-lg border border-white/10 backdrop-blur-sm",
         "bg-black/60",
         className,
       )}

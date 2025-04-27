@@ -1,9 +1,11 @@
 "use client"
 
-import { useState } from "react"
-import { ChevronLeft, ChevronRight, ArrowUpDown, ChevronUp, ChevronDown } from "lucide-react"
+import { useState, useEffect, useRef } from "react"
+import { ChevronLeft, ChevronRight, ArrowUpDown, ChevronUp, ChevronDown, X } from "lucide-react"
 import { TokenIcon } from "@/components/ui/token-icon"
 import { Button } from "@/components/ui/button"
+import { InfoTooltip } from "@/components/ui/info-tooltip"
+import { useMobile } from "@/hooks/use-mobile"
 
 // Mock data for the pools
 const poolsData = [
@@ -99,12 +101,30 @@ const poolsData = [
   },
 ]
 
-export function LiquidityPoolsTable() {
+interface LiquidityPoolsTableProps {
+  poolType?: string
+  sortOption?: string | null
+  searchTerm?: string
+}
+
+export function LiquidityPoolsTable({
+  poolType = "all",
+  sortOption = null,
+  searchTerm = "",
+}: LiquidityPoolsTableProps) {
+  const isMobile = useMobile()
   const [currentPage, setCurrentPage] = useState(1)
   const [sortColumn, setSortColumn] = useState<string | null>(null)
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc")
   const [hoveredRow, setHoveredRow] = useState<number | null>(null)
+  const [activeFilter, setActiveFilter] = useState<string | null>(null)
+  const [showFilterMenu, setShowFilterMenu] = useState(false)
+  const [selectedPool, setSelectedPool] = useState<number | null>(null)
+  const [visiblePools, setVisiblePools] = useState(poolsData)
+  const filterMenuRef = useRef<HTMLDivElement>(null)
+  const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm)
 
+  // 处理排序逻辑
   const handleSort = (column: string) => {
     if (sortColumn === column) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc")
@@ -114,6 +134,80 @@ export function LiquidityPoolsTable() {
     }
   }
 
+  // 根据排序和筛选更新可见池子
+  useEffect(() => {
+    let filtered = [...poolsData]
+
+    // 应用搜索筛选
+    if (localSearchTerm) {
+      filtered = filtered.filter((pool) => pool.pair.toLowerCase().includes(localSearchTerm.toLowerCase()))
+    }
+
+    // 应用池子类型筛选
+    if (poolType !== "all") {
+      // 这里需要根据实际数据结构调整筛选逻辑
+      filtered = filtered.filter((pool) => {
+        // 示例筛选逻辑，根据实际数据结构调整
+        if (poolType === "stablecoin") {
+          return pool.pair.includes("USD") || pool.pair.includes("DAI")
+        } else if (poolType === "memecoin") {
+          return pool.pair.includes("PEPE") || pool.pair.includes("DOGE")
+        } else if (poolType === "defi") {
+          return !pool.pair.includes("USD") && !pool.pair.includes("PEPE")
+        }
+        return true
+      })
+    }
+
+    // 应用排序
+    if (sortOption) {
+      const [field, direction] = sortOption.split("-")
+
+      filtered.sort((a, b) => {
+        let valueA, valueB
+
+        // 根据字段获取值
+        switch (field) {
+          case "tvl":
+            valueA = Number.parseFloat(a.tvl.replace(/[^0-9.]/g, ""))
+            valueB = Number.parseFloat(b.tvl.replace(/[^0-9.]/g, ""))
+            break
+          case "apr":
+            valueA = Number.parseFloat(a.apr.replace(/[^0-9.]/g, ""))
+            valueB = Number.parseFloat(b.apr.replace(/[^0-9.]/g, ""))
+            break
+          case "volume":
+            valueA = Number.parseFloat(a.volume.replace(/[^0-9.]/g, ""))
+            valueB = Number.parseFloat(b.volume.replace(/[^0-9.]/g, ""))
+            break
+          default:
+            valueA = a.id
+            valueB = b.id
+        }
+
+        // 根据排序方向排序
+        return direction === "asc" ? valueA - valueB : valueB - valueA
+      })
+    }
+
+    setVisiblePools(filtered)
+  }, [poolType, sortOption, localSearchTerm])
+
+  // 点击外部关闭筛选菜单
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (filterMenuRef.current && !filterMenuRef.current.contains(event.target as Node)) {
+        setShowFilterMenu(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
+
+  // 渲染排序图标
   const renderSortIcon = (column: string) => {
     if (sortColumn !== column) {
       return <ArrowUpDown size={14} className="ml-1 opacity-50" />
@@ -125,21 +219,321 @@ export function LiquidityPoolsTable() {
     )
   }
 
-  const renderPairIcons = (pair: string) => {
-    const tokens = pair.split("/")
+  // 移动端池子详情组件
+  const MobilePoolDetails = ({ pool }: { pool: (typeof poolsData)[0] }) => {
     return (
-      <div className="flex items-center">
-        <div className="flex -space-x-2 mr-2">
-          <TokenIcon symbol={tokens[0]} size={20} />
-          <TokenIcon symbol={tokens[1]} size={20} />
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setSelectedPool(null)}></div>
+        <div
+          className="w-full max-w-sm bg-gradient-to-b from-[#0f0326]/95 via-[#1a0445]/95 to-[#0f0326]/95 rounded-xl overflow-hidden z-10 relative"
+          style={{
+            boxShadow: "0 0 2px #ec4899, 0 0 15px rgba(236,72,153,0.4), 0 0 30px rgba(168,85,247,0.2)",
+            border: "1px solid rgba(236,72,153,0.3)",
+          }}
+        >
+          <div className="p-4 border-b border-white/10">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-2">
+                  <TokenIcon symbol={pool.pair.split("/")[0]} size={24} />
+                  <TokenIcon symbol={pool.pair.split("/")[1]} size={24} />
+                </div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-lg font-bold">{pool.pair}</h3>
+                  <span className="text-xs px-1.5 py-0.5 rounded-md bg-white/10">{pool.fee}</span>
+                </div>
+              </div>
+              <button
+                className="text-white/70 hover:text-white transition-colors"
+                onClick={() => setSelectedPool(null)}
+              >
+                <X size={20} />
+              </button>
+            </div>
+          </div>
+
+          <div className="p-4 space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-black/20 p-3 rounded-lg">
+                <div className="text-xs text-zinc-400 mb-1">Volume (24h)</div>
+                <div className="text-lg font-medium">{pool.volume}</div>
+              </div>
+              <div className="bg-black/20 p-3 rounded-lg">
+                <div className="text-xs text-zinc-400 mb-1">TVL</div>
+                <div className="text-lg font-medium">{pool.tvl}</div>
+              </div>
+              <div className="bg-black/20 p-3 rounded-lg">
+                <div className="text-xs text-zinc-400 mb-1">APR</div>
+                <div className="text-lg font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
+                  {pool.apr}
+                </div>
+              </div>
+              <div className="bg-black/20 p-3 rounded-lg">
+                <div className="text-xs text-zinc-400 mb-1">Fees (24h)</div>
+                <div className="text-lg font-medium">{pool.fees}</div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 pt-2">
+              <Button
+                className="bg-[#1a0445]/60 text-white rounded-md text-sm font-medium transition-all duration-200 h-10 px-0 relative hover:bg-[#1a0445]/80 hover:text-purple-300 hover:scale-105"
+                style={{
+                  boxShadow: "0 0 10px 2px rgba(93, 63, 211, 0.3)",
+                  border: "1px solid rgba(93, 63, 211, 0.5)",
+                }}
+              >
+                Swap
+              </Button>
+              <Button
+                className="bg-[#2d0a2e]/60 text-white rounded-md text-sm font-medium transition-all duration-200 h-10 px-0 relative hover:bg-[#2d0a2e]/80 hover:text-pink-300 hover:scale-105"
+                style={{
+                  boxShadow: "0 0 10px 2px rgba(236, 72, 153, 0.3)",
+                  border: "1px solid rgba(236, 72, 153, 0.5)",
+                }}
+              >
+                Add
+              </Button>
+            </div>
+          </div>
         </div>
-        <span className="font-bold">{pair}</span>
       </div>
     )
   }
 
+  // 移动端池子卡片组件
+  const MobilePoolCard = ({ pool }: { pool: (typeof poolsData)[0] }) => {
+    return (
+      <div
+        className="bg-gradient-to-r from-[#0f0326]/30 to-[#1a0445]/30 border border-white/5 rounded-lg p-3 mb-1 active:bg-[#1a0445]/40 transition-colors w-full"
+        onClick={() => setSelectedPool(pool.id)}
+      >
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <div className="flex -space-x-2">
+              <TokenIcon symbol={pool.pair.split("/")[0]} size={20} />
+              <TokenIcon symbol={pool.pair.split("/")[1]} size={20} />
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="font-bold text-sm">{pool.pair}</div>
+              <span className="text-xs px-1.5 py-0.5 rounded-md bg-white/10">{pool.fee}</span>
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="flex items-center justify-end">
+              <span className="text-xs text-zinc-400 mr-1">APR:</span>
+              <span className="text-sm font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
+                {pool.apr}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 text-xs">
+          <div className="flex items-center">
+            <span className="text-zinc-400 mr-1">Volume:</span>
+            <span className="font-medium">{pool.volume}</span>
+          </div>
+          <div className="flex items-center justify-end">
+            <span className="text-zinc-400 mr-1">TVL:</span>
+            <span className="font-medium">{pool.tvl}</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // 移动端筛选菜单
+  const MobileFilterMenu = () => {
+    return (
+      <div className="fixed inset-0 z-50 flex items-end justify-center">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowFilterMenu(false)}></div>
+        <div
+          ref={filterMenuRef}
+          className="w-full max-w-md bg-gradient-to-b from-[#0f0326]/95 via-[#1a0445]/95 to-[#0f0326]/95 rounded-t-xl overflow-hidden z-10 p-4 pb-8"
+          style={{
+            boxShadow: "0 -2px 15px rgba(168,85,247,0.2)",
+            border: "1px solid rgba(236,72,153,0.2)",
+            borderBottom: "none",
+          }}
+        >
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-bold">Filter Pools</h3>
+            <button
+              className="rounded-full p-1 bg-white/10 hover:bg-white/20 transition-colors"
+              onClick={() => setShowFilterMenu(false)}
+            >
+              <X size={20} />
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm text-zinc-400 mb-1 block">Search</label>
+              <input
+                type="text"
+                placeholder="Search by token..."
+                className="w-full bg-black/20 border border-white/10 rounded-lg p-2 text-white"
+                value={localSearchTerm}
+                onChange={(e) => setLocalSearchTerm(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label className="text-sm text-zinc-400 mb-1 block">Sort by</label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  className={`p-2 rounded-lg text-sm ${sortColumn === "tvl" ? "bg-purple-600/30 text-white" : "bg-black/20 text-zinc-300"}`}
+                  onClick={() => handleSort("tvl")}
+                >
+                  TVL {sortColumn === "tvl" && (sortDirection === "asc" ? "↑" : "↓")}
+                </button>
+                <button
+                  className={`p-2 rounded-lg text-sm ${sortColumn === "apr" ? "bg-purple-600/30 text-white" : "bg-black/20 text-zinc-300"}`}
+                  onClick={() => handleSort("apr")}
+                >
+                  APR {sortColumn === "apr" && (sortDirection === "asc" ? "↑" : "↓")}
+                </button>
+                <button
+                  className={`p-2 rounded-lg text-sm ${sortColumn === "volume" ? "bg-purple-600/30 text-white" : "bg-black/20 text-zinc-300"}`}
+                  onClick={() => handleSort("volume")}
+                >
+                  Volume {sortColumn === "volume" && (sortDirection === "asc" ? "↑" : "↓")}
+                </button>
+                <button
+                  className={`p-2 rounded-lg text-sm ${sortColumn === "fees" ? "bg-purple-600/30 text-white" : "bg-black/20 text-zinc-300"}`}
+                  onClick={() => handleSort("fees")}
+                >
+                  Fees {sortColumn === "fees" && (sortDirection === "asc" ? "↑" : "↓")}
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm text-zinc-400 mb-1 block">Fee tier</label>
+              <div className="flex gap-2">
+                <button
+                  className={`p-2 rounded-lg text-sm flex-1 ${activeFilter === "0.05%" ? "bg-purple-600/30 text-white" : "bg-black/20 text-zinc-300"}`}
+                  onClick={() => setActiveFilter(activeFilter === "0.05%" ? null : "0.05%")}
+                >
+                  0.05%
+                </button>
+                <button
+                  className={`p-2 rounded-lg text-sm flex-1 ${activeFilter === "0.3%" ? "bg-purple-600/30 text-white" : "bg-black/20 text-zinc-300"}`}
+                  onClick={() => setActiveFilter(activeFilter === "0.3%" ? null : "0.3%")}
+                >
+                  0.3%
+                </button>
+                <button
+                  className={`p-2 rounded-lg text-sm flex-1 ${activeFilter === "1%" ? "bg-purple-600/30 text-white" : "bg-black/20 text-zinc-300"}`}
+                  onClick={() => setActiveFilter(activeFilter === "1%" ? null : "1%")}
+                >
+                  1%
+                </button>
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <Button
+                className="w-full bg-gradient-to-r from-purple-600/90 to-pink-600/90 text-white"
+                onClick={() => setShowFilterMenu(false)}
+              >
+                Apply Filters
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // 移动端表格头部
+  const MobileTableHeader = () => {
+    return (
+      <div className="flex items-center mb-0">
+        <div className="flex items-center gap-2">
+          {activeFilter && (
+            <div className="flex items-center bg-purple-600/20 text-white text-xs px-2 py-1 rounded-full">
+              {activeFilter}
+              <button className="ml-1 text-white/70 hover:text-white" onClick={() => setActiveFilter(null)}>
+                <X size={12} />
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // 移动端分页控制
+  const MobilePagination = () => {
+    const itemsPerPage = 5
+    const totalPages = Math.ceil(visiblePools.length / itemsPerPage)
+
+    if (totalPages <= 1) return null
+
+    return (
+      <div className="flex justify-center mt-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-zinc-400 hover:text-white"
+          onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+          disabled={currentPage === 1}
+        >
+          <ChevronLeft size={16} />
+        </Button>
+
+        <span className="mx-4 text-sm flex items-center">
+          {currentPage} / {totalPages}
+        </span>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-zinc-400 hover:text-white"
+          onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+          disabled={currentPage === totalPages}
+        >
+          <ChevronRight size={16} />
+        </Button>
+      </div>
+    )
+  }
+
+  // 获取当前页的池子
+  const getCurrentPagePools = () => {
+    const itemsPerPage = isMobile ? 5 : 10
+    const startIndex = (currentPage - 1) * itemsPerPage
+    return visiblePools.slice(startIndex, startIndex + itemsPerPage)
+  }
+
+  // 渲染移动端视图
+  if (isMobile) {
+    return (
+      <div className="w-full">
+        <MobileTableHeader />
+
+        {visiblePools.length === 0 ? (
+          <div className="text-center py-8 text-zinc-400">No pools match your filters</div>
+        ) : (
+          <div className="w-full">
+            {getCurrentPagePools().map((pool) => (
+              <MobilePoolCard key={pool.id} pool={pool} />
+            ))}
+          </div>
+        )}
+
+        <MobilePagination />
+
+        {showFilterMenu && <MobileFilterMenu />}
+        {selectedPool && <MobilePoolDetails pool={poolsData.find((p) => p.id === selectedPool)!} />}
+      </div>
+    )
+  }
+
+  // 渲染PC端视图 - 保持原有的表格布局
   return (
-    <div className="bg-gradient-to-b from-black/50 via-[#0f0326]/50 to-black/50 backdrop-blur-lg border border-white/10 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(168,85,247,0.15),inset_0_0_10px_rgba(236,72,153,0.05)] relative">
+    <div className="bg-gradient-to-b from-black/50 via-[#0f0326]/50 to-black/50 backdrop-blur-lg border border-white/10 rounded-lg overflow-hidden shadow-[0_0_15px_rgba(168,85,247,0.15),inset_0_0_10px_rgba(236,72,153,0.05)] relative">
       <div
         className="absolute inset-0 rounded-xl pointer-events-none"
         style={{
@@ -177,12 +571,19 @@ export function LiquidityPoolsTable() {
                 </button>
               </th>
               <th className="px-4 py-3 text-right text-xs font-medium text-zinc-400 uppercase tracking-wider w-[110px]">
-                <button
-                  className="flex items-center justify-end ml-auto focus:outline-none"
-                  onClick={() => handleSort("apr")}
-                >
-                  APR {renderSortIcon("apr")}
-                </button>
+                <div className="flex items-center justify-end">
+                  <button
+                    className="flex items-center justify-end ml-auto focus:outline-none"
+                    onClick={() => handleSort("apr")}
+                  >
+                    APR {renderSortIcon("apr")}
+                  </button>
+                  <InfoTooltip
+                    content="Annual Percentage Rate based on 24h trading volume"
+                    position="top"
+                    className="ml-1"
+                  />
+                </div>
               </th>
               <th className="px-2 py-3 text-right text-xs font-medium text-zinc-400 uppercase tracking-wider whitespace-nowrap w-[110px]">
                 <button
@@ -196,7 +597,7 @@ export function LiquidityPoolsTable() {
             </tr>
           </thead>
           <tbody>
-            {poolsData.map((pool) => (
+            {getCurrentPagePools().map((pool) => (
               <tr
                 key={pool.id}
                 className="border-b border-white/5 hover:bg-gradient-to-r hover:from-[#0f0326]/40 hover:via-[#1a0445]/30 hover:to-[#0f0326]/40 transition-all duration-200"
@@ -212,9 +613,7 @@ export function LiquidityPoolsTable() {
                       <TokenIcon symbol={pool.pair.split("/")[1]} size={18} />
                     </div>
                     <span className="font-bold text-base tracking-tighter font-mono flex-shrink-0">{pool.pair}</span>
-                    <span className="ml-2 text-xs px-1.5 py-0.5 rounded-full bg-white/10 flex-shrink-0">
-                      {pool.fee}
-                    </span>
+                    <span className="ml-2 text-xs px-1.5 py-0.5 rounded-md bg-white/10 flex-shrink-0">{pool.fee}</span>
                   </div>
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap text-sm text-zinc-300 text-right">{pool.volume}</td>
@@ -287,38 +686,29 @@ export function LiquidityPoolsTable() {
           </Button>
 
           <div className="flex items-center space-x-1 mx-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              className={
-                currentPage === 1
-                  ? "bg-[#1a0445]/60 text-white font-medium border border-purple-500/30 shadow-[0_0_8px_rgba(168,85,247,0.2)] hover:bg-[#1a0445]/80 hover:border-purple-500/50 hover:shadow-[0_0_12px_rgba(168,85,247,0.3)]"
-                  : "text-zinc-400 hover:text-white hover:bg-[#1a0445]/40 transition-colors"
-              }
-              onClick={() => setCurrentPage(1)}
-            >
-              1
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className={
-                currentPage === 2
-                  ? "bg-[#1a0445]/60 text-white font-medium border border-purple-500/30 shadow-[0_0_8px_rgba(168,85,247,0.2)] hover:bg-[#1a0445]/80 hover:border-purple-500/50 hover:shadow-[0_0_12px_rgba(168,85,247,0.3)]"
-                  : "text-zinc-400 hover:text-white hover:bg-[#1a0445]/40 transition-colors"
-              }
-              onClick={() => setCurrentPage(2)}
-            >
-              2
-            </Button>
+            {Array.from({ length: Math.min(Math.ceil(visiblePools.length / 10), 5) }).map((_, i) => (
+              <Button
+                key={i}
+                variant="ghost"
+                size="sm"
+                className={
+                  currentPage === i + 1
+                    ? "bg-[#1a0445]/60 text-white font-medium border border-purple-500/30 shadow-[0_0_8px_rgba(168,85,247,0.2)] hover:bg-[#1a0445]/80 hover:border-purple-500/50 hover:shadow-[0_0_12px_rgba(168,85,247,0.3)]"
+                    : "text-zinc-400 hover:text-white hover:bg-[#1a0445]/40 transition-colors"
+                }
+                onClick={() => setCurrentPage(i + 1)}
+              >
+                {i + 1}
+              </Button>
+            ))}
           </div>
 
           <Button
             variant="ghost"
             size="icon"
             className="text-zinc-400 hover:text-white hover:bg-[#1a0445]/40 transition-colors"
-            onClick={() => setCurrentPage(Math.min(2, currentPage + 1))}
-            disabled={currentPage === 2}
+            onClick={() => setCurrentPage(Math.min(Math.ceil(visiblePools.length / 10), currentPage + 1))}
+            disabled={currentPage === Math.ceil(visiblePools.length / 10) || visiblePools.length <= 10}
           >
             <ChevronRight size={16} />
           </Button>

@@ -309,6 +309,52 @@ html {
   box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
 }
 
+/* 移动端子菜单样式 - 新增 */
+.mobile-submenu-container {
+  position: relative;
+  background-color: rgba(26, 4, 69, 0.3);
+  border-radius: 0.75rem;
+  margin: 0.5rem;
+  border: 1px solid rgba(168, 85, 247, 0.1);
+  overflow: hidden;
+}
+
+.mobile-submenu-bg {
+  background: linear-gradient(135deg, rgba(15, 3, 38, 0.75), rgba(26, 4, 69, 0.75));
+  backdrop-filter: blur(12px);
+  border-radius: 0.75rem;
+}
+
+.mobile-submenu-grid {
+  background-image: url("/grid.svg");
+  background-repeat: repeat;
+  opacity: 0.15;
+  border-radius: 0.75rem;
+}
+
+.mobile-submenu-item {
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-submenu-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  border-radius: 0.5rem;
+}
+
+.mobile-submenu-item:hover::before {
+  opacity: 1;
+}
+
 /* 导航指示器动画 */
 .nav-indicator {
   box-shadow: 0 0 5px rgba(168, 85, 247, 0.4), 0 0 10px rgba(236, 72, 153, 0.2);

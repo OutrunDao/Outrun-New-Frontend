@@ -141,7 +141,7 @@ export function EnhancedSwapInterface() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="relative overflow-hidden rounded-2xl"
+        className="relative overflow-hidden rounded-lg"
         style={{
           boxShadow: "0 0 2px #ec4899, 0 0 15px rgba(236,72,153,0.4), 0 0 30px rgba(168,85,247,0.2)",
           border: "1px solid rgba(236,72,153,0.3)",
@@ -195,11 +195,11 @@ export function EnhancedSwapInterface() {
                 AntiMEV
               </span>
               <button
-                className={`w-8 h-5 rounded-full p-0.5 transition-colors duration-300 ${antiMEV ? "bg-gradient-to-r from-purple-600/70 to-pink-600/70" : "bg-white/10"}`}
+                className={`w-8 h-5 rounded-md p-0.5 transition-colors duration-300 ${antiMEV ? "bg-gradient-to-r from-purple-600/70 to-pink-600/70" : "bg-white/10"}`}
                 onClick={() => setAntiMEV(!antiMEV)}
               >
                 <div
-                  className={`w-4 h-4 rounded-full bg-white transition-transform duration-300 ${antiMEV ? "translate-x-3" : "translate-x-0"}`}
+                  className={`w-4 h-4 rounded-md bg-white transition-transform duration-300 ${antiMEV ? "translate-x-3" : "translate-x-0"}`}
                 />
               </button>
             </div>
@@ -209,7 +209,7 @@ export function EnhancedSwapInterface() {
             </h2>
 
             <button
-              className={`p-2 rounded-full ${showSettings ? "bg-purple-600/30 text-purple-300 ring-2 ring-purple-500/50" : "bg-white/5 text-zinc-400"} hover:bg-white/10 transition-colors relative`}
+              className={`p-2 ${showSettings ? "text-purple-300" : "text-zinc-400"} hover:text-purple-300 transition-colors relative`}
               onClick={() => setShowSettings(!showSettings)}
               title="Settings"
             >
@@ -225,7 +225,7 @@ export function EnhancedSwapInterface() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="rounded-xl overflow-visible"
+                className="rounded-lg overflow-visible"
                 style={{
                   boxShadow: "0 0 2px #ec4899, 0 0 15px rgba(236,72,153,0.4), 0 0 30px rgba(168,85,247,0.2)",
                   border: "1px solid rgba(236,72,153,0.3)",
@@ -331,13 +331,13 @@ export function EnhancedSwapInterface() {
 
           {/* From Token */}
           <div
-            className="mb-1 p-3 rounded-xl bg-black/40 border border-pink-500/20"
+            className="mb-1 p-3 rounded-lg bg-black/40 border border-pink-500/20"
             style={{ boxShadow: "0 0 10px rgba(236,72,153,0.1) inset" }}
           >
             <div className="flex justify-between items-center">
               <div className="flex flex-col">
                 <button
-                  className="inline-flex items-center gap-1.5 py-1.5 pl-2 pr-2.5 rounded-lg transition-all duration-300 border border-pink-500/30 group hover:bg-gradient-to-r hover:from-purple-900/30 hover:to-pink-900/30 hover:border-pink-500/50 hover:shadow-[0_0_15px_rgba(236,72,153,0.25),inset_0_0_10px_rgba(168,85,247,0.2)]"
+                  className="inline-flex items-center gap-1.5 py-1.5 pl-2 pr-2.5 rounded-md transition-all duration-300 border border-pink-500/30 group hover:bg-gradient-to-r hover:from-purple-900/30 hover:to-pink-900/30 hover:border-pink-500/50 hover:shadow-[0_0_15px_rgba(236,72,153,0.25),inset_0_0_10px_rgba(168,85,247,0.2)]"
                   style={{
                     background: "linear-gradient(to right, rgba(15, 3, 38, 0.8), rgba(26, 4, 69, 0.8))",
                     boxShadow: "0 0 10px rgba(236, 72, 153, 0.15), inset 0 0 8px rgba(168, 85, 247, 0.1)",
@@ -379,7 +379,7 @@ export function EnhancedSwapInterface() {
           {/* Swap Button */}
           <div className="flex justify-center z-10 relative" style={{ marginTop: "-16px", marginBottom: "-10px" }}>
             <button
-              className="p-2 rounded-full bg-black/80 border border-pink-500/30 hover:bg-black/90 transition-colors"
+              className="p-2 rounded-md bg-black/80 border border-pink-500/30 hover:bg-black/90 transition-colors"
               onClick={handleSwapTokens}
               style={{ boxShadow: "0 0 12px rgba(236,72,153,0.3)" }}
             >
@@ -389,13 +389,13 @@ export function EnhancedSwapInterface() {
 
           {/* To Token */}
           <div
-            className="mb-3 p-3 rounded-xl bg-black/40 border border-pink-500/20"
+            className="mb-3 p-3 rounded-lg bg-black/40 border border-pink-500/20"
             style={{ boxShadow: "0 0 10px rgba(236,72,153,0.1) inset" }}
           >
             <div className="flex justify-between items-center">
               <div className="flex flex-col">
                 <button
-                  className="inline-flex items-center gap-1.5 py-1.5 pl-2 pr-2.5 rounded-lg transition-all duration-300 border border-pink-500/30 group hover:bg-gradient-to-r hover:from-purple-900/30 hover:to-pink-900/30 hover:border-pink-500/50 hover:shadow-[0_0_15px_rgba(236,72,153,0.25),inset_0_0_10px_rgba(168,85,247,0.2)]"
+                  className="inline-flex items-center gap-1.5 py-1.5 pl-2 pr-2.5 rounded-md transition-all duration-300 border border-pink-500/30 group hover:bg-gradient-to-r hover:from-purple-900/30 hover:to-pink-900/30 hover:border-pink-500/50 hover:shadow-[0_0_15px_rgba(236,72,153,0.25),inset_0_0_10px_rgba(168,85,247,0.2)]"
                   style={{
                     background: "linear-gradient(to right, rgba(15, 3, 38, 0.8), rgba(26, 4, 69, 0.8))",
                     boxShadow: "0 0 10px rgba(236, 72, 153, 0.15), inset 0 0 8px rgba(168, 85, 247, 0.1)",
@@ -431,7 +431,7 @@ export function EnhancedSwapInterface() {
           {/* Price Info */}
           {fromAmount && toAmount && (
             <div
-              className="mb-3 p-2 rounded-xl bg-black/40 border border-pink-500/20"
+              className="mb-3 p-2 rounded-lg bg-black/40 border border-pink-500/20"
               style={{ boxShadow: "0 0 10px rgba(236,72,153,0.1) inset" }}
             >
               {getExchangeRateDisplay()}
@@ -472,7 +472,7 @@ export function EnhancedSwapInterface() {
           {/* Swap Button */}
           {isConnected ? (
             <Button
-              className="w-full bg-gradient-to-r from-purple-600/90 to-pink-600/90 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-xl h-10 text-sm shadow-[0_0_10px_rgba(168,85,247,0.3)]"
+              className="w-full bg-gradient-to-r from-purple-600/90 to-pink-600/90 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-md h-10 text-sm shadow-[0_0_10px_rgba(168,85,247,0.3)]"
               disabled={!fromAmount || !toAmount}
               style={{
                 opacity: !fromAmount || !toAmount ? 0.8 : 1,

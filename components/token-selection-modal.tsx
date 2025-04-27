@@ -95,7 +95,7 @@ export function TokenSelectionModal({
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.2 }}
         ref={modalRef}
-        className="w-full max-w-sm overflow-hidden rounded-2xl"
+        className="w-full max-w-sm overflow-hidden rounded-lg mx-4"
         style={{
           backgroundImage: "linear-gradient(to bottom, rgba(26, 4, 69, 0.95), rgba(15, 3, 38, 0.95))",
           boxShadow: "0 0 2px #ec4899, 0 0 15px rgba(236,72,153,0.4), 0 0 30px rgba(168,85,247,0.2)",
@@ -125,7 +125,7 @@ export function TokenSelectionModal({
           </h2>
           <button
             onClick={onClose}
-            className="rounded-full p-1 text-zinc-400 transition-colors hover:bg-white/10 hover:text-white"
+            className="rounded-md p-1 text-zinc-400 transition-colors hover:bg-white/10 hover:text-white"
           >
             <X size={20} />
           </button>

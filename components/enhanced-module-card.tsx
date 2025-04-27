@@ -26,7 +26,7 @@ export function EnhancedModuleCard({
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
         whileHover={{ y: -5 }}
-        className="relative h-full overflow-hidden rounded-2xl"
+        className="relative h-full overflow-hidden rounded-lg"
       >
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
         <div
@@ -35,7 +35,7 @@ export function EnhancedModuleCard({
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10" />
         <div className="relative p-6 md:p-8 h-full flex flex-col">
           <div
-            className={`h-12 w-12 rounded-xl flex items-center justify-center mb-6 shadow-lg`}
+            className={`h-12 w-12 rounded-md flex items-center justify-center mb-6 shadow-lg`}
             style={{
               background: `linear-gradient(to bottom right, ${moduleColors.primary}, ${moduleColors.secondary})`,
               boxShadow: `0 0 15px ${moduleColors.primary}50`,

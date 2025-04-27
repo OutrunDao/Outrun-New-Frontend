@@ -5,7 +5,7 @@ import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, ChevronDown, ChevronRight } from "lucide-react"
+import { Menu, X, ChevronDown, ChevronRight, ChevronUp } from "lucide-react"
 import { usePathname } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
@@ -63,6 +63,8 @@ export function Navbar() {
   const navRef = useRef<HTMLDivElement>(null)
   // 在 useState 声明部分添加一个新的状态来跟踪当前活动的导航项
   const [currentActiveItem, setCurrentActiveItem] = useState<string | null>(null)
+  // 添加一个新的状态来跟踪移动端展开的子菜单
+  const [expandedMobileSubmenu, setExpandedMobileSubmenu] = useState<string | null>(null)
 
   // 在 Navbar 组件内部，将 handleScroll 函数替换为节流版本
   const handleScroll = useThrottleFn(() => {
@@ -89,7 +91,15 @@ export function Navbar() {
     if (!activeDropdown) {
       updateHighlightForCurrentPath()
     }
-  }, [pathname, activeDropdown])
+
+    // 如果当前路径匹配某个子菜单项，自动展开该子菜单（仅限移动端）
+    if (isMobile && matchingItem?.children) {
+      const hasActiveChild = matchingItem.children.some((child) => pathname === child.href)
+      if (hasActiveChild) {
+        setExpandedMobileSubmenu(matchingItem.title)
+      }
+    }
+  }, [pathname, activeDropdown, isMobile])
 
   // 添加一个函数来更新当前路径的高亮
   const updateHighlightForCurrentPath = () => {
@@ -137,6 +147,16 @@ export function Navbar() {
     return () => clearTimeout(timer)
   }, [])
 
+  // 切换移动端子菜单的展开/折叠状态
+  const toggleMobileSubmenu = (title: string) => {
+    setExpandedMobileSubmenu((prev) => (prev === title ? null : title))
+  }
+
+  // 检查当前路径是否匹配某个导航项或其子项
+  const isNavItemActive = (item: NavItem) => {
+    return pathname === item.href || (item.children && item.children.some((child) => pathname === child.href))
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -145,7 +165,7 @@ export function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6 max-w-full">
         <div className="flex h-20 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-3 group">
@@ -155,7 +175,7 @@ export function Navbar() {
                   <span className="text-white font-bold text-lg">O</span>
                 </div>
               </div>
-              <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)] transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.7)]">
+              <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)] transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.7)]">
                 Outrun
               </span>
             </Link>
@@ -165,9 +185,7 @@ export function Navbar() {
                 <nav className="flex items-center gap-1 md:gap-2" ref={navRef}>
                   {navItems.map((item) => {
                     // 检查当前路径是否匹配此导航项或其子项
-                    const isActive =
-                      pathname === item.href ||
-                      (item.children && item.children.some((child) => pathname === child.href))
+                    const isActive = isNavItemActive(item)
 
                     return (
                       <div
@@ -259,7 +277,7 @@ export function Navbar() {
           </div>
 
           {!isMobile ? (
-            <div>
+            <div className="pr-4">
               <WalletButton isHomePage={isHomePage} />
             </div>
           ) : (
@@ -279,49 +297,102 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* 重新设计的移动端菜单 */}
       <AnimatePresence>
         {isMobile && isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 top-20 z-40 mobile-menu-bg overflow-auto"
+            className="fixed inset-0 top-20 z-40 bg-gradient-to-b from-[#0f0326]/95 to-[#1a0445]/95 backdrop-blur-md overflow-auto"
           >
-            <div className="mobile-menu-grid absolute inset-0 -z-5"></div>
-            <div className="container mx-auto px-4 py-8 relative z-10">
-              <nav className="flex flex-col gap-6">
-                {navItems.map((item) => (
-                  <div key={item.title} className="border-b border-white/10 pb-6">
-                    <Link
-                      href={item.href}
-                      className="text-lg font-medium mobile-nav-text mb-4 block mobile-nav-item"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.title}
-                    </Link>
+            <div className="absolute inset-0 bg-[url('/grid.svg')] bg-repeat opacity-10"></div>
+            <div className="container mx-auto px-4 py-6 relative z-10">
+              <nav className="flex flex-col space-y-2">
+                {navItems.map((item) => {
+                  const isActive = isNavItemActive(item)
+                  const isExpanded = expandedMobileSubmenu === item.title
 
-                    {item.children && (
-                      <div className="grid gap-2 pl-4">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.title}
-                            href={child.href}
-                            className="text-sm mobile-dropdown-text py-2 flex items-center mobile-dropdown-item group"
-                            onClick={() => setIsMenuOpen(false)}
+                  return (
+                    <div key={item.title} className="rounded-xl overflow-hidden">
+                      <div
+                        className={`flex items-center cursor-pointer rounded-xl overflow-hidden ${
+                          isActive ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20" : "hover:bg-white/5"
+                        }`}
+                        onClick={() => {
+                          if (item.children) {
+                            toggleMobileSubmenu(item.title)
+                          } else {
+                            setIsMenuOpen(false)
+                            // 如果没有子菜单，直接导航到链接
+                            window.location.href = item.href
+                          }
+                        }}
+                      >
+                        <div
+                          className={`flex-1 py-3 px-4 text-base font-medium ${
+                            isActive ? "text-white" : "text-white/80"
+                          }`}
+                        >
+                          {item.title}
+                        </div>
+
+                        {item.children && (
+                          <div
+                            className={`p-3 flex items-center justify-center ${
+                              isActive ? "text-white" : "text-white/60"
+                            }`}
+                            aria-expanded={isExpanded}
                           >
-                            <span>{child.title}</span>
-                            <ChevronRight className="ml-auto h-4 w-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-0 group-hover:translate-x-1" />
-                          </Link>
-                        ))}
+                            {isExpanded ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                ))}
+
+                      {item.children && (
+                        <AnimatePresence initial={false}>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3, ease: "easeInOut" }}
+                              className="overflow-hidden mobile-submenu-container"
+                            >
+                              <div className="mobile-submenu-bg absolute inset-0 -z-10"></div>
+                              <div className="mobile-submenu-grid absolute inset-0 -z-5"></div>
+                              <div className="py-2 px-2 relative z-10">
+                                {item.children.map((child) => {
+                                  const isChildActive = pathname === child.href
+
+                                  return (
+                                    <Link
+                                      key={child.title}
+                                      href={child.href}
+                                      className={`flex items-center py-2.5 px-6 rounded-lg my-1 text-sm mobile-submenu-item ${
+                                        isChildActive
+                                          ? "bg-gradient-to-r from-purple-600/30 to-pink-600/30 text-white"
+                                          : "text-white/70 hover:text-white hover:bg-white/5"
+                                      }`}
+                                      onClick={() => setIsMenuOpen(false)}
+                                    >
+                                      <span>{child.title}</span>
+                                      <ChevronRight className="ml-auto h-4 w-4 opacity-60" />
+                                    </Link>
+                                  )
+                                })}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      )}
+                    </div>
+                  )
+                })}
               </nav>
 
-              <div className="mt-8">
+              <div className="mt-8 flex justify-center">
                 <WalletButton isHomePage={isHomePage} />
               </div>
             </div>

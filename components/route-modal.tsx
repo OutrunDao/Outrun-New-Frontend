@@ -57,7 +57,7 @@ export function RouteModal({ isOpen, onClose, fromToken, toToken, route, antiMEV
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
             ref={modalRef}
-            className="w-full max-w-sm overflow-hidden rounded-2xl mx-4" // Add mx-4 for margin on small screens
+            className="w-full max-w-sm overflow-hidden rounded-lg mx-4" // Add mx-4 for margin on small screens
             style={{
               background: "linear-gradient(to bottom, rgba(15, 3, 38, 0.95), rgba(10, 2, 25, 0.95))",
               boxShadow: "0 0 2px #ec4899, 0 0 15px rgba(236,72,153,0.4), 0 0 30px rgba(168,85,247,0.2)",
@@ -76,7 +76,7 @@ export function RouteModal({ isOpen, onClose, fromToken, toToken, route, antiMEV
               </h2>
               <button
                 onClick={onClose}
-                className="rounded-full p-1 text-zinc-400 transition-colors hover:bg-white/10 hover:text-white"
+                className="rounded-md p-1 text-zinc-400 transition-colors hover:bg-white/10 hover:text-white"
               >
                 <X size={16} />
               </button>
@@ -117,7 +117,7 @@ export function RouteModal({ isOpen, onClose, fromToken, toToken, route, antiMEV
                     {/* First Pool */}
                     <div className="relative z-10">
                       <div
-                        className="p-1 sm:p-1.5 rounded-lg border border-pink-500/40 bg-[#0f0326] relative overflow-hidden"
+                        className="p-1 sm:p-1.5 rounded-md border border-pink-500/40 bg-[#0f0326] relative overflow-hidden"
                         style={{ marginTop: "-1px" }} // Slight adjustment to center with the line
                       >
                         <div className="flex items-center gap-1 sm:gap-1.5">
@@ -136,7 +136,7 @@ export function RouteModal({ isOpen, onClose, fromToken, toToken, route, antiMEV
                         />
                       </div>
                       <div className="absolute -bottom-5 sm:-bottom-6 left-1/2 transform -translate-x-1/2">
-                        <div className="px-1 sm:px-2 py-0.5 rounded-full bg-purple-900/50 border border-pink-500/20 text-[8px] sm:text-[9px] text-center whitespace-nowrap">
+                        <div className="px-1 sm:px-2 py-0.5 rounded-md bg-purple-900/50 border border-pink-500/20 text-[8px] sm:text-[9px] text-center whitespace-nowrap">
                           {antiMEV ? (
                             <span>
                               <span className="line-through opacity-70">0.3%</span>{" "}
@@ -152,7 +152,7 @@ export function RouteModal({ isOpen, onClose, fromToken, toToken, route, antiMEV
                     {/* Second Pool */}
                     <div className="relative z-10">
                       <div
-                        className="p-1 sm:p-1.5 rounded-lg border border-pink-500/40 bg-[#0f0326] relative overflow-hidden"
+                        className="p-1 sm:p-1.5 rounded-md border border-pink-500/40 bg-[#0f0326] relative overflow-hidden"
                         style={{ marginTop: "-1px" }} // Slight adjustment to center with the line
                       >
                         <div className="flex items-center gap-1 sm:gap-1.5">
@@ -171,7 +171,7 @@ export function RouteModal({ isOpen, onClose, fromToken, toToken, route, antiMEV
                         />
                       </div>
                       <div className="absolute -bottom-5 sm:-bottom-6 left-1/2 transform -translate-x-1/2">
-                        <div className="px-1 sm:px-2 py-0.5 rounded-full bg-purple-900/50 border border-pink-500/20 text-[8px] sm:text-[9px] text-center whitespace-nowrap">
+                        <div className="px-1 sm:px-2 py-0.5 rounded-md bg-purple-900/50 border border-pink-500/20 text-[8px] sm:text-[9px] text-center whitespace-nowrap">
                           {antiMEV ? (
                             <span>
                               <span className="line-through opacity-70">0.3%</span>{" "}

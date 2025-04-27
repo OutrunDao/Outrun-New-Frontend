@@ -20,14 +20,14 @@ export function UseCaseCard({
       transition={{ duration: 0.5, delay }}
       viewport={{ once: true }}
       className={cn(
-        "bg-card rounded-xl p-6 shadow-lg border border-white/10 backdrop-blur-sm",
+        "bg-card rounded-lg p-6 shadow-lg border border-white/10 backdrop-blur-sm",
         "bg-black/60",
         className,
       )}
     >
       <div className="flex items-start mb-4">
         {icon && (
-          <div className="mr-4 p-3 rounded-lg" style={{ backgroundColor: `${color}20` }}>
+          <div className="mr-4 p-3 rounded-md" style={{ backgroundColor: `${color}20` }}>
             {icon}
           </div>
         )}

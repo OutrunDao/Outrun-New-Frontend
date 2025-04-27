@@ -11,18 +11,11 @@ const nextConfig = {
     domains: ['raw.githubusercontent.com', 'placeholder.svg'],
     unoptimized: true,
   },
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*; font-src 'self' data:; connect-src 'self' blob: data: https://*; frame-src 'self';",
-          },
-        ],
-      },
-    ];
+  // 添加自定义配置以禁用内置的PWA功能
+  experimental: {
+    // 禁用任何可能自动生成Service Worker的功能
+    disableOptimizedLoading: true,
+    optimizeCss: false,
   },
 };
 

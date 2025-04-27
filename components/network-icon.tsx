@@ -15,7 +15,7 @@ export function NetworkIcon({ selectedNetwork, networks, onNetworkChange, classN
   const [showNetworkModal, setShowNetworkModal] = useState(false)
 
   return (
-    <div className="transform -translate-x-2">
+    <>
       <button
         onClick={() => setShowNetworkModal(true)}
         className={`launch-app-btn flex items-center gap-1 px-3 h-[34px] rounded-md relative overflow-hidden group ${className}`}
@@ -52,6 +52,6 @@ export function NetworkIcon({ selectedNetwork, networks, onNetworkChange, classN
         selectedNetwork={selectedNetwork}
         onSelectNetwork={onNetworkChange}
       />
-    </div>
+    </>
   )
 }

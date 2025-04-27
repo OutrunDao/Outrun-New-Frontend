@@ -101,7 +101,7 @@ export default function LiquidityPage() {
       {/* Pools Section */}
       <section className="py-4 relative">
         <div className="container px-4 md:px-6 mx-auto max-w-5xl">
-          {/* 标题和创建按钮 - 只在PC端显示 */}
+          {/* 标���和创建按钮 - 只在PC端显示 */}
           {!isMobile && (
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center">

@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { X, Check } from "lucide-react"
-import { cn } from "@/lib/utils"
 
 export type Network = {
   id: string
@@ -82,77 +81,73 @@ export function NetworkSelectorModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+      {/* Backdrop */}
+      <div className="fixed inset-0 bg-black/65 backdrop-blur" />
+
+      {/* Modal */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.95 }}
+        exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.2 }}
         ref={modalRef}
-        className="w-full max-w-xs overflow-hidden rounded-2xl mx-4 z-50"
-        style={{
-          background: "linear-gradient(to bottom, rgba(15, 3, 38, 0.95), rgba(10, 2, 25, 0.95))",
-          boxShadow: "0 0 2px #ec4899, 0 0 15px rgba(236,72,153,0.4), 0 0 30px rgba(168,85,247,0.2)",
-          border: "1px solid rgba(236,72,153,0.3)",
-        }}
+        className="relative w-full max-w-xs mx-4 z-50 overflow-hidden"
       >
-        {/* Header */}
-        <div className="relative flex items-center justify-between border-b border-pink-500/20 py-3 px-4">
-          <h2
-            className="text-base font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500"
-            style={{
-              textShadow: "0 0 6px rgba(236,72,153,0.4), 0 0 10px rgba(236,72,153,0.2)",
-            }}
-          >
-            SELECT NETWORK
-          </h2>
-          <button
-            onClick={onClose}
-            className="rounded-full p-1 text-zinc-400 transition-colors hover:bg-white/10 hover:text-white"
-          >
-            <X size={16} />
-          </button>
-        </div>
-
-        {/* Network List */}
-        <div className="p-2">
-          {networks.map((network) => (
-            <button
-              key={network.id}
-              className={cn(
-                "w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-200 mb-1",
-                selectedNetwork.id === network.id
-                  ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-pink-500/30"
-                  : "hover:bg-white/5 border border-transparent",
-              )}
-              onClick={() => {
-                onSelectNetwork(network)
-                onClose()
-              }}
-            >
-              <div
-                className="w-8 h-8 flex items-center justify-center flex-shrink-0 overflow-hidden"
-                style={{
-                  backgroundColor: "transparent",
-                }}
-              >
-                <img
-                  src={network.icon || "/placeholder.svg"}
-                  alt={network.name}
-                  className="w-6 h-6 object-contain"
-                  onError={(e) => {
-                    // If icon fails to load, display the first letter of the network name
-                    e.currentTarget.style.display = "none"
-                    e.currentTarget.parentElement!.innerHTML = network.name.charAt(0)
-                  }}
-                />
-              </div>
-              <div className="flex-1 text-left">
-                <div className="font-medium text-white">{network.name}</div>
-              </div>
-              {selectedNetwork.id === network.id && <Check size={16} className="text-green-400" />}
+        {/* Modal Content */}
+        <div
+          className="rounded-xl overflow-hidden"
+          style={{
+            background: "linear-gradient(180deg, rgba(26, 4, 69, 0.95) 0%, rgba(15, 3, 38, 0.95) 100%)",
+            boxShadow: "0 0 20px rgba(168, 85, 247, 0.3), 0 0 40px rgba(236, 72, 153, 0.2)",
+            border: "1px solid rgba(168, 85, 247, 0.3)",
+          }}
+        >
+          {/* Header */}
+          <div className="relative px-5 py-4 border-b border-purple-500/30 flex items-center justify-between">
+            <h2 className="text-lg font-bold text-white">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
+                Select Network
+              </span>
+            </h2>
+            <button onClick={onClose} className="rounded-full p-1 bg-white/5 hover:bg-white/10 transition-colors">
+              <X size={16} className="text-white/80" />
             </button>
-          ))}
+          </div>
+
+          {/* Network List */}
+          <div className="p-3">
+            <div className="grid gap-2">
+              {networks.map((network) => (
+                <button
+                  key={network.id}
+                  onClick={() => {
+                    onSelectNetwork(network)
+                    onClose()
+                  }}
+                  className={`w-full flex items-center gap-3 p-2.5 rounded-lg transition-all duration-200 border ${
+                    selectedNetwork.id === network.id
+                      ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-purple-500/40"
+                      : "hover:bg-white/5 border-transparent hover:border-white/10"
+                  }`}
+                >
+                  {/* Network Icon - 直接显示图标，无背景 */}
+                  <img src={network.icon || "/placeholder.svg"} alt={network.name} className="w-7 h-7 object-contain" />
+
+                  {/* Network Info - 只显示网络名称 */}
+                  <div className="flex-1 text-left">
+                    <div className="font-medium text-white">{network.name}</div>
+                  </div>
+
+                  {/* Selected Indicator */}
+                  {selectedNetwork.id === network.id && (
+                    <div className="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center">
+                      <Check size={12} className="text-purple-400" />
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </motion.div>
     </div>

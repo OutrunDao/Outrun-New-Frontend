@@ -68,13 +68,17 @@ export default function MemeversePage() {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
 
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white/20 text-white hover:bg-white/10 rounded-full px-8 h-12 text-base backdrop-blur-sm"
-              >
-                Launch Your Memecoin
-              </Button>
+              <div className="relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-70 blur-sm group-hover:opacity-100 transition duration-300"></div>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="relative bg-black/50 backdrop-blur-sm border-0 text-white rounded-full px-8 h-12 text-base w-full 
+      group-hover:bg-black/70 transition-all duration-300"
+                >
+                  Launch Your Memecoin
+                </Button>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -222,13 +226,17 @@ export default function MemeversePage() {
                       Launch App
                     </Button>
 
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="border-white/20 text-white hover:bg-white/10 rounded-full px-8 h-12 text-base backdrop-blur-sm"
-                    >
-                      Read Documentation
-                    </Button>
+                    <div className="relative group">
+                      <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-70 blur-sm group-hover:opacity-100 transition duration-300"></div>
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="relative bg-black/50 backdrop-blur-sm border-0 text-white rounded-full px-8 h-12 text-base w-full 
+      group-hover:bg-black/70 transition-all duration-300"
+                      >
+                        Read Documentation
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>

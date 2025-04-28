@@ -9,6 +9,7 @@ import { LiquidityPoolsTable } from "@/components/liquidity-pools-table"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search } from "@/components/ui/search"
 import { useMobile } from "@/hooks/use-mobile"
+import Link from "next/link"
 
 export default function LiquidityPage() {
   const isMobile = useMobile()
@@ -101,7 +102,7 @@ export default function LiquidityPage() {
       {/* Pools Section */}
       <section className="py-4 relative">
         <div className="container px-4 md:px-6 mx-auto max-w-5xl">
-          {/* 标���和创建按钮 - 只在PC端显示 */}
+          {/* 标题和创建按钮 - 只在PC端显示 */}
           {!isMobile && (
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center">
@@ -109,10 +110,12 @@ export default function LiquidityPage() {
                   TOP POOLS
                 </h2>
               </div>
-              <Button className="bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] hover:from-[#ff5a5a] hover:to-[#ff7a7a] text-white border-0 rounded-lg px-4 h-9 text-sm shadow-[0_0_15px_rgba(255,107,107,0.5)] w-auto flex items-center justify-center">
-                <Plus className="mr-0.25 h-4 w-4" />
-                Create Position
-              </Button>
+              <Link href="/outswap/liquidity/add">
+                <Button className="bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] hover:from-[#ff5a5a] hover:to-[#ff7a7a] text-white border-0 rounded-lg px-4 h-9 text-sm shadow-[0_0_15px_rgba(255,107,107,0.5)] w-auto flex items-center justify-center">
+                  <Plus className="mr-0.25 h-4 w-4" />
+                  Create Position
+                </Button>
+              </Link>
             </div>
           )}
 
@@ -149,10 +152,12 @@ export default function LiquidityPage() {
                   TOP POOLS
                 </h2>
                 <div className="flex items-center gap-2">
-                  <Button className="bg-gradient-to-r from-[#ff6b6b]/90 to-[#ff8e8e]/90 hover:from-[#ff5a5a] hover:to-[#ff7a7a] text-white border-0 rounded-lg px-2 h-8 text-sm shadow-[0_0_10px_rgba(255,107,107,0.4)] flex items-center justify-center">
-                    <Plus className="-mr-1 h-3 w-3" />
-                    Create Position
-                  </Button>
+                  <Link href="/outswap/liquidity/add">
+                    <Button className="bg-gradient-to-r from-[#ff6b6b]/90 to-[#ff8e8e]/90 hover:from-[#ff5a5a] hover:to-[#ff7a7a] text-white border-0 rounded-lg px-2 h-8 text-sm shadow-[0_0_10px_rgba(255,107,107,0.4)] flex items-center justify-center">
+                      <Plus className="-mr-1 h-3 w-3" />
+                      Create Position
+                    </Button>
+                  </Link>
                   <button
                     className="p-2 rounded-lg bg-[#150a2e] border border-[#2a1b4a]/30 hover:bg-[#1d0c3e] transition-all duration-200 flex items-center justify-center shadow-[0_0_10px_rgba(168,85,247,0.15)]"
                     onClick={() => setShowFilterMenu(true)}
@@ -173,32 +178,21 @@ export default function LiquidityPage() {
           )}
 
           {/* 流动性池表格 - 组件内部已经处理了移动端和PC端的不同显示 */}
-          <div
-            className={`${isMobile ? "w-full" : "bg-black/30 backdrop-blur-sm border border-white/5 rounded-xl overflow-hidden"} max-w-5xl mx-auto mt-1`}
-          >
+          <div className="max-w-5xl mx-auto mt-1">
             <LiquidityPoolsTable poolType={activeTab} sortOption={sortOption} searchTerm={searchQuery} />
           </div>
         </div>
       </section>
-
-      {/* 移动端浮动搜索按钮 */}
-      {/* {isMobile && !showMobileSearch && (
-        <button
-          className="fixed bottom-20 right-4 w-12 h-12 rounded-full bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] flex items-center justify-center shadow-lg z-10"
-          onClick={() => setShowMobileSearch(true)}
-        >
-          <Filter size={20} className="text-white" />
-        </button>
-      )} */}
 
       {/* 移动端筛选菜单 */}
       {isMobile && showFilterMenu && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setShowFilterMenu(false)}></div>
           <div
-            className="w-full max-w-xs bg-gradient-to-b from-[#0f0326] via-[#1a0445] to-[#0f0326] rounded-xl overflow-hidden z-10 p-4 m-4 border border-[#2a1b4a]/50"
+            className="w-full max-w-xs bg-[#0f0726]/90 backdrop-blur-md rounded-xl overflow-hidden z-10 p-4 m-4"
             style={{
-              boxShadow: "0 0 20px rgba(168,85,247,0.3), 0 0 40px rgba(168,85,247,0.1)",
+              boxShadow: "0 0 2px #bf4ddb, 0 0 15px rgba(191,77,219,0.3), 0 0 30px rgba(168,85,247,0.15)",
+              border: "1px solid rgba(191,77,219,0.3)",
             }}
           >
             <div className="flex justify-between items-center mb-4">

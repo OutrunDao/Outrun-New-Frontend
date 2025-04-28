@@ -12,7 +12,7 @@ const poolsData = [
   {
     id: 1,
     pair: "ezETH/WETH",
-    fee: "0.05%",
+    fee: "1.0%",
     volume: "$1.9k",
     tvl: "$2.80m",
     apr: "0.05%",
@@ -21,7 +21,7 @@ const poolsData = [
   {
     id: 2,
     pair: "USDB/WETH",
-    fee: "0.05%",
+    fee: "1.0%",
     volume: "$951.04k",
     tvl: "$2.39m",
     apr: "7.62%",
@@ -39,7 +39,7 @@ const poolsData = [
   {
     id: 4,
     pair: "USDB/USDC",
-    fee: "0.05%",
+    fee: "1.0%",
     volume: "$18.49k",
     tvl: "$1.29m",
     apr: "0.76%",
@@ -66,7 +66,7 @@ const poolsData = [
   {
     id: 7,
     pair: "sUSD/USDB",
-    fee: "0.05%",
+    fee: "1.0%",
     volume: "$4.13k",
     tvl: "$415.89k",
     apr: "0.99%",
@@ -93,7 +93,7 @@ const poolsData = [
   {
     id: 10,
     pair: "USDB/axlUSD",
-    fee: "0.05%",
+    fee: "1.0%",
     volume: "$131.98k",
     tvl: "$333.72k",
     apr: "3.61%",
@@ -225,18 +225,35 @@ export function LiquidityPoolsTable({
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setSelectedPool(null)}></div>
         <div
-          className="w-full max-w-sm bg-gradient-to-b from-[#0f0326]/95 via-[#1a0445]/95 to-[#0f0326]/95 rounded-xl overflow-hidden z-10 relative"
+          className="w-full max-w-xs rounded-xl overflow-hidden z-10 relative"
           style={{
             boxShadow: "0 0 2px #ec4899, 0 0 15px rgba(236,72,153,0.4), 0 0 30px rgba(168,85,247,0.2)",
             border: "1px solid rgba(236,72,153,0.3)",
           }}
         >
-          <div className="p-4 border-b border-white/10">
+          {/* 背景渐变 */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326] via-[#1a0445] to-[#0f0326] backdrop-blur-xl"></div>
+
+          {/* 网格背景 */}
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(168, 85, 247, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(168, 85, 247, 0.1) 1px, transparent 1px)",
+              backgroundSize: "20px 20px",
+              backgroundPosition: "center center",
+            }}
+          ></div>
+
+          {/* 底部发光效果 */}
+          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-purple-600/5 to-transparent"></div>
+
+          <div className="relative p-3 border-b border-pink-500/20">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <div className="flex -space-x-2">
-                  <TokenIcon symbol={pool.pair.split("/")[0]} size={24} />
-                  <TokenIcon symbol={pool.pair.split("/")[1]} size={24} />
+                  <TokenIcon symbol={pool.pair.split("/")[0]} size={22} />
+                  <TokenIcon symbol={pool.pair.split("/")[1]} size={22} />
                 </div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-lg font-bold">{pool.pair}</h3>
@@ -252,29 +269,29 @@ export function LiquidityPoolsTable({
             </div>
           </div>
 
-          <div className="p-4 space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+          <div className="relative p-3 space-y-3">
+            <div className="grid grid-cols-2 gap-3">
               <div className="bg-black/20 p-3 rounded-lg">
                 <div className="text-xs text-zinc-400 mb-1">Volume (24h)</div>
-                <div className="text-lg font-medium">{pool.volume}</div>
+                <div className="text-xl font-medium">{pool.volume}</div>
               </div>
               <div className="bg-black/20 p-3 rounded-lg">
                 <div className="text-xs text-zinc-400 mb-1">TVL</div>
-                <div className="text-lg font-medium">{pool.tvl}</div>
+                <div className="text-xl font-medium">{pool.tvl}</div>
               </div>
               <div className="bg-black/20 p-3 rounded-lg">
                 <div className="text-xs text-zinc-400 mb-1">APR</div>
-                <div className="text-lg font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
+                <div className="text-xl font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
                   {pool.apr}
                 </div>
               </div>
               <div className="bg-black/20 p-3 rounded-lg">
                 <div className="text-xs text-zinc-400 mb-1">Fees (24h)</div>
-                <div className="text-lg font-medium">{pool.fees}</div>
+                <div className="text-xl font-medium">{pool.fees}</div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 pt-2">
+            <div className="grid grid-cols-2 gap-3 pt-2">
               <Button
                 className="bg-[#1a0445]/60 text-white rounded-md text-sm font-medium transition-all duration-200 h-10 px-0 relative hover:bg-[#1a0445]/80 hover:text-purple-300 hover:scale-105"
                 style={{
@@ -304,10 +321,27 @@ export function LiquidityPoolsTable({
   const MobilePoolCard = ({ pool }: { pool: (typeof poolsData)[0] }) => {
     return (
       <div
-        className="bg-gradient-to-r from-[#0f0326]/30 to-[#1a0445]/30 border border-white/5 rounded-lg p-3 mb-1 active:bg-[#1a0445]/40 transition-colors w-full"
+        className="relative rounded-lg p-3 mb-1 transition-colors w-full shadow-sm shadow-purple-500/10 overflow-hidden"
         onClick={() => setSelectedPool(pool.id)}
       >
-        <div className="flex items-center justify-between mb-2">
+        {/* 背景渐变 */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326] via-[#1a0445] to-[#0f0326] backdrop-blur-xl"></div>
+
+        {/* 网格背景 */}
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(168, 85, 247, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(168, 85, 247, 0.1) 1px, transparent 1px)",
+            backgroundSize: "20px 20px",
+            backgroundPosition: "center center",
+          }}
+        ></div>
+
+        {/* 底部发光效果 */}
+        <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-purple-600/10 to-transparent"></div>
+
+        <div className="relative flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div className="flex -space-x-2">
               <TokenIcon symbol={pool.pair.split("/")[0]} size={20} />
@@ -328,7 +362,7 @@ export function LiquidityPoolsTable({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 text-xs">
+        <div className="relative grid grid-cols-2 gap-2 text-xs">
           <div className="flex items-center">
             <span className="text-zinc-400 mr-1">Volume:</span>
             <span className="font-medium">{pool.volume}</span>
@@ -349,14 +383,31 @@ export function LiquidityPoolsTable({
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowFilterMenu(false)}></div>
         <div
           ref={filterMenuRef}
-          className="w-full max-w-md bg-gradient-to-b from-[#0f0326]/95 via-[#1a0445]/95 to-[#0f0326]/95 rounded-t-xl overflow-hidden z-10 p-4 pb-8"
+          className="w-full max-w-md rounded-t-xl overflow-hidden z-10 p-4 pb-8 relative"
           style={{
-            boxShadow: "0 -2px 15px rgba(168,85,247,0.2)",
-            border: "1px solid rgba(236,72,153,0.2)",
+            boxShadow: "0 -2px 15px rgba(191,77,219,0.2)",
+            border: "1px solid rgba(191,77,219,0.2)",
             borderBottom: "none",
           }}
         >
-          <div className="flex justify-between items-center mb-4">
+          {/* 背景渐变 */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326] via-[#1a0445] to-[#0f0326] backdrop-blur-xl"></div>
+
+          {/* 网格背景 */}
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(168, 85, 247, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(168, 85, 247, 0.1) 1px, transparent 1px)",
+              backgroundSize: "20px 20px",
+              backgroundPosition: "center center",
+            }}
+          ></div>
+
+          {/* 底部发光效果 */}
+          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-purple-600/10 to-transparent"></div>
+
+          <div className="relative flex justify-between items-center mb-4">
             <h3 className="text-lg font-bold">Filter Pools</h3>
             <button
               className="rounded-full p-1 bg-white/10 hover:bg-white/20 transition-colors"
@@ -412,10 +463,10 @@ export function LiquidityPoolsTable({
               <label className="text-sm text-zinc-400 mb-1 block">Fee tier</label>
               <div className="flex gap-2">
                 <button
-                  className={`p-2 rounded-lg text-sm flex-1 ${activeFilter === "0.05%" ? "bg-purple-600/30 text-white" : "bg-black/20 text-zinc-300"}`}
-                  onClick={() => setActiveFilter(activeFilter === "0.05%" ? null : "0.05%")}
+                  className={`p-2 rounded-lg text-sm flex-1 ${activeFilter === "1.0%" ? "bg-purple-600/30 text-white" : "bg-black/20 text-zinc-300"}`}
+                  onClick={() => setActiveFilter(activeFilter === "1.0%" ? null : "1.0%")}
                 >
-                  0.05%
+                  1.0%
                 </button>
                 <button
                   className={`p-2 rounded-lg text-sm flex-1 ${activeFilter === "0.3%" ? "bg-purple-600/30 text-white" : "bg-black/20 text-zinc-300"}`}
@@ -464,47 +515,70 @@ export function LiquidityPoolsTable({
     )
   }
 
-  // 移动端分页控制
-  const MobilePagination = () => {
-    const itemsPerPage = 5
-    const totalPages = Math.ceil(visiblePools.length / itemsPerPage)
+  // 获取当前页的池子
+  const getCurrentPagePools = () => {
+    const itemsPerPage = isMobile ? 5 : 10
+    const startIndex = (currentPage - 1) * itemsPerPage
+    // 返回当前页的数据，但总是保持相同的数据以模拟多页
+    return visiblePools.slice(0, itemsPerPage)
+  }
 
-    if (totalPages <= 1) return null
+  // 移动端分页控制组件
+  const MobilePagination = () => {
+    // 强制设置为5页，用于演示
+    const totalPages = 5
 
     return (
       <div className="flex justify-center mt-2">
         <Button
           variant="ghost"
           size="sm"
-          className="text-zinc-400 hover:text-white"
+          className="text-zinc-400 hover:text-white hover:bg-[#1a0445]/60 rounded-md transition-colors"
           onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
           disabled={currentPage === 1}
         >
           <ChevronLeft size={16} />
         </Button>
 
-        <span className="mx-4 text-sm flex items-center">
-          {currentPage} / {totalPages}
-        </span>
+        <div className="flex items-center space-x-1 mx-2">
+          {(() => {
+            let startPage = Math.max(1, currentPage - 1)
+            const endPage = Math.min(startPage + 2, totalPages)
+
+            if (endPage - startPage < 2 && startPage > 1) {
+              startPage = Math.max(1, endPage - 2)
+            }
+
+            return Array.from({ length: endPage - startPage + 1 }).map((_, i) => {
+              const pageNum = startPage + i
+              return (
+                <button
+                  key={pageNum}
+                  onClick={() => setCurrentPage(pageNum)}
+                  className={`w-7 h-7 flex items-center justify-center text-xs rounded-md ${
+                    currentPage === pageNum
+                      ? "text-white/90 bg-[#1a0445]/30 border border-purple-500/20"
+                      : "text-zinc-400 hover:text-white/90 hover:bg-[#1a0445]/20"
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              )
+            })
+          })()}
+        </div>
 
         <Button
           variant="ghost"
           size="sm"
-          className="text-zinc-400 hover:text-white"
-          onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-          disabled={currentPage === totalPages}
+          className="text-zinc-400 hover:text-white hover:bg-[#1a0445]/60 rounded-md transition-colors"
+          onClick={() => setCurrentPage(Math.min(5, currentPage + 1))}
+          disabled={currentPage === 5}
         >
           <ChevronRight size={16} />
         </Button>
       </div>
     )
-  }
-
-  // 获取当前页的池子
-  const getCurrentPagePools = () => {
-    const itemsPerPage = isMobile ? 5 : 10
-    const startIndex = (currentPage - 1) * itemsPerPage
-    return visiblePools.slice(startIndex, startIndex + itemsPerPage)
   }
 
   // 渲染移动端视图
@@ -533,18 +607,34 @@ export function LiquidityPoolsTable({
 
   // 渲染PC端视图 - 保持原有的表格布局
   return (
-    <div className="bg-gradient-to-b from-black/50 via-[#0f0326]/50 to-black/50 backdrop-blur-lg border border-white/10 rounded-lg overflow-hidden shadow-[0_0_15px_rgba(168,85,247,0.15),inset_0_0_10px_rgba(236,72,153,0.05)] relative">
+    <div
+      className="rounded-lg overflow-hidden relative"
+      style={{
+        boxShadow: "0 0 2px #ec4899, 0 0 15px rgba(236,72,153,0.4), 0 0 30px rgba(168,85,247,0.2)",
+        border: "1px solid rgba(236,72,153,0.3)",
+      }}
+    >
+      {/* 背景渐变 */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326] via-[#1a0445] to-[#0f0326] backdrop-blur-xl"></div>
+
+      {/* 网格背景 */}
       <div
-        className="absolute inset-0 rounded-xl pointer-events-none"
+        className="absolute inset-0 opacity-10"
         style={{
-          boxShadow: "0 0 2px #ec4899, 0 0 8px rgba(236,72,153,0.2), 0 0 15px rgba(168,85,247,0.1)",
-          opacity: 0.6,
+          backgroundImage:
+            "linear-gradient(rgba(168, 85, 247, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(168, 85, 247, 0.1) 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
+          backgroundPosition: "center center",
         }}
       ></div>
-      <div className="overflow-x-auto">
+
+      {/* 底部发光效果 */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-purple-600/5 to-transparent"></div>
+
+      <div className="relative overflow-x-auto">
         <table className="w-full table-fixed">
           <thead>
-            <tr className="border-b border-white/5 bg-gradient-to-r from-black/80 via-[#1a0445]/30 to-black/80">
+            <tr className="border-b border-purple-500/20">
               <th className="w-[20px]"></th>
               <th className="px-1 py-3 text-center text-xs font-medium text-zinc-300 uppercase tracking-wider w-[14px] text-shadow-sm">
                 #
@@ -600,7 +690,7 @@ export function LiquidityPoolsTable({
             {getCurrentPagePools().map((pool) => (
               <tr
                 key={pool.id}
-                className="border-b border-white/5 hover:bg-gradient-to-r hover:from-[#0f0326]/40 hover:via-[#1a0445]/30 hover:to-[#0f0326]/40 transition-all duration-200"
+                className="border-b border-purple-500/10 hover:bg-[#170538]/70 transition-all duration-200"
                 onMouseEnter={() => setHoveredRow(pool.id)}
                 onMouseLeave={() => setHoveredRow(null)}
               >
@@ -673,7 +763,7 @@ export function LiquidityPoolsTable({
         </table>
       </div>
 
-      <div className="flex items-center justify-center px-4 py-3 border-t border-white/5 bg-gradient-to-r from-black/80 via-[#1a0445]/30 to-black/80">
+      <div className="relative flex items-center justify-center px-4 py-3 border-t border-purple-500/20">
         <nav className="flex items-center">
           <Button
             variant="ghost"
@@ -685,30 +775,51 @@ export function LiquidityPoolsTable({
             <ChevronLeft size={16} />
           </Button>
 
-          <div className="flex items-center space-x-1 mx-2">
-            {Array.from({ length: Math.min(Math.ceil(visiblePools.length / 10), 5) }).map((_, i) => (
-              <Button
-                key={i}
-                variant="ghost"
-                size="sm"
-                className={
-                  currentPage === i + 1
-                    ? "bg-[#1a0445]/60 text-white font-medium border border-purple-500/30 shadow-[0_0_8px_rgba(168,85,247,0.2)] hover:bg-[#1a0445]/80 hover:border-purple-500/50 hover:shadow-[0_0_12px_rgba(168,85,247,0.3)]"
-                    : "text-zinc-400 hover:text-white hover:bg-[#1a0445]/40 transition-colors"
-                }
-                onClick={() => setCurrentPage(i + 1)}
-              >
-                {i + 1}
-              </Button>
-            ))}
+          <div className="flex items-center space-x-2 mx-3">
+            {(() => {
+              // 强制设置为5页，用于演示
+              const totalPages = 5
+              const pages = []
+
+              // 确定要显示的页码范围
+              let startPage = Math.max(1, currentPage - 1)
+              const endPage = Math.min(startPage + 2, totalPages)
+
+              // 调整起始页，确保显示三个页码（如果有足够的页数）
+              if (endPage - startPage < 2 && startPage > 1) {
+                startPage = Math.max(1, endPage - 2)
+              }
+
+              // 生成页码按钮
+              for (let i = startPage; i <= endPage; i++) {
+                pages.push(
+                  <button
+                    key={i}
+                    onClick={() => setCurrentPage(i)}
+                    className={`w-9 h-9 flex items-center justify-center text-sm rounded-md transition-all duration-200 ${
+                      currentPage === i
+                        ? "text-white/90 relative"
+                        : "text-zinc-400 hover:text-white/90 hover:bg-[#1a0445]/20"
+                    }`}
+                  >
+                    {currentPage === i && (
+                      <div className="absolute inset-0 rounded-md bg-[#1a0445]/30 border border-purple-500/20"></div>
+                    )}
+                    <span className="relative z-10">{i}</span>
+                  </button>,
+                )
+              }
+
+              return pages
+            })()}
           </div>
 
           <Button
             variant="ghost"
             size="icon"
             className="text-zinc-400 hover:text-white hover:bg-[#1a0445]/40 transition-colors"
-            onClick={() => setCurrentPage(Math.min(Math.ceil(visiblePools.length / 10), currentPage + 1))}
-            disabled={currentPage === Math.ceil(visiblePools.length / 10) || visiblePools.length <= 10}
+            onClick={() => setCurrentPage(Math.min(5, currentPage + 1))}
+            disabled={currentPage === 5}
           >
             <ChevronRight size={16} />
           </Button>

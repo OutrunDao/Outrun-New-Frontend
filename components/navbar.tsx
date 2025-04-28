@@ -166,7 +166,7 @@ export function Navbar() {
       }`}
     >
       <div className="container mx-auto px-4 md:px-6 max-w-full">
-        <div className="flex h-20 items-center justify-between">
+        <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-3 group">
               <div className="relative h-10 w-10 transition-transform duration-300 group-hover:scale-110">

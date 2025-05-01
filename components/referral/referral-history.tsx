@@ -8,7 +8,7 @@ interface ReferralHistoryProps {
   view: "history" | "friends"
 }
 
-// 更新交易记录数据结构，添加network字段
+// 更新交易记录数据结构，添加network字段和txHash字段
 interface TradeRecord {
   id: number
   path: {
@@ -21,6 +21,7 @@ interface TradeRecord {
   network: string // 添加网络字段
   referredAddress: string
   timestamp: string
+  txHash?: string // 交易哈希，用于链接到区块浏览器
 }
 
 // 被推荐人数据结构
@@ -96,6 +97,13 @@ export function ReferralHistory({ view = "history" }: ReferralHistoryProps) {
 function HistoryTable() {
   const isMobile = useMobile()
 
+  // 处理点击交易记录的事件 - 未来会跳转到区块浏览器
+  const handleViewTransaction = (record: TradeRecord) => {
+    console.log(`View transaction in block explorer: ${record.id}`)
+    // 未来实现: 根据network和txHash构建URL并跳转
+    // 例如: window.open(`https://${getExplorerUrl(record.network)}/tx/${record.txHash}`, '_blank')
+  }
+
   // 更新模拟交易记录数据，添加网络信息
   const tradeRecords: TradeRecord[] = [
     {
@@ -108,6 +116,7 @@ function HistoryTable() {
       network: "ethereum",
       referredAddress: "0x1a2b...3c4d",
       timestamp: "5 min ago",
+      txHash: "0xabcd1234...",
     },
     {
       id: 2,
@@ -119,6 +128,7 @@ function HistoryTable() {
       network: "arbitrum",
       referredAddress: "0x5e6f...7g8h",
       timestamp: "15 min ago",
+      txHash: "0xefgh5678...",
     },
     {
       id: 3,
@@ -130,6 +140,7 @@ function HistoryTable() {
       network: "base",
       referredAddress: "0x9i0j...1k2l",
       timestamp: "1 hour ago",
+      txHash: "0xijkl9012...",
     },
     {
       id: 4,
@@ -141,6 +152,7 @@ function HistoryTable() {
       network: "polygon",
       referredAddress: "0x3m4n...5o6p",
       timestamp: "3 hours ago",
+      txHash: "0xmnop3456...",
     },
     {
       id: 5,
@@ -152,6 +164,7 @@ function HistoryTable() {
       network: "ethereum",
       referredAddress: "0x7q8r...9s0t",
       timestamp: "5 hours ago",
+      txHash: "0xqrst7890...",
     },
     {
       id: 6,
@@ -163,6 +176,7 @@ function HistoryTable() {
       network: "arbitrum",
       referredAddress: "0x1u2v...3w4x",
       timestamp: "8 hours ago",
+      txHash: "0xuvwx1234...",
     },
     {
       id: 7,
@@ -174,6 +188,7 @@ function HistoryTable() {
       network: "base",
       referredAddress: "0x5y6z...7a8b",
       timestamp: "12 hours ago",
+      txHash: "0xyzab5678...",
     },
     {
       id: 8,
@@ -185,6 +200,7 @@ function HistoryTable() {
       network: "bnb",
       referredAddress: "0x9c0d...1e2f",
       timestamp: "1 day ago",
+      txHash: "0xcdef9012...",
     },
     {
       id: 9,
@@ -196,6 +212,7 @@ function HistoryTable() {
       network: "ethereum",
       referredAddress: "0x3g4h...5i6j",
       timestamp: "1 day ago",
+      txHash: "0xghij3456...",
     },
     {
       id: 10,
@@ -207,6 +224,7 @@ function HistoryTable() {
       network: "polygon",
       referredAddress: "0x7k8l...9m0n",
       timestamp: "2 days ago",
+      txHash: "0xklmn7890...",
     },
   ]
 
@@ -258,7 +276,11 @@ function HistoryTable() {
         </div>
         <div className="space-y-4">
           {tradeRecords.map((record) => (
-            <div key={record.id} className="bg-black/40 p-3 rounded-lg border border-white/5">
+            <div
+              key={record.id}
+              className="bg-black/40 p-3 rounded-lg border border-white/5 cursor-pointer hover:bg-white/10 transition-colors duration-200"
+              onClick={() => handleViewTransaction(record)}
+            >
               <div className="flex justify-between items-center mb-3">
                 <div className="flex-1 overflow-x-auto pb-1">{renderPath(record.path.tokens)}</div>
                 <span className="text-xs text-zinc-400 ml-2 whitespace-nowrap">{record.timestamp}</span>
@@ -310,7 +332,11 @@ function HistoryTable() {
           </thead>
           <tbody>
             {tradeRecords.map((record) => (
-              <tr key={record.id} className="border-b border-white/5 hover:bg-white/5">
+              <tr
+                key={record.id}
+                className="border-b border-white/5 hover:bg-white/10 cursor-pointer transition-colors duration-200"
+                onClick={() => handleViewTransaction(record)}
+              >
                 <td className="py-3 px-4 overflow-hidden">{renderPath(record.path.tokens)}</td>
                 <td className="py-3 px-4 overflow-hidden">
                   {renderCommission(record.commission.amounts, record.commission.tokens)}
@@ -329,6 +355,12 @@ function HistoryTable() {
 
 function FriendsTable() {
   const isMobile = useMobile()
+
+  // 处理点击好友记录的事件
+  const handleViewFriend = (friend: ReferredFriend) => {
+    console.log(`View friend details: ${friend.id}`)
+    // 未来实现: 显示好友详情或跳转到相关页面
+  }
 
   // 模拟被推荐人数据
   const friendsData: ReferredFriend[] = [
@@ -351,7 +383,11 @@ function FriendsTable() {
         </div>
         <div className="space-y-4">
           {friendsData.map((friend) => (
-            <div key={friend.id} className="bg-black/40 p-3 rounded-lg border border-white/5">
+            <div
+              key={friend.id}
+              className="bg-black/40 p-3 rounded-lg border border-white/5 cursor-pointer hover:bg-white/10 transition-colors duration-200"
+              onClick={() => handleViewFriend(friend)}
+            >
               <div className="flex justify-between mb-1">
                 <span className="text-sm text-zinc-400">Joined</span>
                 <span className="text-sm">{friend.joinDate}</span>
@@ -399,7 +435,11 @@ function FriendsTable() {
           </thead>
           <tbody>
             {friendsData.map((friend) => (
-              <tr key={friend.id} className="border-b border-white/5 hover:bg-white/5">
+              <tr
+                key={friend.id}
+                className="border-b border-white/5 hover:bg-white/10 cursor-pointer transition-colors duration-200"
+                onClick={() => handleViewFriend(friend)}
+              >
                 <td className="py-3 px-4 text-sm">{friend.joinDate}</td>
                 <td className="py-3 px-4 text-sm">{friend.address}</td>
                 <td className="py-3 px-4 text-sm">{friend.volume}</td>

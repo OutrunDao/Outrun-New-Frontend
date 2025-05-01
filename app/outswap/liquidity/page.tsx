@@ -6,6 +6,7 @@ import { Plus, Filter, X, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ParticleCanvas } from "@/components/particle-canvas"
 import { LiquidityPoolsTable } from "@/components/liquidity-pools-table"
+import { PositionsTable } from "@/components/positions-table"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search } from "@/components/ui/search"
 import { useMobile } from "@/hooks/use-mobile"
@@ -17,21 +18,13 @@ export default function LiquidityPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const { scrollYProgress } = useScroll()
   const containerRef = useRef<HTMLDivElement>(null)
+  const [activeView, setActiveView] = useState<"pools" | "positions">("pools")
 
   const titleOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0.8])
   const titleY = useTransform(scrollYProgress, [0, 0.1], [0, -20])
 
-  // 移动端搜索状态
-  // const [showMobileSearch, setShowMobileSearch] = useState(false)
   const [showFilterMenu, setShowFilterMenu] = useState(false)
   const [sortOption, setSortOption] = useState<string | null>(null)
-
-  // 处理移动端搜索框显示/隐藏
-  // useEffect(() => {
-  //   if (!isMobile) {
-  //     setShowMobileSearch(false)
-  //   }
-  // }, [isMobile])
 
   // 防止滚动穿透
   useEffect(() => {
@@ -105,10 +98,33 @@ export default function LiquidityPage() {
           {/* 标题和创建按钮 - 只在PC端显示 */}
           {!isMobile && (
             <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center">
-                <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] drop-shadow-[0_0_8px_rgba(255,107,107,0.5)]">
+              <div className="flex items-center gap-6">
+                <button
+                  onClick={() => setActiveView("pools")}
+                  className={`text-2xl font-bold relative ${
+                    activeView === "pools"
+                      ? "bg-clip-text text-transparent bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] drop-shadow-[0_0_8px_rgba(255,107,107,0.5)]"
+                      : "text-zinc-400 hover:text-zinc-200"
+                  }`}
+                >
                   TOP POOLS
-                </h2>
+                  {activeView === "pools" && (
+                    <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e]"></span>
+                  )}
+                </button>
+                <button
+                  onClick={() => setActiveView("positions")}
+                  className={`text-2xl font-bold relative ${
+                    activeView === "positions"
+                      ? "bg-clip-text text-transparent bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] drop-shadow-[0_0_8px_rgba(255,107,107,0.5)]"
+                      : "text-zinc-400 hover:text-zinc-200"
+                  }`}
+                >
+                  POSITIONS
+                  {activeView === "positions" && (
+                    <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e]"></span>
+                  )}
+                </button>
               </div>
               <Link href="/outswap/liquidity/add">
                 <Button className="bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] hover:from-[#ff5a5a] hover:to-[#ff7a7a] text-white border-0 rounded-lg px-4 h-9 text-sm shadow-[0_0_15px_rgba(255,107,107,0.5)] w-auto flex items-center justify-center">
@@ -119,8 +135,71 @@ export default function LiquidityPage() {
             </div>
           )}
 
-          {/* 搜索和筛选 - PC端显示完整版，移动端简化 */}
-          {!isMobile ? (
+          {/* 移动端标题和按钮 */}
+          {isMobile && (
+            <div className="flex flex-col mb-2">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-3 h-7">
+                  <button
+                    onClick={() => setActiveView("pools")}
+                    className={`text-base font-bold relative h-full flex items-center ${
+                      activeView === "pools"
+                        ? "bg-clip-text text-transparent bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] drop-shadow-[0_0_8px_rgba(255,107,107,0.5)]"
+                        : "text-zinc-400 hover:text-zinc-200"
+                    }`}
+                  >
+                    TOP POOLS
+                    {activeView === "pools" && (
+                      <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e]"></span>
+                    )}
+                  </button>
+                  <button
+                    onClick={() => setActiveView("positions")}
+                    className={`text-base font-bold relative h-full flex items-center ${
+                      activeView === "positions"
+                        ? "bg-clip-text text-transparent bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] drop-shadow-[0_0_8px_rgba(255,107,107,0.5)]"
+                        : "text-zinc-400 hover:text-zinc-200"
+                    }`}
+                  >
+                    POSITIONS
+                    {activeView === "positions" && (
+                      <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e]"></span>
+                    )}
+                  </button>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Link href="/outswap/liquidity/add">
+                    <Button className="bg-gradient-to-r from-[#ff6b6b]/90 to-[#ff8e8e]/90 hover:from-[#ff5a5a] hover:to-[#ff7a7a] text-white border-0 rounded-lg px-2 h-7 text-xs shadow-[0_0_10px_rgba(255,107,107,0.4)] flex items-center justify-center">
+                      Create Position
+                    </Button>
+                  </Link>
+                  {activeView === "pools" && (
+                    <button
+                      className="h-7 w-7 rounded-lg bg-[#150a2e] border border-[#2a1b4a]/30 hover:bg-[#1d0c3e] transition-all duration-200 flex items-center justify-center shadow-[0_0_10px_rgba(168,85,247,0.15)]"
+                      onClick={() => setShowFilterMenu(true)}
+                      aria-label="Filter and sort"
+                    >
+                      <Filter size={16} className="text-white/80" />
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* 只在TOP POOLS视图显示搜索框 */}
+              {activeView === "pools" && (
+                <Search
+                  placeholder="Search pools by tokens"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onClear={() => setSearchQuery("")}
+                  className="bg-black/40 border border-white/10 text-white rounded-lg focus:outline-none focus:ring-0 focus:border-[#ff6b6b]/50 transition-all duration-300 shadow-inner shadow-black/20 mb-1 h-8 text-xs py-0"
+                />
+              )}
+            </div>
+          )}
+
+          {/* 搜索和筛选 - 只在PC端和TOP POOLS视图显示 */}
+          {!isMobile && activeView === "pools" && (
             <div className="flex flex-col md:flex-row justify-between gap-4 mb-3">
               <div className="relative w-full md:w-2/5">
                 <Search
@@ -144,48 +223,21 @@ export default function LiquidityPage() {
                 </Tabs>
               </div>
             </div>
-          ) : (
-            // 移动端搜索框 - 默认显示
-            <div className="flex flex-col mb-2">
-              <div className="flex items-center justify-between mb-2">
-                <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#ff6b6b] to-[#ff8e8e] drop-shadow-[0_0_8px_rgba(255,107,107,0.5)]">
-                  TOP POOLS
-                </h2>
-                <div className="flex items-center gap-2">
-                  <Link href="/outswap/liquidity/add">
-                    <Button className="bg-gradient-to-r from-[#ff6b6b]/90 to-[#ff8e8e]/90 hover:from-[#ff5a5a] hover:to-[#ff7a7a] text-white border-0 rounded-lg px-2 h-8 text-sm shadow-[0_0_10px_rgba(255,107,107,0.4)] flex items-center justify-center">
-                      <Plus className="-mr-1 h-3 w-3" />
-                      Create Position
-                    </Button>
-                  </Link>
-                  <button
-                    className="p-2 rounded-lg bg-[#150a2e] border border-[#2a1b4a]/30 hover:bg-[#1d0c3e] transition-all duration-200 flex items-center justify-center shadow-[0_0_10px_rgba(168,85,247,0.15)]"
-                    onClick={() => setShowFilterMenu(true)}
-                    aria-label="Filter and sort"
-                  >
-                    <Filter size={18} className="text-white/80" />
-                  </button>
-                </div>
-              </div>
-              <Search
-                placeholder="Search pools by tokens"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onClear={() => setSearchQuery("")}
-                className="bg-black/40 border border-white/10 text-white rounded-lg focus:outline-none focus:ring-0 focus:border-[#ff6b6b]/50 transition-all duration-300 shadow-inner shadow-black/20 mb-1"
-              />
-            </div>
           )}
 
-          {/* 流动性池表格 - 组件内部已经处理了移动端和PC端的不同显示 */}
+          {/* 表格内容 - 根据activeView切换显示 */}
           <div className="max-w-5xl mx-auto mt-1">
-            <LiquidityPoolsTable poolType={activeTab} sortOption={sortOption} searchTerm={searchQuery} />
+            {activeView === "pools" ? (
+              <LiquidityPoolsTable poolType={activeTab} sortOption={sortOption} searchTerm={searchQuery} />
+            ) : (
+              <PositionsTable />
+            )}
           </div>
         </div>
       </section>
 
-      {/* 移动端筛选菜单 */}
-      {isMobile && showFilterMenu && (
+      {/* 移动端筛选菜单 - 只在TOP POOLS视图显示 */}
+      {isMobile && showFilterMenu && activeView === "pools" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setShowFilterMenu(false)}></div>
           <div

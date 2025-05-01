@@ -1,66 +1,57 @@
 "use client"
 
-import * as React from "react"
-import { X, SearchIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import type React from "react"
 
-export interface SearchProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  onClear?: () => void
+import { useState, useRef } from "react"
+import { SearchIcon, X } from "lucide-react"
+import { useMobile } from "@/hooks/use-mobile"
+
+interface SearchProps {
+  placeholder?: string
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onClear: () => void
+  className?: string
 }
 
-const Search = React.forwardRef<HTMLInputElement, SearchProps>(
-  ({ className, type, value, onChange, onClear, ...props }, ref) => {
-    const [inputValue, setInputValue] = React.useState<string>("")
+export function Search({ placeholder = "Search...", value, onChange, onClear, className = "" }: SearchProps) {
+  const [isFocused, setIsFocused] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const isMobile = useMobile()
 
-    // 使用受控组件模式，同时支持外部value和内部状态
-    const currentValue = value !== undefined ? String(value) : inputValue
-    const showClearButton = currentValue.length > 0
+  // 当点击清除按钮时，聚焦输入框
+  const handleClear = () => {
+    onClear()
+    inputRef.current?.focus()
+  }
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (value === undefined) {
-        setInputValue(e.target.value)
-      }
-      onChange?.(e)
-    }
-
-    const handleClear = () => {
-      if (value === undefined) {
-        setInputValue("")
-      }
-      onClear?.()
-    }
-
-    return (
-      <div className="relative w-full">
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500">
-          <SearchIcon className="h-4 w-4" />
-        </div>
-        <input
-          type={type || "text"}
-          value={currentValue}
-          onChange={handleChange}
-          className={cn(
-            "flex h-10 w-full rounded-md border border-input bg-background pl-10 pr-10 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 focus-visible:border-purple-500/50 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300",
-            className,
-          )}
-          ref={ref}
-          {...props}
+  return (
+    <div className={`relative flex items-center w-full ${className}`} onClick={() => inputRef.current?.focus()}>
+      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <SearchIcon
+          size={isMobile ? 16 : 18}
+          className={`${value || isFocused ? "text-white/80" : "text-white/50"} transition-colors duration-200`}
         />
-        {showClearButton && (
-          <button
-            type="button"
-            onClick={handleClear}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white transition-colors"
-            aria-label="Clear search"
-          >
-            <X size={14} />
-          </button>
-        )}
       </div>
-    )
-  },
-)
-
-Search.displayName = "Search"
-
-export { Search }
+      <input
+        ref={inputRef}
+        type="text"
+        value={value}
+        onChange={onChange}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        className={`w-full pl-10 pr-10 py-2 bg-transparent text-white placeholder-white/50 focus:placeholder-white/30 outline-none transition-all duration-200 ${isMobile ? "text-xs" : "text-sm"}`}
+        placeholder={placeholder}
+      />
+      {value && (
+        <button
+          onClick={handleClear}
+          className="absolute inset-y-0 right-0 flex items-center pr-3 text-white/50 hover:text-white/80 transition-colors duration-200"
+          aria-label="Clear search"
+        >
+          <X size={isMobile ? 16 : 18} />
+        </button>
+      )}
+    </div>
+  )
+}

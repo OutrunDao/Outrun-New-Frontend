@@ -8,7 +8,7 @@ export const metadata = {
     generator: 'v0.dev'
 }
 
-// 更新 CSP 头，确保它不会导致问题
+// 更新 CSP 头，确保���不会导致问题
 export const headers = () => {
   return [
     {

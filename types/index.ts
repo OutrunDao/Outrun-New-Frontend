@@ -160,3 +160,34 @@ export interface ParticleCanvasProps {
 export type GeometricShapesProps = {
   className?: string
 }
+
+// 推荐返佣相关类型
+export interface ReferralStats {
+  totalEarned: string
+  pendingRewards: string
+  referralsCount: number
+  activeTraders: number
+  tier: number
+}
+
+export interface ReferralHistoryItem {
+  id: number
+  date: string
+  user: string
+  amount: string
+  status: "Claimed" | "Pending"
+}
+
+export interface ReferredFriend {
+  id: number
+  joinDate: string
+  address: string
+  volume: string
+  earned: string
+}
+
+export interface ReferralTier {
+  level: number
+  rebate: string
+  requirement: string
+}

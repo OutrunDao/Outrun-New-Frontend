@@ -49,8 +49,8 @@ export default function MemeversePage() {
               </h1>
 
               <p className="text-xl md:text-2xl text-zinc-300 max-w-3xl mx-auto leading-relaxed">
-                An OmniChain memecoin launchpad built on the concept of FFLaunch, featuring memecoin staking and DAO
-                governance.
+                A disruptive innovation platform for Memecoin launch, staking and DAO governance, built around the
+                'sustainability' ethos and based on the FFLaunch philosophy.
               </p>
             </motion.div>
 
@@ -64,7 +64,7 @@ export default function MemeversePage() {
                 size="lg"
                 className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-8 h-12 text-base shadow-[0_0_15px_rgba(168,85,247,0.5)]"
               >
-                Explore Memecoins
+                Explore Memeverse
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
 
@@ -100,9 +100,13 @@ export default function MemeversePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
           <FeatureCard
-            title="OmniChain Memecoin Launchpad"
-            description="Memeverse is built on the concept of FFLaunch, providing a fair and free platform for memecoin launches."
-            bulletPoints={["Cross-chain compatibility", "Fair and free launches", "Community-driven approach"]}
+            title="Omnichain Interoperability"
+            description="Memeverse is a omnichain module powered by LayerZero and FFLaunch, allowing users to interact on any blockchain."
+            bulletPoints={[
+              "Omnichain compatibility", 
+              "Participation risk protection", 
+              "Community-driven approach"
+            ]}
             icon={<Stars className="h-6 w-6 text-purple-500" />}
             color="#a855f7"
             delay={0.1}
@@ -111,11 +115,11 @@ export default function MemeversePage() {
 
           <FeatureCard
             title="Memecoin Staking"
-            description="Memeverse features memecoin staking, allowing users to stake their memecoins and earn rewards."
+            description="Memeverse features memecoin staking, allowing users to stake their memecoins and earn yields."
             bulletPoints={[
-              "Stake memecoins for rewards",
-              "Earn from the yield vault",
-              "Participate in market-making profits",
+              "Stake memecoins for yields",
+              "Composable ERC4626 Staked Memecoin",
+              "Gain governance voting rights"
             ]}
             icon={<Coins className="h-6 w-6 text-purple-500" />}
             color="#a855f7"
@@ -128,8 +132,8 @@ export default function MemeversePage() {
             description="Memeverse includes DAO governance, allowing memecoin communities to make decisions collectively."
             bulletPoints={[
               "Decentralized decision-making",
-              "Community-driven development",
               "Transparent governance process",
+              "Community treasury allocation"
             ]}
             icon={<Gavel className="h-6 w-6 text-purple-500" />}
             color="#a855f7"

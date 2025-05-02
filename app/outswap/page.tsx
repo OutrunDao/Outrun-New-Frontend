@@ -72,14 +72,16 @@ export default function OutSwapPage() {
 
               <div className="relative group">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-70 blur-sm group-hover:opacity-100 transition duration-300"></div>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="relative bg-black/50 backdrop-blur-sm border-0 text-white rounded-full px-8 h-12 text-base w-full 
+                <Link href="https://outrun.gitbook.io/doc/outswap" target="_blank" rel="noopener noreferrer">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="relative bg-black/50 backdrop-blur-sm border-0 text-white rounded-full px-8 h-12 text-base w-full 
       group-hover:bg-black/70 transition-all duration-300"
-                >
-                  Read Documentation
-                </Button>
+                  >
+                    Read Documentation
+                  </Button>
+                </Link>
               </div>
             </motion.div>
           </div>
@@ -122,20 +124,12 @@ export default function OutSwapPage() {
                       <Users className="h-4 w-4" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-medium text-white mb-1">Earn Referral Rewards</h3>
+                      <h3 className="text-lg font-medium text-white mb-1">Earn Referral Commission</h3>
                       <p className="text-zinc-400">
-                        Invite friends and earn a percentage of their trading fees through our on-chain referral system.
+                        Invite friends and earn a percentage of their trading fees through our on-chain referral
+                        commission engine.
                       </p>
                     </div>
-                  </div>
-
-                  <div className="mt-8">
-                    <Link href="/outswap/swap">
-                      <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-6 py-2 text-sm shadow-[0_0_15px_rgba(168,85,247,0.5)]">
-                        Launch Swap Interface
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </Link>
                   </div>
                 </div>
               </div>
@@ -190,7 +184,7 @@ export default function OutSwapPage() {
             description="OutSwap integrates the first native on-chain anti-MEV module that doesn't require external systems."
             bulletPoints={[
               "Protection against front-running",
-              "No external systems required",
+              "Protection against sandwich attack",
               "Operates entirely on-chain",
             ]}
             icon={<Shield className="h-6 w-6 text-purple-500" />}
@@ -240,14 +234,16 @@ export default function OutSwapPage() {
 
                     <div className="relative group">
                       <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-70 blur-sm group-hover:opacity-100 transition duration-300"></div>
-                      <Button
-                        size="lg"
-                        variant="outline"
-                        className="relative bg-black/50 backdrop-blur-sm border-0 text-white rounded-full px-8 h-12 text-base w-full 
+                      <Link href="https://outrun.gitbook.io/doc/outswap" target="_blank" rel="noopener noreferrer">
+                        <Button
+                          size="lg"
+                          variant="outline"
+                          className="relative bg-black/50 backdrop-blur-sm border-0 text-white rounded-full px-8 h-12 text-base w-full 
       group-hover:bg-black/70 transition-all duration-300"
-                      >
-                        Read Documentation
-                      </Button>
+                        >
+                          Read Documentation
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </div>

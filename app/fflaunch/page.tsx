@@ -49,8 +49,7 @@ export default function FFLaunchPage() {
               </h1>
 
               <p className="text-xl md:text-2xl text-zinc-300 max-w-3xl mx-auto leading-relaxed">
-                The first "Risk-Free" LaunchPad that sets a new standard for fair and free launches with a truly
-                community-driven approach.
+                A revolutionary fair and risk-free token financing paradigm that protects investors from fraud, helps fundraisers secure continuous funding, and achieves a win-win for both.
               </p>
             </motion.div>
 
@@ -114,9 +113,13 @@ export default function FFLaunchPage() {
           />
 
           <FeatureCard
-            title="Community-Driven Approach"
+            title="Community-Driven Paradigm"
             description="FFLaunch represents a truly community-driven fundraising paradigm where investors can receive project tokens for free."
-            bulletPoints={["Free tokens for investors", "Community governance", "Decentralized decision-making"]}
+            bulletPoints={[
+              "Free tokens for investors", 
+              "Protect investors from fraud", 
+              "Liquidity risk control"
+            ]}
             icon={<Users className="h-6 w-6 text-purple-500" />}
             color="#a855f7"
             delay={0.2}
@@ -124,9 +127,13 @@ export default function FFLaunchPage() {
           />
 
           <FeatureCard
-            title="Equitable and Investor-Friendly"
-            description="FFLaunch offers open interfaces to support custom launch logic that does not violate the principles of fairness."
-            bulletPoints={["Custom launch logic", "Free access for all", "Sufficient funding for projects"]}
+            title="Additional Benefits For Fundraisers"
+            description="Projects using FFLaunch for fundraising gain greater freedom and additional benefits."
+            bulletPoints={[
+              "Custom launch logic(More scalability)", 
+              "Continuous and uncapped funding support", 
+              "Easier to build a sustainable community"
+            ]}
             icon={<Rocket className="h-6 w-6 text-purple-500" />}
             color="#a855f7"
             delay={0.3}

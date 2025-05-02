@@ -125,7 +125,7 @@ export default function OutStakePage() {
             />
 
             <TokenCard
-              title="UPT = Omnichain Universal Principal Token"
+              title="UPT = Universal Principal Token"
               description="An omnichain universal principal token supported by LayerZero, enabling seamless transfers across different blockchains."
               formula="lock yield-bearing tokens → mint UPT tokens"
               gradient="from-cyan-500 to-blue-600"

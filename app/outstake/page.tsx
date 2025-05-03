@@ -1,7 +1,6 @@
 "use client"
 
 import { useRef } from "react"
-import Image from "next/image"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowRight, Coins, TrendingUp, Layers, Clock, Globe, Lock } from "lucide-react"
 
@@ -19,16 +18,11 @@ export default function OutStakePage() {
 
   return (
     <div ref={containerRef} className="relative flex flex-col min-h-screen">
-      {/* Background elements - UPDATED to match main page */}
-      {/* <div className="fixed inset-0 bg-gradient-to-b from-[#0f0326] via-[#1a0445] to-[#000000] -z-20" /> */}
+      {/* Background elements */}
       <ParticleCanvas className="fixed inset-0 -z-10" />
 
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden pt-20">
-        {/* 移除这个重复的网格背景，因为我们已经在GlobalBackground中添加了全局网格 */}
-        {/* <div className="absolute inset-0 bg-grid-pattern bg-center opacity-10" /> */}
-
-        {/* Hero overlay - UPDATED to match main page */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326]/40 via-[#1a0445]/40 to-[#000000]/30 opacity-30" />
 
         <div className="container px-4 md:px-6 mx-auto py-24">
@@ -81,11 +75,11 @@ export default function OutStakePage() {
             </motion.div>
           </div>
         </div>
-        {/* Bottom gradient - UPDATED to match main page */}
+        {/* Bottom gradient */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0f0326] to-transparent" />
       </section>
 
-      {/* Features Section - 直接从memeverse页面复制样式 */}
+      {/* Features Section */}
       <section className="py-16 md:py-24 container px-4 md:px-6 mx-auto relative z-10">
         <div className="absolute inset-0 bg-grid-pattern bg-center opacity-5" />
 
@@ -185,134 +179,589 @@ export default function OutStakePage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-24 md:py-32 relative">
-        <div className="absolute inset-0 bg-grid-pattern bg-center opacity-10" />
+      <section className="py-10 md:py-16 relative">
         <div className="container px-4 md:px-6 mx-auto relative">
-          <div className="text-center mb-16 md:mb-24">
-            <h2 className="text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500 mb-6">
-              How OutStake Works
-            </h2>
-            <p className="text-xl text-zinc-300 max-w-3xl mx-auto">
-              OutStake employs an innovative economic model that provides higher returns and multiple sources of income.
-            </p>
-          </div>
+          <SectionHeading
+            title="How OutStake Works"
+            description="OutStake splits yield-bearing tokens into multiple components, unlocking new possibilities for DeFi."
+            gradient="from-purple-400 to-blue-500"
+            align="center"
+            className="mb-16"
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="space-y-8">
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5 }}
-                  viewport={{ once: true }}
-                  className="relative overflow-hidden rounded-2xl"
-                >
-                  <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-                  <div className="absolute inset-0 opacity-20 bg-gradient-to-br from-blue-600 to-purple-600" />
-                  <div className="relative p-6 md:p-8">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-full font-bold bg-blue-600/20 text-blue-400">
-                        1
-                      </div>
-                      <h3 className="text-xl font-bold text-white">Deposit Yield-Bearing Tokens</h3>
-                    </div>
-                    <p className="text-zinc-300 leading-relaxed">
-                      Users deposit their yield-bearing tokens (like stETH, slisBNB, etc.) into the OutStake protocol.
-                    </p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  className="relative overflow-hidden rounded-2xl"
-                >
-                  <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-                  <div className="absolute inset-0 opacity-20 bg-gradient-to-br from-cyan-600 to-blue-600" />
-                  <div className="relative p-6 md:p-8">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-full font-bold bg-cyan-600/20 text-cyan-400">
-                        2
-                      </div>
-                      <h3 className="text-xl font-bold text-white">Receive SY Tokens</h3>
-                    </div>
-                    <p className="text-zinc-300 leading-relaxed">
-                      The protocol wraps the yield-bearing tokens into Standardized Yield (SY) tokens based on the
-                      ERC5115 standard.
-                    </p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                  viewport={{ once: true }}
-                  className="relative overflow-hidden rounded-2xl"
-                >
-                  <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-                  <div className="absolute inset-0 opacity-20 bg-gradient-to-br from-purple-600 to-blue-600" />
-                  <div className="relative p-6 md:p-8">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-full font-bold bg-purple-600/20 text-purple-400">
-                        3
-                      </div>
-                      <h3 className="text-xl font-bold text-white">Stake SY with Lock-up Period</h3>
-                    </div>
-                    <p className="text-zinc-300 leading-relaxed">
-                      Users stake their SY tokens and specify a lock-up period, which mints three types of tokens: POT,
-                      PT, and YT.
-                    </p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                  viewport={{ once: true }}
-                  className="relative overflow-hidden rounded-2xl"
-                >
-                  <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-                  <div className="absolute inset-0 opacity-20 bg-gradient-to-br from-blue-600 to-purple-600" />
-                  <div className="relative p-6 md:p-8">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-full font-bold bg-blue-600/20 text-blue-400">
-                        4
-                      </div>
-                      <h3 className="text-xl font-bold text-white">Earn Multiple Income Streams</h3>
-                    </div>
-                    <p className="text-zinc-300 leading-relaxed">
-                      Users can earn from both the yield generated by their deposits and additional income from trading
-                      YT tokens, which are correlated with yield rates.
-                    </p>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-
+          {/* 流程图 - 完全重新设计 */}
+          <div className="max-w-5xl mx-auto">
+            {/* 步骤1 */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="relative overflow-hidden rounded-2xl"
+              className="relative mb-8"
             >
-              <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-              <div className="absolute inset-0 opacity-20 bg-gradient-to-br from-purple-600 to-blue-600" />
-              <div className="absolute inset-0 bg-grid-pattern bg-center opacity-10" />
-              <div className="relative p-6 md:p-8">
-                <Image
-                  src="/placeholder.svg?height=500&width=600"
-                  alt="OutStake Protocol Diagram"
-                  width={600}
-                  height={500}
-                  className="w-full h-auto rounded-lg"
-                />
+              <div className="relative bg-black/60 backdrop-blur-sm rounded-xl border border-purple-500/20 overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-purple-600 to-pink-600"></div>
+                <div className="p-6 md:p-8">
+                  <div className="flex items-center mb-4">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg mr-4">
+                      1
+                    </div>
+                    <h3 className="text-2xl font-bold text-white inline-flex">Deposit Assets</h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="col-span-1 md:col-span-2">
+                      <p className="text-zinc-300 mb-4">
+                        Users deposit yield-bearing tokens (like stETH, RWA) or underlying assets (like ETH) into the
+                        OutStake protocol.
+                      </p>
+
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        <div className="px-3 py-1.5 bg-black/40 rounded-md border border-white/10 flex items-center">
+                          <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
+                          <span className="text-zinc-300">stETH</span>
+                        </div>
+                        <div className="px-3 py-1.5 bg-black/40 rounded-md border border-white/10 flex items-center">
+                          <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                          <span className="text-zinc-300">RWA</span>
+                        </div>
+                        <div className="px-3 py-1.5 bg-black/40 rounded-md border border-white/10 flex items-center">
+                          <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                          <span className="text-zinc-300">ETH</span>
+                        </div>
+                      </div>
+
+                      <div className="text-sm text-zinc-400">
+                        <span className="text-purple-400">Example:</span> Deposit 10 stETH that's already earning ~3.5%
+                        APR on Lido
+                      </div>
+                    </div>
+
+                    <div className="bg-gradient-to-br from-purple-900/40 to-blue-900/40 rounded-lg border border-purple-500/20 h-full flex flex-col">
+                      <div className="flex-1 flex flex-col justify-center p-4">
+                        <div className="text-sm text-purple-300 font-medium mb-2 inline-block">
+                          What are yield-bearing tokens?
+                        </div>
+                        <p className="text-white text-sm">
+                          Tokens that generate yield or have potential yield. Examples include stETH(Lido),
+                          sUSDE(Ethena), Stone(StakeStone), and LP tokens.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
+
+            {/* 连接箭头 */}
+            <div className="flex justify-center my-4">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 5L12 19M12 19L5 12M12 19L19 12"
+                  stroke="url(#arrow-gradient)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <defs>
+                  <linearGradient id="arrow-gradient" x1="12" y1="19" x2="12" y2="5" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#9333EA" />
+                    <stop offset="1" stopColor="#EC4899" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
+            {/* 步骤2 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="relative mb-8"
+            >
+              <div className="relative bg-black/60 backdrop-blur-sm rounded-xl border border-blue-500/20 overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-600 to-cyan-600"></div>
+                <div className="p-6 md:p-8">
+                  <div className="flex items-center mb-4">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold text-lg mr-4">
+                      2
+                    </div>
+                    <h3 className="text-2xl font-bold text-white inline-flex">Standardize Yield (SY)</h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="col-span-1 md:col-span-2">
+                      <p className="text-zinc-300 mb-4">
+                        The protocol wraps yield-bearing tokens into Standardized Yield (SY) tokens based on the ERC5115
+                        standard, providing a unified interface for all yield-bearing tokens. This process happens
+                        automatically behind the scenes.
+                      </p>
+
+                      <div className="bg-black/40 rounded-lg p-4 border border-white/5 mb-4">
+                        <div className="font-mono text-sm">
+                          <span className="text-zinc-300">wstETH</span>
+                          <span className="text-zinc-500 mx-2">→</span>
+                          <span className="text-cyan-400">SY-wstETH</span>
+                        </div>
+                      </div>
+
+                      <div className="text-sm text-zinc-400">
+                        <span className="text-blue-400">Example:</span> 10 wstETH is wrapped into 10 SY-wstETH
+                      </div>
+                    </div>
+
+                    <div className="bg-gradient-to-br from-blue-900/40 to-cyan-900/40 rounded-lg border border-blue-500/20 h-full flex flex-col">
+                      <div className="flex-1 flex flex-col justify-center p-4">
+                        <div className="text-sm text-blue-300 font-medium mb-2 inline-block">What is SY?</div>
+                        <p className="text-white text-sm">
+                          SY is a vault token based on the ERC5115 standard designed to encapsulate yield-bearing
+                          tokens. It provides a standardized interface for interacting with any yield-generating
+                          mechanism.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* 连接箭头 */}
+            <div className="flex justify-center my-4">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 5L12 19M12 19L5 12M12 19L19 12"
+                  stroke="url(#arrow-gradient-2)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <defs>
+                  <linearGradient id="arrow-gradient-2" x1="12" y1="19" x2="12" y2="5" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#2563EB" />
+                    <stop offset="1" stopColor="#06B6D4" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
+            {/* 步骤3 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="relative mb-8"
+            >
+              <div className="relative bg-black/60 backdrop-blur-sm rounded-xl border border-pink-500/20 overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-pink-600 to-purple-600"></div>
+                <div className="p-6 md:p-8">
+                  <div className="flex items-center mb-4">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white font-bold text-lg mr-4">
+                      3
+                    </div>
+                    <h3 className="text-2xl font-bold text-white inline-flex">Stake & Lock SY Tokens</h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="col-span-1 md:col-span-2">
+                      <p className="text-zinc-300 mb-4">
+                        Users stake their SY tokens and specify a lock-up period. This process mints three types of
+                        tokens, each representing different aspects of the yield-bearing token.
+                      </p>
+
+                      <div className="grid grid-cols-3 gap-3 mb-4">
+                        <div className="bg-purple-900/30 rounded-lg p-3 border border-purple-500/20">
+                          <div className="text-center mb-1">
+                            <span className="text-purple-400 font-bold">PT</span>
+                          </div>
+                          <p className="text-xs text-zinc-400 text-center">Principal Token</p>
+                        </div>
+                        <div className="bg-pink-900/30 rounded-lg p-3 border border-pink-500/20">
+                          <div className="text-center mb-1">
+                            <span className="text-pink-400 font-bold">YT</span>
+                          </div>
+                          <p className="text-xs text-zinc-400 text-center">Yield Rate Token</p>
+                        </div>
+                        <div className="bg-blue-900/30 rounded-lg p-3 border border-blue-500/20">
+                          <div className="text-center mb-1">
+                            <span className="text-blue-400 font-bold">PYT</span>
+                          </div>
+                          <p className="text-xs text-zinc-400 text-center">Points Yield Token</p>
+                        </div>
+                      </div>
+
+                      <div className="bg-black/40 rounded-lg p-4 border border-white/5 mb-4">
+                        <div className="font-mono text-sm">
+                          <span className="text-cyan-400">SY-sUSDE</span>
+                          <span className="text-zinc-500 mx-2">→</span>
+                          <span className="text-purple-400">PT-sUSDE</span>
+                          <span className="text-zinc-500 mx-1">+</span>
+                          <span className="text-pink-400">YT-sUSDE</span>
+                          <span className="text-zinc-500 mx-1">+</span>
+                          <span className="text-blue-400">PYT-sUSDE</span>
+                        </div>
+                      </div>
+
+                      <div className="text-sm text-zinc-400">
+                        <span className="text-pink-400">Example:</span> 10 SY-sUSDE with a 100 days lock generates 9.8
+                        PT-sUSDE, 1000 YT-sUSDE, and 1 PYT-sUSDE
+                      </div>
+                    </div>
+
+                    <div className="space-y-4 h-full flex flex-col justify-center">
+                      <div className="bg-gradient-to-r from-purple-900/40 to-purple-800/40 rounded-lg border border-purple-500/30 p-3">
+                        <div className="text-sm text-purple-300 font-semibold mb-1 inline-block">
+                          PT (Principal Token)
+                        </div>
+                        <p className="text-xs text-white">
+                          Represents the principal portion of yield-bearing tokens. Can be encapsulated as SP.
+                        </p>
+                      </div>
+
+                      <div className="bg-gradient-to-r from-pink-900/40 to-pink-800/40 rounded-lg border border-pink-500/30 p-3">
+                        <div className="text-sm text-pink-300 font-semibold mb-1 inline-block">
+                          YT (Yield Rate Token)
+                        </div>
+                        <p className="text-xs text-white">
+                          Represents ownership of all yield generated by the underlying assets. Has no expiration date,
+                          unlike other protocols.
+                        </p>
+                      </div>
+
+                      <div className="bg-gradient-to-r from-blue-900/40 to-blue-800/40 rounded-lg border border-blue-500/30 p-3">
+                        <div className="text-sm text-blue-300 font-semibold mb-1 inline-block">
+                          PYT (Points Yield Token)
+                        </div>
+                        <p className="text-xs text-white">Represents external protocol points yields (if available).</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* 连接箭头 */}
+            <div className="flex justify-center my-4">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 5L12 19M12 19L5 12M12 19L19 12"
+                  stroke="url(#arrow-gradient-3)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <defs>
+                  <linearGradient id="arrow-gradient-3" x1="12" y1="19" x2="12" y2="5" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#9333EA" />
+                    <stop offset="1" stopColor="#DB2777" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
+            {/* 步骤4 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="relative mb-8"
+            >
+              <div className="relative bg-black/60 backdrop-blur-sm rounded-xl border border-green-500/20 overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-green-600 to-cyan-600"></div>
+                <div className="p-6 md:p-8">
+                  <div className="flex items-center mb-4">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-green-600 to-cyan-600 text-white font-bold text-lg mr-4">
+                      4
+                    </div>
+                    <h3 className="text-2xl font-bold text-white inline-flex">Encapsulate PT into SP (Optional)</h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="col-span-1 md:col-span-2">
+                      <p className="text-zinc-300 mb-4">
+                        Users holding positions can encapsulate PT tokens, thereby minting the position and PT tokens
+                        into transferable SP (Staking Position) tokens, representing the right to redeem the principal
+                        upon position maturity.
+                      </p>
+
+                      <div className="bg-black/40 rounded-lg p-4 border border-white/5 mb-4">
+                        <div className="font-mono text-sm">
+                          <span className="text-purple-400">PT-stETH</span>
+                          <span className="text-zinc-500 mx-2">→</span>
+                          <span className="text-green-400">SP-stETH</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-gradient-to-br from-green-900/40 to-cyan-900/40 rounded-lg border border-green-500/20 h-full flex flex-col">
+                      <div className="flex-1 flex flex-col justify-center p-4">
+                        <div className="text-sm text-green-300 font-medium mb-2 inline-block">What is SP?</div>
+                        <p className="text-white text-sm">
+                          SP is a token based on the ERC6909 standard used to encapsulate staked positions. It
+                          represents ownership of principal redemption rights upon maturity, creating fixed-rate returns
+                          based on its trading price.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* 连接箭头 */}
+            <div className="flex justify-center my-4">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 5L12 19M12 19L5 12M12 19L19 12"
+                  stroke="url(#arrow-gradient-4)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <defs>
+                  <linearGradient id="arrow-gradient-4" x1="12" y1="19" x2="12" y2="5" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#059669" />
+                    <stop offset="1" stopColor="#0891B2" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
+            {/* 步骤5 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="relative bg-black/60 backdrop-blur-sm rounded-xl border border-purple-500/20 overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-purple-600 to-blue-600"></div>
+                <div className="p-6 md:p-8">
+                  <div className="flex items-center mb-4">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold text-lg mr-4">
+                      5
+                    </div>
+                    <h3 className="text-2xl font-bold text-white inline-flex">Multiple Income Streams</h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="col-span-1 md:col-span-2">
+                      <p className="text-zinc-300 mb-4">
+                        Users can now benefit from multiple income sources, each with different risk and return
+                        profiles.
+                      </p>
+
+                      <div className="space-y-3 mb-4">
+                        <div className="flex items-start">
+                          <div className="w-6 h-6 rounded-full bg-pink-600/20 flex items-center justify-center mt-0.5 mr-3 flex-shrink-0">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-3 w-3 text-pink-400"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-pink-400 font-medium">Trade YT tokens</div>
+                            <p className="text-zinc-300 text-sm">
+                              Earn from yield rate fluctuations. YT value increases over time as yield accumulates.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start">
+                          <div className="w-6 h-6 rounded-full bg-green-600/20 flex items-center justify-center mt-0.5 mr-3 flex-shrink-0">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-3 w-3 text-green-400"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-green-400 font-medium">Sell SP tokens</div>
+                            <p className="text-zinc-300 text-sm">
+                              Get fixed-rate returns before maturity by trading SP tokens on the market.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start">
+                          <div className="w-6 h-6 rounded-full bg-blue-600/20 flex items-center justify-center mt-0.5 mr-3 flex-shrink-0">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-3 w-3 text-blue-400"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-blue-400 font-medium">Utilize PYT tokens</div>
+                            <p className="text-zinc-300 text-sm">
+                              Benefit from external protocol points rewards through PYT tokens.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-gradient-to-br from-purple-800/50 to-blue-800/50 rounded-lg border border-purple-500/30 h-full flex flex-col">
+                      <div className="flex-1 flex flex-col justify-center p-4">
+                        <div className="text-sm text-purple-200 font-semibold mb-2 inline-block">
+                          OutStake's Unique Advantage
+                        </div>
+                        <p className="text-white text-sm mb-3">
+                          Unlike other protocols, OutStake's tokens have no expiration dates, allowing for greater
+                          composability and liquidity in the DeFi ecosystem.
+                        </p>
+                        <div className="text-xs text-blue-200">
+                          YT serves as the first non-USD stablecoin model tied to yield rates, enabling users to take
+                          positions on yield rate movements.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Token Cards - Simplified */}
+          <div className="mt-16">
+            <h3 className="text-2xl font-bold text-center text-white mb-8">OutStake Token Ecosystem</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                className="group"
+              >
+                <div className="relative h-full">
+                  <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-purple-600/30 to-purple-600/10 opacity-70 group-hover:opacity-100 blur-sm transition duration-300"></div>
+                  <div className="relative h-full bg-black/60 backdrop-blur-sm rounded-xl border border-purple-500/20 p-6 overflow-hidden group-hover:border-purple-500/40 transition duration-300">
+                    <div className="absolute -right-8 -top-8 w-24 h-24 rounded-full bg-purple-600/10"></div>
+                    <div className="flex items-center mb-4">
+                      <div className="w-10 h-10 rounded-full bg-purple-600/20 flex items-center justify-center mr-3">
+                        <span className="text-purple-400 font-bold">PT</span>
+                      </div>
+                      <h4 className="text-xl font-bold text-white">Principal Token</h4>
+                    </div>
+                    <p className="text-zinc-300 text-sm leading-relaxed">
+                      Represents the principal portion of yield-bearing tokens. PT has no expiration date, allowing for
+                      greater composability with other DeFi protocols.
+                    </p>
+                    <div className="mt-4 pt-4 border-t border-white/5">
+                      <div className="text-xs text-zinc-400 uppercase tracking-wider mb-2">Key Features</div>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-2 py-1 bg-purple-900/20 rounded-md text-xs text-purple-400">
+                          No Expiration
+                        </span>
+                        <span className="px-2 py-1 bg-purple-900/20 rounded-md text-xs text-purple-400">
+                          ERC20 Standard
+                        </span>
+                        <span className="px-2 py-1 bg-purple-900/20 rounded-md text-xs text-purple-400">
+                          Redeemable
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                viewport={{ once: true }}
+                className="group"
+              >
+                <div className="relative h-full">
+                  <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-pink-600/30 to-pink-600/10 opacity-70 group-hover:opacity-100 blur-sm transition duration-300"></div>
+                  <div className="relative h-full bg-black/60 backdrop-blur-sm rounded-xl border border-pink-500/20 p-6 overflow-hidden group-hover:border-pink-500/40 transition duration-300">
+                    <div className="absolute -right-8 -top-8 w-24 h-24 rounded-full bg-pink-600/10"></div>
+                    <div className="flex items-center mb-4">
+                      <div className="w-10 h-10 rounded-full bg-pink-600/20 flex items-center justify-center mr-3">
+                        <span className="text-pink-400 font-bold">YT</span>
+                      </div>
+                      <h4 className="text-xl font-bold text-white">Yield Rate Token</h4>
+                    </div>
+                    <p className="text-zinc-300 text-sm leading-relaxed">
+                      Represents ownership of all yield generated by the underlying assets. YT's value increases over
+                      time as the yield pool accumulates, creating a non-USD stablecoin tied to yield rates.
+                    </p>
+                    <div className="mt-4 pt-4 border-t border-white/5">
+                      <div className="text-xs text-zinc-400 uppercase tracking-wider mb-2">Key Features</div>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-2 py-1 bg-pink-900/20 rounded-md text-xs text-pink-400">
+                          Yield Correlated
+                        </span>
+                        <span className="px-2 py-1 bg-pink-900/20 rounded-md text-xs text-pink-400">
+                          Universal Token
+                        </span>
+                        <span className="px-2 py-1 bg-pink-900/20 rounded-md text-xs text-pink-400">No Expiration</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="group"
+              >
+                <div className="relative h-full">
+                  <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-green-600/30 to-green-600/10 opacity-70 group-hover:opacity-100 blur-sm transition duration-300"></div>
+                  <div className="relative h-full bg-black/60 backdrop-blur-sm rounded-xl border border-green-500/20 p-6 overflow-hidden group-hover:border-green-500/40 transition duration-300">
+                    <div className="absolute -right-8 -top-8 w-24 h-24 rounded-full bg-green-600/10"></div>
+                    <div className="flex items-center mb-4">
+                      <div className="w-10 h-10 rounded-full bg-green-600/20 flex items-center justify-center mr-3">
+                        <span className="text-green-400 font-bold">SP</span>
+                      </div>
+                      <h4 className="text-xl font-bold text-white">Staking Position</h4>
+                    </div>
+                    <p className="text-zinc-300 text-sm leading-relaxed">
+                      An ERC6909 token that encapsulates staked positions. SP represents ownership of principal
+                      redemption rights upon maturity, creating fixed-rate returns based on trading price.
+                    </p>
+                    <div className="mt-4 pt-4 border-t border-white/5">
+                      <div className="text-xs text-zinc-400 uppercase tracking-wider mb-2">Key Features</div>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-2 py-1 bg-green-900/20 rounded-md text-xs text-green-400">
+                          Transferable
+                        </span>
+                        <span className="px-2 py-1 bg-green-900/20 rounded-md text-xs text-green-400">Fixed Rate</span>
+                        <span className="px-2 py-1 bg-green-900/20 rounded-md text-xs text-green-400">ERC6909</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>

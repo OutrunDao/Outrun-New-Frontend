@@ -2,7 +2,7 @@
 
 import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
-import { ArrowRight, Stars, Coins, Gavel, Rocket, Shield, Repeat, Unlock } from "lucide-react"
+import { ArrowRight, Stars, Coins, Gavel, Rocket, Shield, Unlock } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { SectionHeading } from "@/components/ui/section-heading"
@@ -139,7 +139,7 @@ export default function MemeversePage() {
       </section>
 
       {/* How It Works - COMPLETELY REDESIGNED */}
-      <section className="py-16 md:py-24 relative">
+      <section className="py-10 md:py-16 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0f0326]/0 via-[#1a0445]/50 to-[#0f0326]/0 opacity-50" />
 
         <div className="container px-4 md:px-6 mx-auto relative">
@@ -161,16 +161,6 @@ export default function MemeversePage() {
                   <p className="text-zinc-300">
                     A simplified 4-stage process with only 2 entities: Creators and Investors
                   </p>
-                </div>
-                <div className="flex items-center space-x-8">
-                  <div className="flex items-center">
-                    <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
-                    <span className="text-zinc-300">Creator</span>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-3 h-3 rounded-full bg-pink-500 mr-2"></div>
-                    <span className="text-zinc-300">Investor</span>
-                  </div>
                 </div>
               </div>
 
@@ -282,7 +272,6 @@ export default function MemeversePage() {
                 <h4 className="text-lg font-semibold text-white mb-3">Alternative: Refund Stage</h4>
                 <div className="flex flex-col md:flex-row items-start md:items-center">
                   <div className="flex items-center mb-2 md:mb-0 md:mr-4">
-                    <Repeat className="h-5 w-5 text-red-500 mr-2" />
                     <span className="text-red-400 font-medium">If minimum funds not reached</span>
                   </div>
                   <p className="text-sm text-zinc-300">
@@ -315,9 +304,9 @@ export default function MemeversePage() {
                         1
                       </div>
                       <div>
-                        <h4 className="font-medium text-white">Memecoin DAO Treasury</h4>
+                        <h4 className="font-medium text-white">FFLaunch Paradigm</h4>
                         <p className="text-sm text-zinc-300">
-                          Market-making earnings from trading pairs support the Memecoin community
+                          Fundamentally eliminate fraud risks such as insider trading and rug pulls.
                         </p>
                       </div>
                     </li>
@@ -326,9 +315,9 @@ export default function MemeversePage() {
                         2
                       </div>
                       <div>
-                        <h4 className="font-medium text-white">Memecoin Yield Vaults</h4>
+                        <h4 className="font-medium text-white">Memecoin DAO Treasury</h4>
                         <p className="text-sm text-zinc-300">
-                          Earnings enter yield vaults on respective chains for continuous staking rewards
+                          UPT portion of market-making earnings from trading pairs support the Memecoin community
                         </p>
                       </div>
                     </li>
@@ -337,9 +326,10 @@ export default function MemeversePage() {
                         3
                       </div>
                       <div>
-                        <h4 className="font-medium text-white">Protocol Revenue</h4>
+                        <h4 className="font-medium text-white">Memecoin Yield Vaults</h4>
                         <p className="text-sm text-zinc-300">
-                          POL portion of market-making earnings contributes to protocol sustainability
+                          Memecoin portion of market-making earnings enter yield vaults on respective chains for
+                          continuous staking yields
                         </p>
                       </div>
                     </li>

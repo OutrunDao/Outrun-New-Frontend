@@ -286,7 +286,7 @@ export function PositionsTable() {
             </div>
           </div>
 
-          {/* 修改这里，将Unclaimed fees和Show Details按钮放在同一行，并与上面的Value和APR对齐 */}
+          {/* 修改这里，将Unclaimed fees和Show Details按钮放在同一行，并与���面的Value和APR对齐 */}
           <div className="grid grid-cols-2 gap-2 mb-2">
             <div>
               <div className="text-xs text-zinc-400">Unclaimed fees</div>
@@ -812,7 +812,7 @@ export function PositionsTable() {
               const totalPages = Math.ceil(positionsData.length / 5)
               const pages = []
 
-              // 确定要显示的页码范围
+              // 确定���显示的页码范围
               let startPage = Math.max(1, currentPage - 1)
               const endPage = Math.min(startPage + 2, totalPages)
 

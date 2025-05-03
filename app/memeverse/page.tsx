@@ -1,9 +1,8 @@
 "use client"
 
 import { useRef } from "react"
-import Image from "next/image"
 import { motion, useScroll, useTransform } from "framer-motion"
-import { ArrowRight, Stars, Coins, Gavel } from "lucide-react"
+import { ArrowRight, Stars, Coins, Gavel, Rocket, Shield, Repeat, Unlock } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { SectionHeading } from "@/components/ui/section-heading"
@@ -102,11 +101,7 @@ export default function MemeversePage() {
           <FeatureCard
             title="Omnichain Interoperability"
             description="Memeverse is a omnichain module powered by LayerZero and FFLaunch, allowing users to interact on any blockchain."
-            bulletPoints={[
-              "Omnichain compatibility", 
-              "Participation risk protection", 
-              "Community-driven approach"
-            ]}
+            bulletPoints={["Omnichain compatibility", "Participation risk protection", "Community-driven approach"]}
             icon={<Stars className="h-6 w-6 text-purple-500" />}
             color="#a855f7"
             delay={0.1}
@@ -119,7 +114,7 @@ export default function MemeversePage() {
             bulletPoints={[
               "Stake memecoins for yields",
               "Composable ERC4626 Staked Memecoin",
-              "Gain governance voting rights"
+              "Gain governance voting rights",
             ]}
             icon={<Coins className="h-6 w-6 text-purple-500" />}
             color="#a855f7"
@@ -133,7 +128,7 @@ export default function MemeversePage() {
             bulletPoints={[
               "Decentralized decision-making",
               "Transparent governance process",
-              "Community treasury allocation"
+              "Community treasury allocation",
             ]}
             icon={<Gavel className="h-6 w-6 text-purple-500" />}
             color="#a855f7"
@@ -143,19 +138,163 @@ export default function MemeversePage() {
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* How It Works - COMPLETELY REDESIGNED */}
       <section className="py-16 md:py-24 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0f0326]/0 via-[#1a0445]/50 to-[#0f0326]/0 opacity-50" />
 
         <div className="container px-4 md:px-6 mx-auto relative">
           <SectionHeading
             title="How Memeverse Works"
-            description="Memeverse provides a simple and intuitive platform for creating, launching, and managing memecoins."
+            description="Memeverse operates through a streamlined 4-stage lifecycle that ensures security, transparency, and fair participation for all users."
             gradient="from-blue-400 to-cyan-500"
             align="center"
             className="mb-16"
           />
 
+          {/* Lifecycle Diagram */}
+          <div className="relative mb-16 overflow-hidden rounded-2xl bg-black/40 backdrop-blur-sm border border-white/10 p-6">
+            <div className="absolute inset-0 bg-grid-pattern bg-center opacity-10" />
+            <div className="relative">
+              <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+                <div className="text-center md:text-left mb-4 md:mb-0">
+                  <h3 className="text-xl font-semibold text-purple-400 mb-2">Memeverse Event Lifecycle</h3>
+                  <p className="text-zinc-300">
+                    A simplified 4-stage process with only 2 entities: Creators and Investors
+                  </p>
+                </div>
+                <div className="flex items-center space-x-8">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
+                    <span className="text-zinc-300">Creator</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 rounded-full bg-pink-500 mr-2"></div>
+                    <span className="text-zinc-300">Investor</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Lifecycle Steps */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                {/* Stage 1: Preparation */}
+                <div className="relative bg-black/60 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30 hover:border-purple-500/60 transition-all duration-300">
+                  <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold">
+                    1
+                  </div>
+                  <h4 className="text-lg font-semibold text-white mb-3 mt-2">Preparation Stage</h4>
+                  <ul className="space-y-2 text-sm text-zinc-300">
+                    <li className="flex items-start">
+                      <span className="text-purple-400 mr-2">•</span>
+                      <span>Creator inputs information via website UI</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-purple-400 mr-2">•</span>
+                      <span>Sets rules and selects blockchains</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-purple-400 mr-2">•</span>
+                      <span>Pays cross-chain fees and gas fees</span>
+                    </li>
+                  </ul>
+                  <div className="absolute bottom-4 right-4">
+                    <Rocket className="h-6 w-6 text-purple-500/40" />
+                  </div>
+                </div>
+
+                {/* Stage 2: Genesis */}
+                <div className="relative bg-black/60 backdrop-blur-sm rounded-xl p-6 border border-pink-500/30 hover:border-pink-500/60 transition-all duration-300">
+                  <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold">
+                    2
+                  </div>
+                  <h4 className="text-lg font-semibold text-white mb-3 mt-2">Genesis Stage</h4>
+                  <ul className="space-y-2 text-sm text-zinc-300">
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2">•</span>
+                      <span>Investors deposit UPT tokens</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2">•</span>
+                      <span>1/3 funds for POL liquidity</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-pink-400 mr-2">•</span>
+                      <span>2/3 funds for memecoin liquidity</span>
+                    </li>
+                  </ul>
+                  <div className="absolute bottom-4 right-4">
+                    <Coins className="h-6 w-6 text-pink-500/40" />
+                  </div>
+                </div>
+
+                {/* Stage 3: Liquidity Locking */}
+                <div className="relative bg-black/60 backdrop-blur-sm rounded-xl p-6 border border-blue-500/30 hover:border-blue-500/60 transition-all duration-300">
+                  <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 flex items-center justify-center text-white font-bold">
+                    3
+                  </div>
+                  <h4 className="text-lg font-semibold text-white mb-3 mt-2">Liquidity Locking</h4>
+                  <ul className="space-y-2 text-sm text-zinc-300">
+                    <li className="flex items-start">
+                      <span className="text-blue-400 mr-2">•</span>
+                      <span>Deploy related contracts if minimum funds reached</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-blue-400 mr-2">•</span>
+                      <span>Trading pairs deployed on OutrunAMM</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-blue-400 mr-2">•</span>
+                      <span>Genesis participants can mint POL tokens</span>
+                    </li>
+                  </ul>
+                  <div className="absolute bottom-4 right-4">
+                    <Shield className="h-6 w-6 text-blue-500/40" />
+                  </div>
+                </div>
+
+                {/* Stage 4: Liquidity Unlocking */}
+                <div className="relative bg-black/60 backdrop-blur-sm rounded-xl p-6 border border-cyan-500/30 hover:border-cyan-500/60 transition-all duration-300">
+                  <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-r from-cyan-600 to-blue-600 flex items-center justify-center text-white font-bold">
+                    4
+                  </div>
+                  <h4 className="text-lg font-semibold text-white mb-3 mt-2">Liquidity Unlocking</h4>
+                  <ul className="space-y-2 text-sm text-zinc-300">
+                    <li className="flex items-start">
+                      <span className="text-cyan-400 mr-2">•</span>
+                      <span>Occurs after unlockTime is reached</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-cyan-400 mr-2">•</span>
+                      <span>Users can burn POL to redeem liquidity</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-cyan-400 mr-2">•</span>
+                      <span>24-hour Liquidity Protection Period</span>
+                    </li>
+                  </ul>
+                  <div className="absolute bottom-4 right-4">
+                    <Unlock className="h-6 w-6 text-cyan-500/40" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Alternative Path */}
+              <div className="mt-8 bg-black/60 backdrop-blur-sm rounded-xl p-6 border border-red-500/30">
+                <h4 className="text-lg font-semibold text-white mb-3">Alternative: Refund Stage</h4>
+                <div className="flex flex-col md:flex-row items-start md:items-center">
+                  <div className="flex items-center mb-2 md:mb-0 md:mr-4">
+                    <Repeat className="h-5 w-5 text-red-500 mr-2" />
+                    <span className="text-red-400 font-medium">If minimum funds not reached</span>
+                  </div>
+                  <p className="text-sm text-zinc-300">
+                    If genesis funds are less than minTotalFunds, the project enters refund stage where investors can
+                    redeem all deposited UPT tokens.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Benefits Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mt-12">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -168,24 +307,56 @@ export default function MemeversePage() {
               <div className="absolute inset-0 opacity-20 bg-gradient-to-br from-purple-600 to-pink-600" />
               <div className="absolute inset-0 bg-grid-pattern bg-center opacity-10" />
               <div className="relative p-6 md:p-8">
-                <Image
-                  src="/placeholder.svg?height=400&width=500"
-                  alt="Memeverse Protocol Diagram"
-                  width={500}
-                  height={400}
-                  className="w-full h-auto rounded-lg"
-                />
+                <div className="bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+                  <h3 className="text-xl font-semibold text-white mb-4">Memeverse Ecosystem Benefits</h3>
+                  <ul className="space-y-4">
+                    <li className="flex items-start">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white mr-3">
+                        1
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-white">Memecoin DAO Treasury</h4>
+                        <p className="text-sm text-zinc-300">
+                          Market-making earnings from trading pairs support the Memecoin community
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white mr-3">
+                        2
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-white">Memecoin Yield Vaults</h4>
+                        <p className="text-sm text-zinc-300">
+                          Earnings enter yield vaults on respective chains for continuous staking rewards
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white mr-3">
+                        3
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-white">Protocol Revenue</h4>
+                        <p className="text-sm text-zinc-300">
+                          POL portion of market-making earnings contributes to protocol sustainability
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </motion.div>
 
             <div>
               <UseCaseCard
-                title="How Memeverse Works"
-                description="Memeverse employs a three-step process to provide a simple and intuitive platform for creating, launching, and managing memecoins."
+                title="Why Choose Memeverse?"
+                description="Memeverse provides a secure, transparent, and fair platform for creating and managing memecoins with built-in sustainability mechanisms."
                 steps={[
-                  "Users can create their memecoins with just a few clicks via the website UI, without needing any programming knowledge.",
-                  "Launch your memecoin across multiple chains with a universal token template and fair distribution mechanisms.",
-                  "Stake your memecoins in the Memecoin Yield Vault and participate in DAO governance to shape the future of your memecoin.",
+                  "Simplified creation process with no coding knowledge required - just use our intuitive UI to launch your memecoin.",
+                  "Multi-chain deployment with universal token templates and fair distribution mechanisms across multiple blockchains.",
+                  "Built-in staking and DAO governance to ensure long-term sustainability and community-driven development.",
+                  "Liquidity protection mechanisms that prevent rug pulls and ensure fair participation for all users.",
                 ]}
                 color="#a855f7"
                 delay={0.1}

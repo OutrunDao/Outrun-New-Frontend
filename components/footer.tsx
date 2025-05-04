@@ -145,24 +145,18 @@ export function Footer() {
             <h3 className="text-lg font-semibold text-white mb-6">Company</h3>
             <ul className="space-y-4">
               <li>
-                <Link href="/about" className="text-zinc-400 hover:text-white transition-colors">
-                  About
-                </Link>
+                <span className="text-zinc-400 hover:text-white transition-colors cursor-default">About</span>
               </li>
               <li>
-                <Link href="/careers" className="text-zinc-400 hover:text-white transition-colors">
-                  Careers
-                </Link>
+                <span className="text-zinc-400 hover:text-white transition-colors cursor-default">Careers</span>
               </li>
               <li>
-                <Link href="/contact" className="text-zinc-400 hover:text-white transition-colors">
+                <Link href="http://t.me/jasonrale" className="text-zinc-400 hover:text-white transition-colors">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-zinc-400 hover:text-white transition-colors">
-                  Privacy Policy
-                </Link>
+                <span className="text-zinc-400 hover:text-white transition-colors cursor-default">Privacy Policy</span>
               </li>
             </ul>
           </div>

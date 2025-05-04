@@ -68,6 +68,7 @@ export default function OutStakePage() {
                   variant="outline"
                   className="relative bg-black/50 backdrop-blur-sm border-0 text-white rounded-full px-8 h-12 text-base w-full 
       group-hover:bg-black/70 transition-all duration-300"
+                  onClick={() => window.open("https://outrun.gitbook.io/doc/outstake", "_blank", "noopener,noreferrer")}
                 >
                   Read Documentation
                 </Button>
@@ -805,6 +806,9 @@ export default function OutStakePage() {
                         variant="outline"
                         className="relative bg-black/50 backdrop-blur-sm border-0 text-white rounded-full px-8 h-12 text-base w-full 
       group-hover:bg-black/70 transition-all duration-300"
+                        onClick={() =>
+                          window.open("https://outrun.gitbook.io/doc/outstake", "_blank", "noopener,noreferrer")
+                        }
                       >
                         Read Documentation
                       </Button>

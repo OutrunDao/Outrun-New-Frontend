@@ -21,7 +21,7 @@ export function GlobalBackground() {
         }}
       />
 
-      {/* 粒子效果 - 仅在客户端水合后显示，避免闪烁 */}
+      {/* 粒子效果 - 仅在客户��水合后显示，避免闪烁 */}
       <ParticleCanvas className="fixed inset-0 w-full h-full -z-10" />
 
       {/* 固定的深色背景，作为底层背景，防止闪白 */}

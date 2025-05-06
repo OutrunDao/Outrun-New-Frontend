@@ -8,7 +8,7 @@ interface ReferralHistoryProps {
   view: "history" | "friends"
 }
 
-// 更新交易记录数据结构，添加network字段和txHash字段
+// 更新交易记录���据结构，添加network字段和txHash字段
 interface TradeRecord {
   id: number
   path: {

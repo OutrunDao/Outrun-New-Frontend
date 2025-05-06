@@ -9,10 +9,12 @@ import { SectionHeading } from "@/components/ui/section-heading"
 import { FeatureCard } from "@/components/ui/feature-card"
 import { UseCaseCard } from "@/components/ui/use-case-card"
 import { ParticleCanvas } from "@/components/particle-canvas"
+import { useRouter } from "next/navigation"
 
 export default function MemeversePage() {
   const { scrollYProgress } = useScroll()
   const containerRef = useRef<HTMLDivElement>(null)
+  const router = useRouter()
 
   const titleOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0.8])
   const titleY = useTransform(scrollYProgress, [0, 0.1], [0, -20])
@@ -62,6 +64,7 @@ export default function MemeversePage() {
               <Button
                 size="lg"
                 className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-8 h-12 text-base shadow-[0_0_15px_rgba(168,85,247,0.5)]"
+                onClick={() => router.push("/memeverse/board")}
               >
                 Explore Memeverse
                 <ArrowRight className="ml-2 h-4 w-4" />

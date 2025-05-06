@@ -18,7 +18,7 @@ export function SeamlessStarryBackground() {
     [],
   )
 
-  // 使用 useCallback 优化函数
+  // 使用 useCallback 优��函数
   const setCanvasDimensions = useCallback((canvas: HTMLCanvasElement) => {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight

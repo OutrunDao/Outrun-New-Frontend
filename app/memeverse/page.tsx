@@ -3,7 +3,6 @@
 import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowRight, Stars, Coins, Gavel, Rocket, Shield, Unlock } from "lucide-react"
-import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 import { SectionHeading } from "@/components/ui/section-heading"
@@ -28,9 +27,6 @@ export default function MemeversePage() {
 
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden pt-20">
-        {/* 移除这个重复的网格背景，因为我们已经在GlobalBackground中添加了全局网格 */}
-        {/* <div className="absolute inset-0 bg-grid-pattern bg-center opacity-10" /> */}
-
         {/* Hero overlay - UPDATED to match main page */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326]/40 via-[#1a0445]/40 to-[#000000]/30 opacity-30" />
 
@@ -62,14 +58,16 @@ export default function MemeversePage() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              {/* 完全模仿导航栏的链接方式 - 使用a标签样式而不是button */}
-              <Link
-                href="/memeverse/board"
-                className="px-8 h-12 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-base font-medium flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.5)] transition-all duration-300"
-              >
-                Explore Memeverse
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
+              <div className="relative group cursor-pointer" onClick={() => router.push("/memeverse/board")}>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-70 blur-sm group-hover:opacity-100 transition duration-300"></div>
+                <Button
+                  size="lg"
+                  className="relative bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-8 h-12 text-base w-full shadow-[0_0_15px_rgba(168,85,247,0.5)]"
+                >
+                  Explore Memeverse
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
 
               <div className="relative group">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-70 blur-sm group-hover:opacity-100 transition duration-300"></div>
@@ -389,13 +387,12 @@ export default function MemeversePage() {
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    {/* 同样使用a标签样式而不是button */}
-                    <Link
-                      href="/memeverse/board"
-                      className="px-8 h-12 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-base font-medium flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.5)] transition-all duration-300"
+                    <Button
+                      size="lg"
+                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-8 h-12 text-base shadow-[0_0_15px_rgba(168,85,247,0.5)]"
                     >
                       Launch App
-                    </Link>
+                    </Button>
 
                     <div className="relative group">
                       <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-70 blur-sm group-hover:opacity-100 transition duration-300"></div>

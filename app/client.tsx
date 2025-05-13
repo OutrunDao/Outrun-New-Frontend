@@ -27,7 +27,7 @@ export default function RootLayout({
 }) {
   const pathname = usePathname()
 
-  // 当路径变化时，滚动到页面顶部
+  // Scroll to the top of the page when the path changes
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -44,7 +44,7 @@ export default function RootLayout({
             <BackgroundProvider>
               <NetworkProvider>
                 <WalletProvider>
-                  {/* 全局背景组件 - 放在最外层以确保它在所有页面中保持一致 */}
+                  {/* Global background component - placed at the outermost layer to ensure consistency across all pages */}
                   <GlobalBackground />
                   <div className="relative flex min-h-screen flex-col">
                     <NavbarWrapper />

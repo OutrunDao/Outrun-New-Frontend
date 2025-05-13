@@ -14,6 +14,7 @@ export default function ReferralPage() {
   const [activeTab, setActiveTab] = useState("overview")
 
   // 模拟数据 - 实际应用中应从API获取
+  // Mock data - In real applications, it should be obtained from the API
   const referralData = {
     totalEarned: "1,245.32",
     referralsCount: 28,
@@ -38,14 +39,14 @@ export default function ReferralPage() {
       </motion.div>
 
       <div className="grid grid-cols-1 gap-6">
-        {/* 统计和链接 */}
+        {/* Stats and links */}
         <div className="space-y-6">
           <ReferralStats data={referralData} />
           <ReferralLink code={referralData.code} link={referralData.link} />
         </div>
       </div>
 
-      {/* 历史记录和详细数据 */}
+      {/* History and detailed data */}
       <div className="mt-8">
         {isMobile ? (
           <Tabs defaultValue="history" className="w-full">

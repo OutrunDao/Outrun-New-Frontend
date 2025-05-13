@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { InfoTooltip } from "@/components/ui/info-tooltip"
 import { useMobile } from "@/hooks/use-mobile"
 
-// 模拟用户头寸数据
+// Mock user position data
 const positionsData = [
   {
     id: 1,
@@ -150,14 +150,14 @@ export function PositionsTable() {
   // 移动端展开状态单独管理
   const [mobileExpandedStates, setMobileExpandedStates] = useState<Record<number, boolean>>({})
 
-  // 获取当前页的头寸
+  // Get current page positions
   const getCurrentPagePositions = () => {
     const itemsPerPage = isMobile ? 3 : 5
     const startIndex = (currentPage - 1) * itemsPerPage
     return positionsData.slice(startIndex, startIndex + itemsPerPage)
   }
 
-  // 切换价格显示模式 - 使用useCallback确保函数引用稳定
+  // Toggle price display mode - use useCallback to ensure stable function reference
   const togglePriceDisplayMode = useCallback((positionId: number, e?: React.MouseEvent) => {
     if (e) {
       e.stopPropagation()
@@ -170,32 +170,32 @@ export function PositionsTable() {
     }))
   }, [])
 
-  // 获取当前价格显示模式
+  // Get current price display mode
   const getCurrentPriceDisplayMode = (positionId: number) => {
     return priceDisplayMode[positionId] || "normal"
   }
 
-  // 获取当前显示的价格范围
+  // Get currently displayed price range
   const getDisplayedPriceRange = (position: (typeof positionsData)[0]) => {
     const mode = getCurrentPriceDisplayMode(position.id)
     return mode === "normal" ? position.priceRange.token0PerToken1 : position.priceRange.token1PerToken0
   }
 
-  // 获取价格范围描述
+  // Get price range description
   const getPriceRangeDescription = (position: (typeof positionsData)[0]) => {
     const mode = getCurrentPriceDisplayMode(position.id)
     const [token0, token1] = position.pair.split("/")
     return mode === "normal" ? `${token0} per ${token1}` : `${token1} per ${token0}`
   }
 
-  // 获取价格范围标题
+  // Get price range title
   const getPriceRangeTitle = (position: (typeof positionsData)[0]) => {
     const [token0, token1] = position.pair.split("/")
     const mode = getCurrentPriceDisplayMode(position.id)
     return `Price Range (${mode === "normal" ? `${token0} per ${token1}` : `${token1} per ${token0}`})`
   }
 
-  // 移动端切换展开状态
+  // Toggle expanded state on mobile
   const toggleMobileExpanded = useCallback((positionId: number) => {
     setMobileExpandedStates((prev) => ({
       ...prev,
@@ -203,12 +203,12 @@ export function PositionsTable() {
     }))
   }, [])
 
-  // 移动端头寸卡片组件
+  // Mobile position card component
   const MobilePositionCard = ({ position }: { position: (typeof positionsData)[0] }) => {
     const isExpanded = mobileExpandedStates[position.id] || false
     const currentPriceMode = getCurrentPriceDisplayMode(position.id)
 
-    // 处理反转按钮点击 - 完全独立的处理函数
+    // Handle flip button click - completely independent handler function
     const handleFlipClick = (e: React.MouseEvent) => {
       e.stopPropagation()
       e.preventDefault()
@@ -286,7 +286,7 @@ export function PositionsTable() {
             </div>
           </div>
 
-          {/* 修改这里，将Unclaimed fees和Show Details按钮放在同一行，并与���面的Value和APR对齐 */}
+          {/* Modify here to put Unclaimed fees and Show Details button on the same line, aligned with Value and APR above */}
           <div className="grid grid-cols-2 gap-2 mb-2">
             <div>
               <div className="text-xs text-zinc-400">Unclaimed fees</div>
@@ -306,10 +306,10 @@ export function PositionsTable() {
             </div>
           </div>
 
-          {/* 展开的详细信息 */}
+          {/* Expanded details */}
           {isExpanded && (
             <div className="mt-3 pt-3 border-t border-purple-500/20">
-              {/* 价格范围部分 - 添加COLLECT按钮 */}
+              {/* Price range section - add COLLECT button */}
               <div className="mb-4 flex justify-between items-start">
                 <div>
                   <div className="flex items-center mb-1">
@@ -334,9 +334,9 @@ export function PositionsTable() {
                 </Button>
               </div>
 
-              {/* 代币部分 - 流动性和手续费并排显示 */}
+              {/* Token section - display liquidity and fees side by side */}
               <div className="grid grid-cols-2 gap-4 mb-3">
-                {/* 左侧显示流动性代币 */}
+                {/* Left side shows liquidity tokens */}
                 <div>
                   <div className="text-xs text-zinc-400 mb-1">Liquidity Tokens</div>
                   <div className="flex flex-col space-y-1">
@@ -351,7 +351,7 @@ export function PositionsTable() {
                   </div>
                 </div>
 
-                {/* 右侧显示手续费代币 */}
+                {/* Right side shows fee tokens */}
                 <div>
                   <div className="text-xs text-zinc-400 mb-1">Fee Tokens</div>
                   <div className="flex flex-col space-y-1">
@@ -396,7 +396,7 @@ export function PositionsTable() {
     )
   }
 
-  // 移动端分页控制组件
+  // Mobile pagination control component
   const MobilePagination = () => {
     const totalPages = Math.ceil(positionsData.length / 3)
 
@@ -453,7 +453,7 @@ export function PositionsTable() {
     )
   }
 
-  // 移动端视图
+  // Mobile view
   if (isMobile) {
     return (
       <div className="w-full">
@@ -504,7 +504,7 @@ export function PositionsTable() {
     )
   }
 
-  // PC端视图
+  // Desktop view
   return (
     <div
       className="rounded-lg overflow-hidden relative"
@@ -762,7 +762,7 @@ export function PositionsTable() {
                           </div>
                         </div>
 
-                        {/* 操作按钮 - 放在同一行并移除图标 */}
+                        {/* Action buttons - placed on the same line and icons removed */}
                         <div className="flex flex-row justify-between items-center space-x-2">
                           <Button
                             size="sm"
@@ -812,7 +812,7 @@ export function PositionsTable() {
               const totalPages = Math.ceil(positionsData.length / 5)
               const pages = []
 
-              // 确定���显示的页码范围
+              // 确定显示的页码范围
               let startPage = Math.max(1, currentPage - 1)
               const endPage = Math.min(startPage + 2, totalPages)
 

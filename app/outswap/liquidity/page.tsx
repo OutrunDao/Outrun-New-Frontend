@@ -26,7 +26,7 @@ export default function LiquidityPage() {
   const [showFilterMenu, setShowFilterMenu] = useState(false)
   const [sortOption, setSortOption] = useState<string | null>(null)
 
-  // 防止滚动穿透
+  // Prevent scroll penetration
   useEffect(() => {
     if (showFilterMenu) {
       document.body.style.overflow = "hidden"
@@ -44,7 +44,7 @@ export default function LiquidityPage() {
       {/* Background elements */}
       <ParticleCanvas className="fixed inset-0 -z-10" />
 
-      {/* Hero Section - 在移动端简化显示 */}
+      {/* Hero Section - simplified display on mobile */}
       <section className={`relative ${isMobile ? "pt-24 pb-4" : "pt-24 pb-6"} overflow-hidden`}>
         {/* Grid background */}
         <div className="absolute inset-0 bg-grid-pattern bg-center opacity-10" />
@@ -63,7 +63,7 @@ export default function LiquidityPage() {
                 YOUR LIQUIDITY
               </h1>
 
-              {/* 移动端将Volume和TVL放在同一行 */}
+              {/* Place Volume and TVL in the same row on mobile */}
               {isMobile ? (
                 <div className="flex justify-between items-center gap-4 w-full max-w-md">
                   <div className="space-y-1">
@@ -95,7 +95,7 @@ export default function LiquidityPage() {
       {/* Pools Section */}
       <section className="py-4 relative">
         <div className="container px-4 md:px-6 mx-auto max-w-5xl">
-          {/* 标题和创建按钮 - 只在PC端显示 */}
+          {/* Title and create button - only displayed on desktop */}
           {!isMobile && (
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-6">
@@ -135,7 +135,7 @@ export default function LiquidityPage() {
             </div>
           )}
 
-          {/* 移动端标题和按钮 */}
+          {/* Mobile title and buttons */}
           {isMobile && (
             <div className="flex flex-col mb-2">
               <div className="flex items-center justify-between mb-2">
@@ -185,7 +185,7 @@ export default function LiquidityPage() {
                 </div>
               </div>
 
-              {/* 只在TOP POOLS视图显示搜索框 */}
+              {/* Only show search box in TOP POOLS view */}
               {activeView === "pools" && (
                 <Search
                   placeholder="Search pools by tokens"
@@ -198,7 +198,7 @@ export default function LiquidityPage() {
             </div>
           )}
 
-          {/* 搜索和筛选 - 只在PC端和TOP POOLS视图显示 */}
+          {/* Search and filter - only displayed on desktop and in TOP POOLS view */}
           {!isMobile && activeView === "pools" && (
             <div className="flex flex-col md:flex-row justify-between gap-4 mb-3">
               <div className="relative w-full md:w-2/5">
@@ -225,7 +225,7 @@ export default function LiquidityPage() {
             </div>
           )}
 
-          {/* 表格内容 - 根据activeView切换显示 */}
+          {/* Table content - switches based on activeView */}
           <div className="max-w-5xl mx-auto mt-1">
             {activeView === "pools" ? (
               <LiquidityPoolsTable poolType={activeTab} sortOption={sortOption} searchTerm={searchQuery} />
@@ -236,7 +236,7 @@ export default function LiquidityPage() {
         </div>
       </section>
 
-      {/* 移动端筛选菜单 - 只在TOP POOLS视图显示 */}
+      {/* Mobile filter menu - only displayed in TOP POOLS view */}
       {isMobile && showFilterMenu && activeView === "pools" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setShowFilterMenu(false)}></div>

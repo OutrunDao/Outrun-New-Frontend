@@ -3,13 +3,13 @@
 import { useState, useEffect, useCallback } from "react"
 
 /**
- * 使用媒体查询检测屏幕尺寸
- * @param query 媒体查询字符串
- * @returns 媒体查询是否匹配
+ * Uses media query to detect screen size
+ * @param query Media query string
+ * @returns Whether the media query matches
  */
 export function useMediaQuery(query: string): boolean {
   const getMatches = useCallback((query: string): boolean => {
-    // 在服务器端渲染时，始终返回 false
+    // Always return false during server-side rendering
     if (typeof window !== "undefined") {
       return window.matchMedia(query).matches
     }
@@ -21,28 +21,28 @@ export function useMediaQuery(query: string): boolean {
   useEffect(() => {
     const mediaQuery = window.matchMedia(query)
 
-    // 定义回调函数
+    // Define callback function
     const handleChange = () => {
       setMatches(getMatches(query))
     }
 
-    // 初始检查
+    // Initial check
     handleChange()
 
-    // 添加事件监听器
+    // Add event listener
     if (mediaQuery.addEventListener) {
       mediaQuery.addEventListener("change", handleChange)
     } else {
-      // 兼容旧版浏览器
+      // Compatible with older browsers
       mediaQuery.addListener(handleChange)
     }
 
-    // 清理函数
+    // Cleanup function
     return () => {
       if (mediaQuery.removeEventListener) {
         mediaQuery.removeEventListener("change", handleChange)
       } else {
-        // 兼容旧版浏览器
+        // Compatible with older browsers
         mediaQuery.removeListener(handleChange)
       }
     }

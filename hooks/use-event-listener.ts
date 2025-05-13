@@ -5,11 +5,11 @@ import type React from "react"
 import { useEffect, useRef } from "react"
 
 /**
- * 使用事件监听器的 hook
- * @param eventName 事件名称
- * @param handler 事件处理函数
- * @param element 要监听的元素，默认为 window
- * @param options 事件监听选项
+ * Hook for using event listeners
+ * @param eventName Event name
+ * @param handler Event handler function
+ * @param element Element to listen on, defaults to window
+ * @param options Event listener options
  */
 export function useEventListener<K extends keyof WindowEventMap>(
   eventName: K,
@@ -43,26 +43,26 @@ export function useEventListener<
   element?: React.RefObject<T> | undefined,
   options?: boolean | AddEventListenerOptions,
 ) {
-  // 创建一个 ref 来存储处理函数
+  // Create a ref to store the handler function
   const savedHandler = useRef(handler)
 
-  // 如果处理函数变化，更新 ref.current 值
+  // Update ref.current value if handler changes
   useEffect(() => {
     savedHandler.current = handler
   }, [handler])
 
   useEffect(() => {
-    // 确保元素支持 addEventListener
+    // Make sure element supports addEventListener
     const targetElement: T | Window = element?.current || window
 
     if (!(targetElement && targetElement.addEventListener)) return
 
-    // 创建事件监听器，调用存储的处理函数
+    // Create event listener that calls handler function stored in ref
     const eventListener: typeof handler = (event) => savedHandler.current(event)
 
     targetElement.addEventListener(eventName, eventListener, options)
 
-    // 清理函数
+    // Cleanup function
     return () => {
       targetElement.removeEventListener(eventName, eventListener, options)
     }

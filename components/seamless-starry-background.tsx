@@ -7,7 +7,7 @@ export function SeamlessStarryBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { isVisible } = useBackground()
 
-  // 使用 useMemo 缓存颜色数组
+  // Cache color array using useMemo
   const colors = useMemo(
     () => [
       "rgba(168, 85, 247, 1)", // Purple
@@ -18,13 +18,13 @@ export function SeamlessStarryBackground() {
     [],
   )
 
-  // 使用 useCallback 优��函数
+  // Optimize function with useCallback
   const setCanvasDimensions = useCallback((canvas: HTMLCanvasElement) => {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
   }, [])
 
-  // 使用 useCallback 优化星星生成逻辑
+  // Optimize star generation logic with useCallback
   const generateStars = useCallback(
     (canvas: HTMLCanvasElement) => {
       const stars: {
@@ -37,30 +37,30 @@ export function SeamlessStarryBackground() {
         twinklePhase: number
       }[] = []
 
-      // 使用网格分布确保均匀覆盖
+      // Use grid distribution to ensure uniform coverage
       const gridSize = 80 // 每个网格单元的大小
       const cols = Math.ceil(window.innerWidth / gridSize)
       const rows = Math.ceil(window.innerHeight / gridSize)
 
       for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
-          // 每个网格单元添加 1-2 个星星，减少总数以提高性能
+          // Add 1-2 stars per grid cell, reducing total count for better performance
           const starsInCell = Math.floor(Math.random() * 2) + 1
 
           for (let k = 0; k < starsInCell; k++) {
             const x = j * gridSize + Math.random() * gridSize
             const y = i * gridSize + Math.random() * gridSize
 
-            // 确保星星在画布范围内
+            // Ensure stars are within canvas boundaries
             if (x <= window.innerWidth && y <= window.innerHeight) {
               stars.push({
                 x,
                 y,
-                size: Math.random() * 1.5 + 0.5, // 较小的星星 (0.5 到 2)
+                size: Math.random() * 1.5 + 0.5, // Smaller stars (0.5 to 2)
                 color: colors[Math.floor(Math.random() * colors.length)],
                 opacity: Math.random() * 0.5 + 0.2,
                 twinkleSpeed: Math.random() * 0.02 + 0.01,
-                twinklePhase: Math.random() * Math.PI * 2, // 随机起始相位
+                twinklePhase: Math.random() * Math.PI * 2, // Random initial phase
               })
             }
           }
@@ -81,18 +81,18 @@ export function SeamlessStarryBackground() {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    // 设置画布尺寸
+    // Set canvas dimensions
     setCanvasDimensions(canvas)
     window.addEventListener("resize", () => setCanvasDimensions(canvas))
 
-    // 创建星星，确保分布一致
+    // Create stars with consistent distribution
     let stars = generateStars(canvas)
 
-    // 动画
+    // Animation
     let animationFrameId: number
     let time = 0
     let lastTime = 0
-    const fps = 24 // 限制帧率以提高性能
+    const fps = 24 // Limit frame rate for better performance
     const interval = 1000 / fps
 
     const render = (timestamp: number) => {
@@ -102,18 +102,18 @@ export function SeamlessStarryBackground() {
         lastTime = timestamp - (deltaTime % interval)
         time += 0.01
 
-        // 创建渐变背景
+        // Create gradient background
         const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
-        gradient.addColorStop(0, "#0f0326") // 顶部深紫色
-        gradient.addColorStop(0.5, "#170b3b") // 中间紫色
-        gradient.addColorStop(1, "#0f0326") // 底部深紫色
+        gradient.addColorStop(0, "#0f0326") // Deep purple at top
+        gradient.addColorStop(0.5, "#170b3b") // Purple in middle
+        gradient.addColorStop(1, "#0f0326") // Deep purple at bottom
 
         ctx.fillStyle = gradient
         ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-        // 绘制带闪烁效果的星星
+        // Draw stars with twinkling effect
         for (const star of stars) {
-          // 计算闪烁效果
+          // Calculate twinkling effect
           const twinkle = Math.sin(time * star.twinkleSpeed * 5 + star.twinklePhase) * 0.3 + 0.7
           const currentOpacity = star.opacity * twinkle
 
@@ -122,7 +122,7 @@ export function SeamlessStarryBackground() {
           ctx.fillStyle = star.color.replace("1)", `${currentOpacity})`)
           ctx.fill()
 
-          // 为较大的星星添加微妙的光晕
+          // Add subtle glow for larger stars
           if (star.size > 1) {
             ctx.beginPath()
             ctx.arc(star.x, star.y, star.size * 2, 0, Math.PI * 2)
@@ -140,7 +140,7 @@ export function SeamlessStarryBackground() {
 
     animationFrameId = requestAnimationFrame(render)
 
-    // 处理窗口大小调整
+    // Handle window resize
     const handleResize = () => {
       setCanvasDimensions(canvas)
       stars = generateStars(canvas) // 调整大小时重新生成星星

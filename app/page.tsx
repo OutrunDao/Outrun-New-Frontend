@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { RetroSun } from "@/components/retro-sun"
 import { ModuleCard } from "@/components/module-card"
 import { GradientCard } from "@/components/gradient-card"
-// 重新添加 ParticleCanvas 的导入
+// Re-add ParticleCanvas import
 import { ParticleCanvas } from "@/components/particle-canvas"
 
 export default function Home() {
@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <div ref={containerRef} className="relative">
-      {/* 重新添加 ParticleCanvas 组件，与其他页面保持一致 */}
+      {/* Add ParticleCanvas component to maintain consistency with other pages */}
       <ParticleCanvas className="fixed inset-0 -z-10" />
 
       {/* Hero Section */}

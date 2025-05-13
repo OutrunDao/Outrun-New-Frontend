@@ -3,10 +3,10 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 
 /**
- * 节流函数，限制函数的执行频率
- * @param value 要节流的值
- * @param limit 节流时间间隔（毫秒）
- * @returns 节流后的值
+ * Throttle function that limits execution frequency
+ * @param value Value to throttle
+ * @param limit Throttle time interval in milliseconds
+ * @returns Throttled value
  */
 export function useThrottle<T>(value: T, limit = 200): T {
   const [throttledValue, setThrottledValue] = useState<T>(value)
@@ -33,10 +33,10 @@ export function useThrottle<T>(value: T, limit = 200): T {
 }
 
 /**
- * 节流函数，限制函数的执行频率
- * @param fn 要节流的函数
- * @param limit 节流时间间隔（毫秒）
- * @returns 节流后的函数
+ * Throttle function that limits execution frequency
+ * @param fn Function to throttle
+ * @param limit Throttle time interval in milliseconds
+ * @returns Throttled function
  */
 export function useThrottleFn<T extends (...args: any[]) => any>(fn: T, limit = 200): T {
   const lastRan = useRef<number>(Date.now())
@@ -69,7 +69,7 @@ export function useThrottleFn<T extends (...args: any[]) => any>(fn: T, limit = 
     [fn, limit],
   ) as T
 
-  // 清理函数
+  // Cleanup function
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {

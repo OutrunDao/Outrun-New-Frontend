@@ -8,7 +8,7 @@ interface ReferralHistoryProps {
   view: "history" | "friends"
 }
 
-// 更新交易记录���据结构，添加network字段和txHash字段
+// Update transaction record data structure, add network field and txHash field
 interface TradeRecord {
   id: number
   path: {
@@ -24,7 +24,7 @@ interface TradeRecord {
   txHash?: string // 交易哈希，用于链接到区块浏览器
 }
 
-// 被推荐人数据结构
+// Referred friend data structure
 interface ReferredFriend {
   id: number
   joinDate: string
@@ -33,7 +33,7 @@ interface ReferredFriend {
   earned: string
 }
 
-// 简单的网络图标组件 - 移除背景
+// Simple network icon component - remove background
 function SimpleNetworkIcon({ networkId }: { networkId: string }) {
   const { networks } = useNetwork()
   const network = networks.find((n) => n.id === networkId)
@@ -60,7 +60,7 @@ function SimpleNetworkIcon({ networkId }: { networkId: string }) {
   )
 }
 
-// 修改ReferralHistory组件的样式，使其与LiquidityPoolsTable组件保持一致
+// Modify ReferralHistory component style to keep consistent with LiquidityPoolsTable component
 export function ReferralHistory({ view = "history" }: ReferralHistoryProps) {
   const isMobile = useMobile()
 

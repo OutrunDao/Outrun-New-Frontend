@@ -4,29 +4,6 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.5rem;
-  }
-
-  .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -46,6 +23,7 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    --radius: 0.5rem;
   }
 }
 
@@ -68,6 +46,16 @@
   /* 添加以下规则来隐藏 WebKit 浏览器的滚动条 */
   body::-webkit-scrollbar {
     display: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 0;
+    padding-top: 0;
   }
 }
 
@@ -170,7 +158,7 @@ html {
   text-shadow: 0 0 4px rgba(168, 85, 247, 0.3), 0 0 8px rgba(236, 72, 153, 0.2);
 }
 
-/* Outrun ���航样式 */
+/* Outrun 航样式 */
 
 /* 排版样式 */
 .nav-text {
@@ -592,8 +580,6 @@ html {
 
 /* 添加一些全局样式，确保数字显示使用更硬朗的字体 */
 
-/* 在文件末尾添加以下样式 */
-
 /* 添加更多硬朗的数字显示样式 */
 .tvl-value,
 .volume-value,
@@ -666,4 +652,131 @@ html {
   width: 24px;
   height: 24px;
   object-fit: contain;
+}
+
+/* 项目卡片悬停效果 - 使用纯缩放实现上浮效果 */
+.card-container {
+  position: relative;
+  z-index: 1;
+  transform-origin: center center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card-float-wrapper {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+}
+
+/* 悬停时应用缩放效果，创造上浮的视觉感受 */
+.card-container:hover .card-float-wrapper {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px var(--hover-shadow-color, rgba(168, 85, 247, 0.3));
+}
+
+/* 链图标悬停效果 */
+.chain-icon-container:hover .chain-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* 添加阴影效果增强立体感 */
+.card-container:hover {
+  z-index: 2;
+}
+
+/* 为不同阶段的卡片添加不同的悬停阴影效果 */
+.card-container[data-stage="Genesis"]:hover .card-float-wrapper {
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
+}
+
+.card-container[data-stage="Locked"]:hover .card-float-wrapper {
+  box-shadow: 0 0 25px rgba(236, 72, 153, 0.4);
+}
+
+.card-container[data-stage="Unlocked"]:hover .card-float-wrapper {
+  box-shadow: 0 0 25px rgba(6, 182, 212, 0.5), 0 0 40px rgba(6, 182, 212, 0.2);
+}
+
+.card-container[data-stage="Refund"]:hover .card-float-wrapper {
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.5), 0 0 40px rgba(239, 68, 68, 0.2);
+}
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+/* 添加卡片容器响应式样式 */
+.card-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.card-float-wrapper {
+  transition: all 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, box-shadow;
+}
+
+.card-container:hover .card-float-wrapper {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 0 20px var(--hover-shadow-color, rgba(168, 85, 247, 0.4));
+}
+
+/* 添加媒体查询，处理中等尺寸屏幕的卡片高度问题 */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .card-container .card-float-wrapper {
+    height: 100%;
+  }
+
+  .card-container .card-float-wrapper > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-container .card-float-wrapper > div > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-container .card-float-wrapper > div > div > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@keyframes gradient-x {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-x {
+  background-size: 200% 100%;
+  animation: gradient-x 3s ease infinite;
 }

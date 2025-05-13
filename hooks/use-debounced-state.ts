@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 
 /**
- * 创建一个防抖状态，当值快速变化时，只在指定延迟后更新状态
- * @param initialValue 初始值
- * @param delay 延迟时间（毫秒）
+ * Creates a debounced state that only updates after a specified delay when values change rapidly
+ * @param initialValue Initial value
+ * @param delay Delay time in milliseconds
  * @returns [debouncedValue, setValue, immediateValue]
  */
 export function useDebouncedState<T>(initialValue: T, delay = 300): [T, (value: T) => void, T] {
@@ -13,7 +13,7 @@ export function useDebouncedState<T>(initialValue: T, delay = 300): [T, (value: 
   const [debouncedValue, setDebouncedValue] = useState<T>(initialValue)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
 
-  // 清理定时器
+  // Clean up timer
   useEffect(() => {
     return () => {
       if (timerRef.current) {
@@ -22,7 +22,7 @@ export function useDebouncedState<T>(initialValue: T, delay = 300): [T, (value: 
     }
   }, [])
 
-  // 设置值的函数
+  // Function to set value
   const setValue = useCallback(
     (value: T) => {
       setImmediateValue(value)

@@ -15,7 +15,7 @@ import { useWallet } from "@/contexts/wallet-context"
 import { useMobile } from "@/hooks/use-mobile"
 
 export default function AddLiquidityPage() {
-  // 状态管理
+  // State management
   const [token1, setToken1] = useState(COMMON_TOKENS[0]) // ETH
   const [token2, setToken2] = useState(COMMON_TOKENS[2]) // USDC
   const [token1Amount, setToken1Amount] = useState<string>("")
@@ -33,7 +33,7 @@ export default function AddLiquidityPage() {
   const [isPriceReversed, setIsPriceReversed] = useState(false) // 价格是否反转
   const isMobile = useMobile() // 检测是否为移动设备
 
-  // 模拟价格数据
+  // Mock price data
   const mockPrices = {
     ETH: 3450.78,
     USDC: 1.0,
@@ -42,18 +42,18 @@ export default function AddLiquidityPage() {
     WBTC: 62150.25,
   }
 
-  // 费率选项
+  // Fee tier options
   const feeTiers = ["0.30%", "1.00%"]
 
-  // 引用
+  // References
   const feeTierRef = useRef<HTMLDivElement>(null)
   const settingsPanelRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
 
-  // 钱包连接
+  // Wallet connection
   const { isConnected } = useWallet()
 
-  // 计算美元价值 - 使用千位分隔符
+  // Calculate USD value - using thousands separator
   const calculateUsdValue = (amount: string, symbol: string) => {
     if (!amount || isNaN(Number(amount))) return "--"
     const price = mockPrices[symbol as keyof typeof mockPrices] || 0
@@ -64,7 +64,7 @@ export default function AddLiquidityPage() {
     })
   }
 
-  // 计算起始价格
+  // Calculate starting price
   useEffect(() => {
     if (
       token1Amount &&
@@ -82,7 +82,7 @@ export default function AddLiquidityPage() {
     }
   }, [token1Amount, token2Amount])
 
-  // 处理点击外部关闭费率下拉菜单
+  // Handle clicking outside to close the fee tier dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (feeTierRef.current && !feeTierRef.current.contains(event.target as Node)) {
@@ -105,7 +105,7 @@ export default function AddLiquidityPage() {
     }
   }, [showFeeTierDropdown, showSettings])
 
-  // 处理输入变化
+  // Handle input changes
   const handleToken1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     if (/^[0-9]*[.]?[0-9]*$/.test(value) || value === "") {
@@ -120,7 +120,7 @@ export default function AddLiquidityPage() {
     }
   }
 
-  // 设置最大数量 - 移除所有非数字字符
+  // Set maximum amount - remove all non-numeric characters
   const setMaxToken1 = () => {
     // 移除所有非数字和小数点字符
     const cleanBalance = token1.balance ? token1.balance.replace(/[^\d.]/g, "") : "0"
@@ -133,12 +133,12 @@ export default function AddLiquidityPage() {
     setToken2Amount(cleanBalance)
   }
 
-  // 反转价格显示
+  // Reverse price display
   const handleReversePrice = () => {
     setIsPriceReversed(!isPriceReversed)
   }
 
-  // 获取显示价格
+  // Get display price
   const getDisplayPrice = () => {
     if (!startingPrice || startingPrice === "0") return "--"
 
@@ -168,25 +168,25 @@ export default function AddLiquidityPage() {
     }
   }
 
-  // 检查是否可以添加流动性
+  // Check if liquidity can be added
   const canAddLiquidity =
     token1Amount !== "" &&
     token2Amount !== "" &&
     Number.parseFloat(token1Amount) > 0 &&
     Number.parseFloat(token2Amount) > 0
 
-  // 检查是否显示起始价格
+  // Check if starting price should be displayed
   const shouldShowStartingPrice =
     isNewPool && token1Amount && token2Amount && Number(token1Amount) > 0 && Number(token2Amount) > 0
 
-  // 返回按钮组件 - 根据设备类型渲染不同样式
+  // Back button component - renders different styles based on device type
   const BackButton = () => {
-    // 移动设备上不渲染返回按钮，因为会在卡片内部渲染
+    // Don't render the back button on mobile devices as it will be rendered inside the card
     if (isMobile) {
       return null
     }
 
-    // PC端的返回按钮
+    // Back button for desktop
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -218,10 +218,10 @@ export default function AddLiquidityPage() {
       {/* 主要内容 */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 py-16 relative">
         <div className="w-full max-w-sm relative" ref={cardRef}>
-          {/* PC端的返回按钮 */}
+          {/* Back button for desktop */}
           <BackButton />
 
-          {/* 添加流动性卡片 */}
+          {/* Add liquidity card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -232,10 +232,10 @@ export default function AddLiquidityPage() {
               border: "1px solid rgba(236,72,153,0.3)",
             }}
           >
-            {/* 背景渐变 */}
+            {/* Background gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326]/90 via-[#1a0445]/90 to-[#0f0326]/90 backdrop-blur-xl" />
 
-            {/* 网格背景 */}
+            {/* Grid background */}
             <div
               className="absolute inset-0 opacity-10"
               style={{
@@ -246,16 +246,16 @@ export default function AddLiquidityPage() {
               }}
             />
 
-            {/* 底部发光效果 */}
+            {/* Bottom glow effect */}
             <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-purple-600/10 to-transparent" />
 
-            {/* 卡片内容 */}
+            {/* Card content */}
             <div className="relative pt-3 pb-5 px-5">
-              {/* 卡片头部 */}
+              {/* Card header */}
               <div className="flex items-center justify-between mb-4">
                 {isMobile ? (
                   <>
-                    {/* 移动设备上的布局 - 三栏布局使标题居中 */}
+                    {/* Mobile layout - three-column layout to center the title */}
                     <Link
                       href="/outswap/liquidity"
                       className="text-pink-300 hover:text-pink-300 transition-colors"
@@ -290,7 +290,7 @@ export default function AddLiquidityPage() {
                   </>
                 ) : (
                   <>
-                    {/* PC端的原有布局 */}
+                    {/* Original desktop layout */}
                     <div className="flex items-center">
                       <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]">
                         ADD LIQUIDITY
@@ -500,7 +500,7 @@ export default function AddLiquidityPage() {
                       background: "linear-gradient(to bottom, #0f0326, #1a0445)",
                     }}
                   >
-                    {/* 网格背景 */}
+                    {/* Grid background */}
                     <div
                       className="absolute inset-0 opacity-10"
                       style={{
@@ -530,7 +530,7 @@ export default function AddLiquidityPage() {
                             {tier} Fee Tier
                           </div>
 
-                          {/* 悬停效果框 - 只在当前悬停的选项上显示 */}
+                          {/* Hover effect box - only displayed on the currently hovered option */}
                           {hoveredFeeTier === tier && (
                             <div
                               className="absolute rounded"
@@ -624,7 +624,7 @@ export default function AddLiquidityPage() {
                 </div>
               </div>
 
-              {/* 起始价格 - 仅在新池子且有输入时显示 */}
+              {/* Starting price - only displayed for new pools with input */}
               {shouldShowStartingPrice && (
                 <div className="mb-4">
                   <div
@@ -650,7 +650,7 @@ export default function AddLiquidityPage() {
                 </div>
               )}
 
-              {/* 添加流动性按钮 */}
+              {/* Add liquidity button */}
               <Button
                 disabled={!canAddLiquidity}
                 className={`w-full bg-gradient-to-r from-purple-600/90 to-pink-600/90 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-md h-10 text-sm shadow-[0_0_10px_rgba(168,85,247,0.3)]`}

@@ -1,5 +1,5 @@
 /**
- * 格式化货币值
+ * Format currency value
  */
 export function formatCurrency(value: string): string {
   if (!value) return ""
@@ -14,7 +14,7 @@ export function formatCurrency(value: string): string {
 }
 
 /**
- * 格式化美元值
+ * Format dollar value
  */
 export function formatDollarValue(value: number): string {
   if (value < 0.01) return "<$0.01"
@@ -22,7 +22,7 @@ export function formatDollarValue(value: number): string {
 }
 
 /**
- * 格式化地址，显示前6位和后4位
+ * Format address, showing first 6 and last 4 characters
  */
 export function formatAddress(address?: string): string {
   if (!address) return ""
@@ -30,7 +30,7 @@ export function formatAddress(address?: string): string {
 }
 
 /**
- * 根据价格影响获取颜色
+ * Get color based on price impact
  */
 export function getPriceImpactColor(priceImpact: string): string {
   const impact = Number.parseFloat(priceImpact)
@@ -38,4 +38,31 @@ export function getPriceImpactColor(priceImpact: string): string {
   if (impact < 0.5) return "text-green-300"
   if (impact < 1) return "text-yellow-400"
   return "text-red-400"
+}
+
+/**
+ * Format date time
+ */
+export function formatDateTime(dateTimeStr: string): string {
+  const date = new Date(dateTimeStr)
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  })
+}
+
+/**
+ * Format market cap
+ */
+export function formatMarketCap(value: number): string {
+  if (value >= 1000000) {
+    return `${(value / 1000000).toFixed(2)}M`
+  } else if (value >= 1000) {
+    return `${(value / 1000).toFixed(2)}K`
+  } else {
+    return `${value}`
+  }
 }

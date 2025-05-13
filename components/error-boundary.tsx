@@ -22,12 +22,12 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public static getDerivedStateFromError(error: Error): State {
-    // 更新 state，下次渲染时将显示降级 UI
+    // Update state so fallback UI will be displayed on next render
     return { hasError: true, error, errorInfo: null }
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // 可以将错误日志上报给服务
+    // Can report error logs to a service
     console.error("Error caught by ErrorBoundary:", error, errorInfo)
     this.setState({ errorInfo })
   }
@@ -38,12 +38,12 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      // 如果提供了自定义的降级 UI，则使用它
+      // Use custom fallback UI if provided
       if (this.props.fallback) {
         return this.props.fallback
       }
 
-      // 否则使用默认的降级 UI
+      // Otherwise use default fallback UI
       return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#0f0326] via-[#1a0445] to-[#0f0326]">
           <div className="max-w-md w-full p-8 rounded-xl bg-black/60 backdrop-blur-lg border border-white/10">

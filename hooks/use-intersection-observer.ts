@@ -10,10 +10,10 @@ interface UseIntersectionObserverProps {
 }
 
 /**
- * 使用 Intersection Observer API 检测元素是否在视口中
- * @param elementRef 要观察的元素引用
- * @param options 配置选项
- * @returns 元素是否在视口中
+ * Uses Intersection Observer API to detect if an element is in the viewport
+ * @param elementRef Reference to the element to observe
+ * @param options Configuration options
+ * @returns Whether the element is in the viewport
  */
 export function useIntersectionObserver(
   elementRef: RefObject<Element>,

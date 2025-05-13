@@ -42,7 +42,7 @@ export function useTokenSwap(
   const [priceImpact, setPriceImpact] = useState("0.2")
   const [isRateReversed, setIsRateReversed] = useState(false)
 
-  // 使用 useMemo 计算汇率，避免不必要的重新计算
+  // Use useMemo to calculate exchange rate to avoid unnecessary recalculations
   const calculatedExchangeRate = useMemo(() => {
     if (fromToken.price && toToken.price) {
       return fromToken.price / toToken.price
@@ -50,12 +50,12 @@ export function useTokenSwap(
     return 0
   }, [fromToken.price, toToken.price])
 
-  // 当计算的汇率变化时更新状态
+  // Update state when calculated exchange rate changes
   useEffect(() => {
     setExchangeRate(calculatedExchangeRate)
   }, [calculatedExchangeRate])
 
-  // 使用 useCallback 优化函数
+  // Use useCallback to optimize functions
   const handleSwapTokens = useCallback(() => {
     setFromToken(toToken)
     setToToken(fromToken)
@@ -116,7 +116,7 @@ export function useTokenSwap(
     setIsRateReversed((prev) => !prev)
   }, [])
 
-  // 添加计算交换的函数
+  // Add function to calculate swap
   const calculateSwap = useCallback((fromToken: Token, toToken: Token, amount: number): number => {
     if (!fromToken.price || !toToken.price) return 0
     const rate = fromToken.price / toToken.price

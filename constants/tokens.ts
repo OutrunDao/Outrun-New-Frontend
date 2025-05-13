@@ -22,7 +22,7 @@ export const TOKEN_COLORS: Record<string, string> = {
   WBTC: "#F7931A",
 }
 
-// 定义常用的代币列表
+// Define common token list
 export const TOKENS: Token[] = [
   {
     symbol: "ETH",

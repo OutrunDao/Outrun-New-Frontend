@@ -9,22 +9,22 @@ export function GlobalBackground() {
 
   return (
     <>
-      {/* 星空背景 */}
+      {/* Starry background */}
       <SeamlessStarryBackground />
 
-      {/* 网格背景 - 添加全局网格背景 */}
+      {/* Grid background - Add global grid background */}
       <div
         className="fixed inset-0 bg-grid-pattern bg-center opacity-10 -z-20 pointer-events-none"
         style={{
-          opacity: isVisible ? 0.14 : 0, // 网格透明度
+          opacity: isVisible ? 0.14 : 0, // Grid opacity
           transition: "opacity 0.3s ease-in-out",
         }}
       />
 
-      {/* 粒子效果 - 仅在客户��水合后显示，避免闪烁 */}
+      {/* Particle effect - Only show after client-side hydration to avoid flickering */}
       <ParticleCanvas className="fixed inset-0 w-full h-full -z-10" />
 
-      {/* 固定的深色背景，作为底层背景，防止闪白 */}
+      {/* Fixed dark background as base layer to prevent white flashing */}
       <div
         className="fixed inset-0 -z-30"
         style={{

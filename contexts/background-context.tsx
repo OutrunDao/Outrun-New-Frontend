@@ -12,7 +12,7 @@ const BackgroundContext = createContext<BackgroundContextType | undefined>(undef
 export function BackgroundProvider({ children }: { children: ReactNode }) {
   const [isVisible, setIsVisible] = useState(false)
 
-  // 在客户端水合完成后显示背景
+  // Display background after client-side hydration is complete
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setIsVisible(true)

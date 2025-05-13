@@ -20,11 +20,6 @@ export default function MemeversePage() {
   const titleOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0.8])
   const titleY = useTransform(scrollYProgress, [0, 0.1], [0, -20])
 
-  // 模仿导航栏的跳转方式
-  const handleNavigate = (href: string) => {
-    router.push(href)
-  }
-
   return (
     <div ref={containerRef} className="relative flex flex-col min-h-screen">
       {/* Background elements - UPDATED to match main page */}
@@ -67,22 +62,13 @@ export default function MemeversePage() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              {/* 完全模仿导航栏的链接方式 */}
+              {/* 完全模仿导航栏的链接方式 - 使用a标签样式而不是button */}
               <Link
                 href="/memeverse/board"
-                className="inline-block"
-                onClick={(e) => {
-                  e.preventDefault()
-                  handleNavigate("/memeverse/board")
-                }}
+                className="px-8 h-12 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-base font-medium flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.5)] transition-all duration-300"
               >
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-8 h-12 text-base shadow-[0_0_15px_rgba(168,85,247,0.5)]"
-                >
-                  Explore Memeverse
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                Explore Memeverse
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
 
               <div className="relative group">
@@ -403,21 +389,12 @@ export default function MemeversePage() {
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    {/* 同样模仿导航栏的链接方式 */}
+                    {/* 同样使用a标签样式而不是button */}
                     <Link
                       href="/memeverse/board"
-                      className="inline-block"
-                      onClick={(e) => {
-                        e.preventDefault()
-                        handleNavigate("/memeverse/board")
-                      }}
+                      className="px-8 h-12 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-base font-medium flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.5)] transition-all duration-300"
                     >
-                      <Button
-                        size="lg"
-                        className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-8 h-12 text-base shadow-[0_0_15px_rgba(168,85,247,0.5)]"
-                      >
-                        Launch App
-                      </Button>
+                      Launch App
                     </Link>
 
                     <div className="relative group">

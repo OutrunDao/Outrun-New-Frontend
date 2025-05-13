@@ -4,6 +4,7 @@ import { useRef } from "react"
 import Link from "next/link"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowRight, ArrowLeftRight, Shield, Users } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { SectionHeading } from "@/components/ui/section-heading"
@@ -14,6 +15,7 @@ import { EnhancedSwapInterface } from "@/components/enhanced-swap-interface"
 export default function OutSwapPage() {
   const { scrollYProgress } = useScroll()
   const containerRef = useRef<HTMLDivElement>(null)
+  const router = useRouter()
 
   const titleOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0.8])
   const titleY = useTransform(scrollYProgress, [0, 0.1], [0, -20])
@@ -60,15 +62,16 @@ export default function OutSwapPage() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              <Link href="/outswap/swap">
+              <div className="relative group cursor-pointer" onClick={() => router.push("/outswap/swap")}>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-30 blur-[2px] group-hover:opacity-50 transition duration-300"></div>
                 <Button
                   size="lg"
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-8 h-12 text-base shadow-[0_0_15px_rgba(168,85,247,0.5)]"
+                  className="relative bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-8 h-12 text-base w-full shadow-[0_0_10px_rgba(168,85,247,0.3)]"
                 >
                   Start Trading
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-              </Link>
+              </div>
             </motion.div>
           </div>
         </div>

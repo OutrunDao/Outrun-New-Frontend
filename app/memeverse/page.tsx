@@ -1,7 +1,6 @@
 "use client"
 
 import { useRef } from "react"
-import Link from "next/link"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowRight, Stars, Coins, Gavel, Rocket, Shield, Unlock } from "lucide-react"
 
@@ -59,26 +58,14 @@ export default function MemeversePage() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              <Link href="/memeverse/board">
+              <div className="relative group cursor-pointer" onClick={() => router.push("/memeverse/board")}>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-30 blur-[2px] group-hover:opacity-50 transition duration-300"></div>
                 <Button
                   size="lg"
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-8 h-12 text-base shadow-[0_0_15px_rgba(168,85,247,0.5)]"
+                  className="relative bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-8 h-12 text-base w-full shadow-[0_0_10px_rgba(168,85,247,0.3)]"
                 >
                   Explore Memeverse
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-
-              <div className="relative group">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-70 blur-sm group-hover:opacity-100 transition duration-300"></div>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="relative bg-black/50 backdrop-blur-sm border-0 text-white rounded-full px-8 h-12 text-base w-full 
-      group-hover:bg-black/70 transition-all duration-300"
-                  onClick={() => window.open("https://outrun.gitbook.io/doc/memeverse", "_blank")}
-                >
-                  Read Documentation
                 </Button>
               </div>
             </motion.div>
@@ -387,15 +374,18 @@ export default function MemeversePage() {
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button
-                      size="lg"
-                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-8 h-12 text-base shadow-[0_0_15px_rgba(168,85,247,0.5)]"
-                    >
-                      Launch App
-                    </Button>
+                    <div className="relative group cursor-pointer">
+                      <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-30 blur-[2px] group-hover:opacity-50 transition duration-300"></div>
+                      <Button
+                        size="lg"
+                        className="relative bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 rounded-full px-8 h-12 text-base w-full shadow-[0_0_10px_rgba(168,85,247,0.3)]"
+                      >
+                        Launch App
+                      </Button>
+                    </div>
 
                     <div className="relative group">
-                      <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-70 blur-sm group-hover:opacity-100 transition duration-300"></div>
+                      <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-30 blur-[2px] group-hover:opacity-50 transition duration-300"></div>
                       <Button
                         size="lg"
                         variant="outline"

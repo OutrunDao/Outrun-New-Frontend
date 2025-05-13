@@ -65,19 +65,6 @@ export default function FFLaunchPage() {
                 Explore Projects
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-
-              <div className="relative group">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-70 blur-sm group-hover:opacity-100 transition duration-300"></div>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="relative bg-black/50 backdrop-blur-sm border-0 text-white rounded-full px-8 h-12 text-base w-full 
-      group-hover:bg-black/70 transition-all duration-300"
-                  onClick={() => window.open("https://outrun.gitbook.io/doc/fflaunch", "_blank", "noopener,noreferrer")}
-                >
-                  Read Documentation
-                </Button>
-              </div>
             </motion.div>
           </div>
         </div>

@@ -9,6 +9,7 @@ import { SectionHeading } from "@/components/ui/section-heading"
 import { ParticleCanvas } from "@/components/particle-canvas"
 import { useRouter } from "next/navigation"
 import { MOCK_PROJECTS } from "@/data/memeverse-projects"
+import { ChainTooltip } from "@/components/memeverse/chain-tooltip"
 
 // Stage label color mapping
 const STAGE_COLORS: Record<string, { bg: string; text: string; glow: string; gradient: string }> = {
@@ -85,7 +86,6 @@ const SORT_OPTIONS: any = {
     { id: "createdAt", label: "Creation Time" },
     { id: "marketCap", label: "Trading Volume" },
     { id: "stakingApy", label: "Staking APY" },
-    { id: "treasuryFund", label: "Treasury Fund" },
   ],
 }
 
@@ -743,7 +743,7 @@ function ProjectCard({ project }: { project: any }) {
       onClick={handleCardClick}
       data-stage={project.stage}
     >
-      {/* Use an outer container to handle hover effects without affecting the border */}
+      {/* Use an outer container to handle hover effects */}
       <div
         className="card-float-wrapper"
         style={
@@ -829,12 +829,7 @@ function ProjectCard({ project }: { project: any }) {
                       <span className="text-pink-300/90 mr-1">Omnichain:</span>
                       <div className="flex">
                         {project.omnichain?.map((chain, index) => (
-                          <div key={index} className="relative group/chain">
-                            <img src={chain.icon || "/placeholder.svg"} alt={chain.name} className="w-4 h-4 ml-0.5" />
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-gradient-to-r from-purple-900/90 to-pink-900/90 backdrop-blur-sm text-[10px] text-pink-200 px-1.5 py-0.5 rounded shadow-[0_0_8px_rgba(168,85,247,0.3)] border border-pink-500/20 opacity-0 invisible group-hover/chain:visible group-hover/chain:opacity-100 transition-all duration-200 whitespace-nowrap z-[100]">
-                              {chain.name}
-                            </div>
-                          </div>
+                          <ChainTooltip key={index} chainName={chain.name} chainIcon={chain.icon} />
                         ))}
                       </div>
                     </div>

@@ -374,7 +374,7 @@ export default function MemeversePage() {
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <div className="relative group cursor-pointer">
+                    <div className="relative group cursor-pointer" onClick={() => router.push("/memeverse/board")}>
                       <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-30 blur-[2px] group-hover:opacity-50 transition duration-300"></div>
                       <Button
                         size="lg"

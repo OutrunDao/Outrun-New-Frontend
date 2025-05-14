@@ -265,12 +265,12 @@ export default function VerseDetailPage() {
   }
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen" style={{ overflow: "visible" }}>
       {/* Background elements */}
       <ParticleCanvas className="fixed inset-0 -z-10" />
 
       {/* Page content - increased top spacing */}
-      <div className="max-w-5xl px-4 md:px-6 mx-auto py-12">
+      <div className="max-w-5xl px-4 md:px-6 mx-auto py-12" style={{ overflow: "visible" }}>
         {/* Back button - Outrun风格美化 */}
         <Button
           onClick={handleBackClick}
@@ -327,9 +327,11 @@ export default function VerseDetailPage() {
           ></div>
 
           {/* 底部发光效果 */}
-          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-purple-600/5 to-transparent"></div>
 
-          <div className="relative flex flex-col lg:flex-row gap-4 md:gap-6 items-start">
+          <div
+            className="relative flex flex-col lg:flex-row gap-4 md:gap-6 items-start"
+            style={{ overflow: "visible" }}
+          >
             {/* Use vertical layout on small and medium screens */}
             <div className="w-full lg:hidden flex flex-col gap-4">
               <ProjectDetails project={verse} stageStyle={stageStyle} onBackClick={handleBackClick} />
@@ -377,7 +379,6 @@ export default function VerseDetailPage() {
           ></div>
 
           {/* 底部发光效果 */}
-          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-purple-600/5 to-transparent"></div>
 
           {/* 重新设计的标签导航 */}
           <div className="relative">

@@ -4,26 +4,65 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
     --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
   }
 }
 
@@ -33,30 +72,27 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-    /* 添加以下属性 */
-    overflow-x: hidden;
-    /* 禁止水平滚动 */
-    scrollbar-width: none;
-    /* Firefox */
-    -ms-overflow-style: none;
-    /* IE and Edge */
   }
+}
 
-  /* 添加以下规则来隐藏 WebKit 浏览器的滚动条 */
-  body::-webkit-scrollbar {
-    display: none;
-  }
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin-top: 0;
-    padding-top: 0;
-  }
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.7);
 }
 
 :root {
@@ -298,485 +334,3 @@ html {
 }
 
 /* 移动端子菜单样式 - 新增 */
-.mobile-submenu-container {
-  position: relative;
-  background-color: rgba(26, 4, 69, 0.3);
-  border-radius: 0.75rem;
-  margin: 0.5rem;
-  border: 1px solid rgba(168, 85, 247, 0.1);
-  overflow: hidden;
-}
-
-.mobile-submenu-bg {
-  background: linear-gradient(135deg, rgba(15, 3, 38, 0.75), rgba(26, 4, 69, 0.75));
-  backdrop-filter: blur(12px);
-  border-radius: 0.75rem;
-}
-
-.mobile-submenu-grid {
-  background-image: url("/grid.svg");
-  background-repeat: repeat;
-  opacity: 0.15;
-  border-radius: 0.75rem;
-}
-
-.mobile-submenu-item {
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.mobile-submenu-item::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  border-radius: 0.5rem;
-}
-
-.mobile-submenu-item:hover::before {
-  opacity: 1;
-}
-
-/* 导航指示器动画 */
-.nav-indicator {
-  box-shadow: 0 0 5px rgba(168, 85, 247, 0.4), 0 0 10px rgba(236, 72, 153, 0.2);
-}
-
-/* 流动虚线动画 */
-.flowing-dash-line-right {
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 0%);
-  background-position: bottom;
-  background-size: 8px 2px; /* 更小的虚线 */
-  background-repeat: repeat-x;
-  animation: flow-right 0.8s linear infinite;
-}
-
-/* 为小屏幕添加媒体查询 */
-@media (max-width: 640px) {
-  .flowing-dash-line-right {
-    background-size: 6px 2px; /* 移动设备上更小的虚线 */
-    animation: flow-right 0.6s linear infinite; /* 移动设备上稍快的动画 */
-  }
-}
-
-@keyframes flow-right {
-  0% {
-    background-position: 0px bottom;
-  }
-  100% {
-    background-position: 8px bottom; /* 匹配较小的虚线大小 */
-  }
-}
-
-/* 为移动设备添加特定动画 */
-@media (max-width: 640px) {
-  @keyframes flow-right {
-    0% {
-      background-position: 0px bottom;
-    }
-    100% {
-      background-position: 6px bottom; /* 匹配较小的虚线大小 */
-    }
-  }
-}
-
-/* 动画 */
-@keyframes gradient-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes pulse-glow {
-  0%,
-  100% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 0.8;
-  }
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-3px);
-  }
-}
-
-/* 工具提示样式 */
-.tooltip {
-  z-index: 99999 !important;
-  pointer-events: none !important;
-}
-
-.tooltip-enter {
-  opacity: 0;
-  transform: scale(0.9);
-}
-
-.tooltip-enter-active {
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity 200ms, transform 200ms;
-}
-
-.tooltip-exit {
-  opacity: 1;
-}
-
-.tooltip-exit-active {
-  opacity: 0;
-  transition: opacity 100ms;
-}
-
-/* 页面过渡效果 */
-.page-transition {
-  opacity: 1;
-  transition: opacity 300ms ease;
-}
-
-/* 确保页面内容在过渡期间可见 */
-#__next {
-  position: relative;
-}
-
-/* 页面过渡动画类 */
-.page-transition-enter {
-  opacity: 0;
-}
-
-.page-transition-enter-active {
-  opacity: 1;
-  transition: opacity 300ms ease;
-}
-
-.page-transition-exit {
-  opacity: 1;
-}
-
-.page-transition-exit-active {
-  opacity: 0;
-  transition: opacity 300ms ease;
-}
-
-/* 性能优化：减少重绘和重排 */
-.hardware-accelerated {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-  will-change: transform, opacity;
-}
-
-/* Add a CSS-based grid pattern to replace the SVG */
-@layer utilities {
-  .bg-grid-pattern {
-    background-image: linear-gradient(to right, rgba(168, 85, 247, 0.1) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(168, 85, 247, 0.1) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-}
-
-/* Add these styles to the end of your globals.css file */
-
-/* Liquidity page specific styles */
-.liquidity-stats-card {
-  background: linear-gradient(to right, rgba(15, 3, 38, 0.8), rgba(26, 4, 69, 0.8));
-  box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
-  border: 1px solid rgba(236, 72, 153, 0.2);
-  backdrop-filter: blur(12px);
-}
-
-/* 更新流动性池表格样式，使其更符合Outrun风格 */
-.liquidity-table-row:hover {
-  background: linear-gradient(90deg, rgba(15, 3, 38, 0.4), rgba(26, 4, 69, 0.3), rgba(15, 3, 38, 0.4));
-  box-shadow: 0 0 10px rgba(168, 85, 247, 0.1) inset;
-}
-
-.liquidity-table-header {
-  background: linear-gradient(to bottom, rgba(15, 3, 38, 0.9), rgba(26, 4, 69, 0.7));
-  box-shadow: 0 1px 0 rgba(168, 85, 247, 0.1);
-}
-
-.liquidity-pagination-button {
-  transition: all 0.2s ease;
-}
-
-.liquidity-pagination-button:hover {
-  background: rgba(26, 4, 69, 0.6);
-  box-shadow: 0 0 8px rgba(168, 85, 247, 0.2);
-}
-
-.liquidity-pagination-active {
-  background: rgba(26, 4, 69, 0.7);
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  box-shadow: 0 0 8px rgba(168, 85, 247, 0.2), 0 0 15px rgba(168, 85, 247, 0.1) inset;
-}
-
-/* 添加表格网格线效果，增强Outrun风格 */
-.liquidity-table-grid {
-  background-image: linear-gradient(to right, rgba(168, 85, 247, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(168, 85, 247, 0.03) 1px, transparent 1px);
-  background-size: 20px 20px;
-  background-position: center center;
-}
-
-.liquidity-table-row:hover {
-  background: linear-gradient(90deg, rgba(168, 85, 247, 0.05), transparent);
-}
-
-.liquidity-table-header {
-  background: linear-gradient(to bottom, rgba(26, 4, 69, 0.8), rgba(15, 3, 38, 0.8));
-}
-
-.liquidity-pagination-active {
-  background: linear-gradient(to right, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.3));
-  box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
-}
-
-/* Pool pair token icons overlap effect */
-.token-pair-icons {
-  display: flex;
-  margin-right: 0.5rem;
-}
-
-.token-pair-icons > *:not(:first-child) {
-  margin-left: -0.5rem;
-}
-
-/* Glow effect for important numbers */
-.tvl-value,
-.volume-value {
-  text-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
-}
-
-/* Responsive adjustments for mobile */
-@media (max-width: 768px) {
-  .liquidity-table-container {
-    margin: 0 -1rem;
-    width: calc(100% + 2rem);
-    overflow-x: auto;
-  }
-
-  .liquidity-table {
-    min-width: 800px;
-  }
-}
-
-/* 添加一些全局样式，确保数字显示使用更硬朗的字体 */
-
-/* 添加更多硬朗的数字显示样式 */
-.tvl-value,
-.volume-value,
-.font-mono {
-  font-family: "JetBrains Mono", "Roboto Mono", "SF Mono", Menlo, Monaco, Consolas, monospace !important;
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
-}
-
-/* 网络选择器模态框样式 */
-.network-selector-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-
-.network-modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
-}
-
-.network-modal-content {
-  background: linear-gradient(135deg, rgba(26, 4, 69, 0.95), rgba(15, 3, 38, 0.95));
-  border-radius: 16px;
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3), 0 0 40px rgba(236, 72, 153, 0.2);
-  max-width: 420px;
-  width: 100%;
-  margin: 0 16px;
-  overflow: hidden;
-  position: relative;
-  z-index: 101;
-}
-
-.network-item {
-  transition: all 0.2s ease;
-}
-
-.network-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.network-item.active {
-  background: linear-gradient(to right, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.1));
-  border-color: rgba(168, 85, 247, 0.4);
-}
-
-.network-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-.network-icon img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
-/* 项目卡片悬停效果 - 使用纯缩放实现上浮效果 */
-.card-container {
-  position: relative;
-  z-index: 1;
-  transform-origin: center center;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.card-float-wrapper {
-  position: relative;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform-style: preserve-3d;
-  will-change: transform, box-shadow;
-}
-
-/* 悬停时应用缩放效果，创造上浮的视觉感受 */
-.card-container:hover .card-float-wrapper {
-  transform: scale(1.03);
-  box-shadow: 0 0 20px var(--hover-shadow-color, rgba(168, 85, 247, 0.3));
-}
-
-/* 链图标悬停效果 */
-.chain-icon-container:hover .chain-tooltip {
-  visibility: visible;
-  opacity: 1;
-}
-
-/* 添加阴影效果增强立体感 */
-.card-container:hover {
-  z-index: 2;
-}
-
-/* 为不同阶段的卡片添加不同的悬停阴影效果 */
-.card-container[data-stage="Genesis"]:hover .card-float-wrapper {
-  box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
-}
-
-.card-container[data-stage="Locked"]:hover .card-float-wrapper {
-  box-shadow: 0 0 25px rgba(236, 72, 153, 0.4);
-}
-
-.card-container[data-stage="Unlocked"]:hover .card-float-wrapper {
-  box-shadow: 0 0 25px rgba(6, 182, 212, 0.5), 0 0 40px rgba(6, 182, 212, 0.2);
-}
-
-.card-container[data-stage="Refund"]:hover .card-float-wrapper {
-  box-shadow: 0 0 25px rgba(239, 68, 68, 0.5), 0 0 40px rgba(239, 68, 68, 0.2);
-}
-
-:root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 0, 0, 0;
-  --background-end-rgb: 0, 0, 0;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
-}
-
-/* 添加卡片容器响应式样式 */
-.card-container {
-  perspective: 1000px;
-  transform-style: preserve-3d;
-  transition: transform 0.3s ease;
-}
-
-.card-float-wrapper {
-  transition: all 0.3s ease, box-shadow 0.3s ease;
-  will-change: transform, box-shadow;
-}
-
-.card-container:hover .card-float-wrapper {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 0 20px var(--hover-shadow-color, rgba(168, 85, 247, 0.4));
-}
-
-/* 添加媒体查询，处理中等尺寸屏幕的卡片高度问题 */
-@media (max-width: 1023px) and (min-width: 768px) {
-  .card-container .card-float-wrapper {
-    height: 100%;
-  }
-
-  .card-container .card-float-wrapper > div {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-container .card-float-wrapper > div > div {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-container .card-float-wrapper > div > div > div {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-@keyframes gradient-x {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.animate-gradient-x {
-  background-size: 200% 100%;
-  animation: gradient-x 3s ease infinite;
-}

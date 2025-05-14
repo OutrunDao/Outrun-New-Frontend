@@ -2,7 +2,7 @@
 
 import React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { ChevronDown } from "lucide-react"
 import { InfoTooltip } from "@/components/ui/info-tooltip"
 
@@ -67,6 +67,17 @@ export function DepositSection({ availableTokens, providers, myGenesisFunds, onD
   const [selectedProvider, setSelectedProvider] = useState(defaultProvider)
   const [showTokenList, setShowTokenList] = useState(false)
   const [showProviderList, setShowProviderList] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+  const tokenButtonRef = useRef<HTMLButtonElement>(null)
+  const tokenDropdownRef = useRef<HTMLDivElement>(null)
+  const providerButtonRef = useRef<HTMLButtonElement>(null)
+  const providerDropdownRef = useRef<HTMLDivElement>(null)
+
+  // Set isMounted to true after component mounts
+  useEffect(() => {
+    setIsMounted(true)
+    return () => setIsMounted(false)
+  }, [])
 
   // Check if provider selection should be enabled
   const isUETH = selectedToken.symbol === "UETH"
@@ -179,41 +190,128 @@ export function DepositSection({ availableTokens, providers, myGenesisFunds, onD
     }
   }
 
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement
+
+      if (
+        tokenButtonRef.current &&
+        !tokenButtonRef.current.contains(target) &&
+        tokenDropdownRef.current &&
+        !tokenDropdownRef.current.contains(target)
+      ) {
+        setShowTokenList(false)
+      }
+
+      if (
+        providerButtonRef.current &&
+        !providerButtonRef.current.contains(target) &&
+        providerDropdownRef.current &&
+        !providerDropdownRef.current.contains(target)
+      ) {
+        setShowProviderList(false)
+      }
+    }
+
+    if (showTokenList || showProviderList) {
+      document.addEventListener("mousedown", handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [showTokenList, showProviderList])
+
+  useEffect(() => {
+    if (showProviderList) {
+      // 确保所有父容器都不会限制下拉菜单的显示
+      const parentElements = []
+      let parent = providerButtonRef.current?.parentElement
+      while (parent && parent !== document.body) {
+        parentElements.push(parent)
+        parent = parent.parentElement
+      }
+
+      // 保存原始样式
+      const originalStyles = parentElements.map((el) => ({
+        element: el,
+        overflow: el.style.overflow,
+        zIndex: el.style.zIndex,
+        position: el.style.position,
+      }))
+
+      // 应用新样式
+      parentElements.forEach((el) => {
+        el.style.overflow = "visible"
+        if (!el.style.position || el.style.position === "static") {
+          el.style.position = "relative"
+        }
+        if (!el.style.zIndex) {
+          el.style.zIndex = "auto"
+        }
+      })
+
+      // 清理函数
+      return () => {
+        originalStyles.forEach((item) => {
+          item.element.style.overflow = item.overflow
+          item.element.style.zIndex = item.zIndex
+          item.element.style.position = item.position
+        })
+      }
+    }
+  }, [showProviderList])
+
   return (
-    <div className="w-full lg:w-1/4 flex-shrink-0">
+    <div className="w-full lg:w-1/4 flex-shrink-0 deposit-section-container" style={{ overflow: "visible" }}>
+      {/* 主容器 - 创建一个新的堆叠上下文 */}
       <div
         className="bg-[#0f0326]/90 rounded-lg border border-purple-500/40 flex flex-col shadow-[0_4px_20px_-4px_rgba(168,85,247,0.25)]"
-        style={{ aspectRatio: "1/1", height: "auto" }}
+        style={{
+          aspectRatio: "1/1",
+          height: "auto",
+          position: "relative", // 创建新的堆叠上下文
+          overflow: "visible", // 确保溢出内容可见
+        }}
       >
+        {/* 内容容器 */}
         <div className="p-3 flex flex-col h-full justify-between">
           {/* 上部分内容区域 */}
           <div className="space-y-3">
             {/* Token selection and amount input */}
-            <div className="w-full bg-[#1a0f3d]/90 rounded-lg border border-purple-500/40 p-2 backdrop-blur-sm">
+            <div className="w-full bg-[#1a0f3d]/90 rounded-lg border border-purple-500/40 p-2">
               <div className="flex justify-between mb-1">
-                <div className="relative">
+                {/* 代币选择容器 - 设置更高的z-index */}
+                <div className="relative" style={{ zIndex: 6 }}>
                   <button
+                    ref={tokenButtonRef}
                     onClick={() => {
                       setShowTokenList(!showTokenList)
                       if (!showTokenList) setShowProviderList(false)
                     }}
-                    className="flex items-center gap-1.5 bg-[#0f0326]/90 rounded-md px-2 py-1 hover:bg-purple-900/50 transition-colors"
+                    className="flex items-center gap-1.5 bg-[#0f0326]/90 rounded-md px-2 py-1 hover:bg-purple-900/50 transition-colors h-7"
                   >
-                    <div className="w-5 h-5 relative rounded-full overflow-hidden bg-gray-800">
+                    <div className="flex items-center justify-center h-full">
                       <img
                         src={selectedToken.icon || "/placeholder.svg"}
                         alt={selectedToken.symbol}
-                        className="w-full h-full object-contain"
+                        className="w-4 h-4 object-contain"
+                        style={{ marginTop: "1px" }}
                       />
                     </div>
                     <span className="text-white text-sm font-medium">{selectedToken.symbol}</span>
                     <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
                   </button>
 
-                  {/* Token list dropdown positioned relative to the button */}
+                  {/* 代币下拉菜单 */}
                   {showTokenList && (
-                    <div className="absolute top-full left-0 mt-1 w-44 bg-[#0f0326]/95 border border-purple-500/40 rounded-lg shadow-lg z-10 backdrop-blur-sm">
-                      <div className="py-1 max-h-48 overflow-y-auto">
+                    <div
+                      ref={tokenDropdownRef}
+                      className="absolute top-full left-0 mt-1 w-44 bg-[#0f0326]/95 border border-purple-500/40 rounded-lg shadow-lg"
+                      style={{ maxHeight: "200px", overflowY: "auto", zIndex: 6 }}
+                    >
+                      <div className="py-1">
                         {filteredTokens.map((token, index) => (
                           <React.Fragment key={token.symbol}>
                             <button
@@ -221,11 +319,12 @@ export function DepositSection({ availableTokens, providers, myGenesisFunds, onD
                               onClick={() => handleTokenSelect(token)}
                             >
                               <div className="flex items-center gap-2">
-                                <div className="w-5 h-5 relative rounded-full overflow-hidden bg-gray-800">
+                                <div className="flex items-center justify-center">
                                   <img
                                     src={token.icon || "/placeholder.svg"}
                                     alt={token.symbol}
-                                    className="w-full h-full object-contain"
+                                    className="w-4 h-4 object-contain"
+                                    style={{ marginTop: "1px" }}
                                   />
                                 </div>
                                 <span className="text-white text-sm">{token.symbol}</span>
@@ -243,7 +342,7 @@ export function DepositSection({ availableTokens, providers, myGenesisFunds, onD
                   )}
                 </div>
 
-                {/* Amount input - 参照swap页面的实现 */}
+                {/* Amount input */}
                 <div className="w-full max-w-[120px]">
                   <input
                     type="text"
@@ -266,30 +365,43 @@ export function DepositSection({ availableTokens, providers, myGenesisFunds, onD
             </div>
 
             {/* Genesis Fund display box */}
-            <div className="w-full bg-[#1a0f3d]/90 rounded-lg border border-purple-500/40 py-1.5 px-2 flex justify-between items-center backdrop-blur-sm">
+            <div className="w-full bg-[#1a0f3d]/90 rounded-lg border border-purple-500/40 py-1.5 px-2 flex justify-between items-center">
               <div className="text-xs text-gray-400">My Genesis Fund:</div>
               <div className="text-xs text-pink-300 font-medium overflow-hidden text-ellipsis whitespace-nowrap max-w-[120px]">
                 {myGenesisFunds.toFixed(2)} UETH
               </div>
             </div>
 
-            {/* Outstake Provider selection - 根据代币类型显示不同内容 */}
-            <div>
+            {/* Outstake Provider selection */}
+            <div style={{ position: "relative", zIndex: 5, overflow: "visible" }}>
               <div className="text-xs text-gray-400 mb-1">Outstake Provider:</div>
-              <div className="relative">
+              <div className="relative provider-dropdown-container" style={{ overflow: "visible" }}>
                 <button
+                  ref={providerButtonRef}
                   onClick={handleProviderClick}
-                  className={`w-full bg-[#1a0f3d]/90 border border-purple-500/40 rounded-lg h-7 flex items-center justify-between px-2.5 text-white text-xs backdrop-blur-sm ${
+                  className={`w-full bg-[#1a0f3d]/90 border border-purple-500/40 rounded-lg h-7 flex items-center justify-between px-2.5 text-white text-xs ${
                     isProviderSelectionDisabled ? "cursor-default" : "hover:bg-purple-900/30"
                   }`}
+                  style={{ position: "relative", zIndex: 5 }}
                 >
                   {getProviderContent()}
                 </button>
 
-                {/* Provider list dropdown - 只在允许选择时显示 */}
+                {/* Provider list dropdown */}
                 {!isProviderSelectionDisabled && showProviderList && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-[#0f0326]/95 border border-purple-500/40 rounded-lg shadow-lg z-10 backdrop-blur-sm">
-                    <div className="py-1 max-h-36 overflow-y-auto">
+                  <div
+                    ref={providerDropdownRef}
+                    className="absolute top-full left-0 right-0 mt-1 bg-[#0f0326]/95 border border-purple-500/40 rounded-lg shadow-lg provider-dropdown"
+                    style={{
+                      maxHeight: "144px",
+                      overflowY: "auto",
+                      zIndex: 50, // 提高z-index确保显示在其他元素之上
+                      overflow: "visible",
+                      boxShadow:
+                        "0 8px 30px rgba(0, 0, 0, 0.2), 0 0 10px rgba(168, 85, 247, 0.2), 0 0 20px rgba(236, 72, 153, 0.1)",
+                    }}
+                  >
+                    <div className="py-1">
                       {filteredProviders.map((provider, index) => (
                         <React.Fragment key={provider.id}>
                           <button
@@ -313,11 +425,12 @@ export function DepositSection({ availableTokens, providers, myGenesisFunds, onD
             </div>
           </div>
 
-          {/* Deposit button - 放在底部 */}
+          {/* Deposit button */}
           <button
             onClick={handleDeposit}
             disabled={!tokenAmount || isNaN(Number.parseFloat(tokenAmount)) || Number.parseFloat(tokenAmount) <= 0}
             className="w-full h-10 rounded-lg bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-700 hover:via-pink-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium flex items-center justify-center transition-all duration-300 mt-3 shadow-[0_4px_10px_-2px_rgba(168,85,247,0.4)]"
+            style={{ position: "relative", zIndex: 3 }}
           >
             {Number.parseFloat(tokenAmount) > 0 ? "Genesis" : "Please Input"}
           </button>

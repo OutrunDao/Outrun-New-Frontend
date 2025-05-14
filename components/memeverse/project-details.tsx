@@ -2,6 +2,7 @@
 
 import { formatMarketCap } from "@/utils/format"
 import { useEffect, useState } from "react"
+import { ChainTooltip } from "./chain-tooltip"
 
 interface ProjectDetailsProps {
   project: any
@@ -114,14 +115,9 @@ export function ProjectDetails({ project, stageStyle, onBackClick }: ProjectDeta
             <div className="flex-1 bg-black/20 rounded-lg border border-purple-500/30 flex flex-col justify-center backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300">
               <div className="px-3 py-2">
                 <div className="text-xs text-pink-300/80 font-medium">Omnichain</div>
-                <div className="text-sm font-semibold text-pink-100 overflow-hidden text-ellipsis whitespace-nowrap flex flex-row gap-1">
+                <div className="text-sm font-semibold text-pink-100 overflow-hidden text-ellipsis whitespace-nowrap flex flex-row gap-1 items-center h-6">
                   {project.omnichain?.map((network, index) => (
-                    <img
-                      key={index}
-                      src={network.icon || "/placeholder.svg"}
-                      alt={network.name}
-                      className="w-5 h-5 rounded-full"
-                    />
+                    <ChainTooltip key={index} chainName={network.name} chainIcon={network.icon || "/placeholder.svg"} />
                   )) || <span>-</span>}
                 </div>
               </div>

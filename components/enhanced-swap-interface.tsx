@@ -199,7 +199,7 @@ export function EnhancedSwapInterface() {
                 onClick={() => setAntiMEV(!antiMEV)}
               >
                 <div
-                  className={`w-4 h-4 rounded-md bg-white transition-transform duration-300 ${antiMEV ? "translate-x-3" : "translate-x-0"}`}
+                  className={`w-4 h-4 rounded-md bg-white transition-transform duration-300 ${antiMEV ? "translate-x-3" : "translate-x-0"} my-auto`}
                 />
               </button>
             </div>
@@ -232,7 +232,17 @@ export function EnhancedSwapInterface() {
                 }}
                 ref={settingsPanelRef}
               >
-                <div className="bg-gradient-to-br from-[#0f0326]/95 via-[#1a0445]/95 to-[#0f0326]/95 backdrop-blur-xl p-4 rounded-xl">
+                <div className="bg-gradient-to-br from-[#0f0326]/95 via-[#1a0445]/95 to-[#0f0326]/95 backdrop-blur-xl p-4 rounded-xl relative">
+                  {/* 网格背景 */}
+                  <div
+                    className="absolute inset-0 opacity-10 rounded-xl"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(rgba(168, 85, 247, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(168, 85, 247, 0.1) 1px, transparent 1px)",
+                      backgroundSize: "20px 20px",
+                      backgroundPosition: "center center",
+                    }}
+                  />
                   <div className="space-y-5">
                     <div>
                       <div className="flex items-center justify-between mb-2">

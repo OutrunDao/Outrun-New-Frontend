@@ -82,6 +82,9 @@ const config = {
       fontFamily: {
         sans: ["var(--font-montserrat)", "system-ui", "sans-serif"],
       },
+      backgroundImage: {
+        "grid-pattern": 'url("/grid.svg")',
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

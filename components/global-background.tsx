@@ -12,15 +12,6 @@ export function GlobalBackground() {
       {/* Starry background */}
       <SeamlessStarryBackground />
 
-      {/* Grid background - Add global grid background */}
-      <div
-        className="fixed inset-0 bg-grid-pattern bg-center opacity-10 -z-20 pointer-events-none"
-        style={{
-          opacity: isVisible ? 0.14 : 0, // Grid opacity
-          transition: "opacity 0.3s ease-in-out",
-        }}
-      />
-
       {/* Particle effect - Only show after client-side hydration to avoid flickering */}
       <ParticleCanvas className="fixed inset-0 w-full h-full -z-10" />
 

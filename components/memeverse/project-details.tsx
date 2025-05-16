@@ -96,6 +96,7 @@ export function ProjectDetails({ project, stageStyle, onBackClick }: ProjectDeta
           style={{
             height: "calc(100% - 38px)",
             marginBottom: "0",
+            marginTop: "-3px",
           }}
         >
           {/* 网格背景 */}
@@ -158,7 +159,7 @@ export function ProjectDetails({ project, stageStyle, onBackClick }: ProjectDeta
           </div>
 
           {/* Third row: time information */}
-          <div className="flex gap-2 flex-1 relative z-10">
+          <div className="flex flex-col md:flex-row gap-2 flex-1 relative z-10">
             {/* Genesis End Time / Created At card */}
             <div className="flex-1 bg-black/20 rounded-lg border border-purple-500/30 flex flex-col justify-center backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300">
               <div className="px-3 py-2">

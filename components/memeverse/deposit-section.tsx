@@ -263,22 +263,49 @@ export function DepositSection({ availableTokens, providers, myGenesisFunds, onD
     }
   }, [showProviderList])
 
+  // 更精细的响应式布局控制
+  const [deviceType, setDeviceType] = useState<"mobile" | "tablet" | "desktop">("desktop")
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth
+      if (width < 768) {
+        setDeviceType("mobile")
+      } else if (width >= 768 && width < 1024) {
+        setDeviceType("tablet")
+      } else {
+        setDeviceType("desktop")
+      }
+    }
+
+    handleResize()
+    window.addEventListener("resize", handleResize)
+
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
+
+  const isMobile = deviceType === "mobile"
+  const isTablet = deviceType === "tablet"
+  const isDesktop = deviceType === "desktop"
+
   return (
     <div className="w-full lg:w-1/4 flex-shrink-0 deposit-section-container" style={{ overflow: "visible" }}>
       {/* 主容器 - 创建一个新的堆叠上下文 */}
       <div
         className="bg-[#0f0326]/90 rounded-lg border border-purple-500/40 flex flex-col shadow-[0_4px_20px_-4px_rgba(168,85,247,0.25)]"
         style={{
-          aspectRatio: "1/1",
+          aspectRatio: !isDesktop ? "auto" : "1/1",
           height: "auto",
           position: "relative", // 创建新的堆叠上下文
           overflow: "visible", // 确保溢出内容可见
         }}
       >
         {/* 内容容器 */}
-        <div className="p-3 flex flex-col h-full justify-between">
-          {/* 上部分内容区域 */}
-          <div className="space-y-3">
+        <div className={`p-3 flex flex-col h-full ${isDesktop ? "justify-between" : ""}`}>
+          {/* 所有内容区域，包括按钮 */}
+          <div className="flex flex-col space-y-3">
             {/* Token selection and amount input */}
             <div className="w-full bg-[#1a0f3d]/90 rounded-lg border border-purple-500/40 p-2">
               <div className="flex justify-between mb-1">
@@ -423,17 +450,37 @@ export function DepositSection({ availableTokens, providers, myGenesisFunds, onD
                 )}
               </div>
             </div>
+
+            {/* 移动端和平板端的Deposit按钮 */}
+            {(isMobile || isTablet) && (
+              <div className="mt-3">
+                <button
+                  onClick={handleDeposit}
+                  disabled={
+                    !tokenAmount || isNaN(Number.parseFloat(tokenAmount)) || Number.parseFloat(tokenAmount) <= 0
+                  }
+                  className="w-full h-10 rounded-lg bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-700 hover:via-pink-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium flex items-center justify-center transition-all duration-300 shadow-[0_4px_10px_-2px_rgba(168,85,247,0.4)]"
+                  style={{ position: "relative", zIndex: 3 }}
+                >
+                  {Number.parseFloat(tokenAmount) > 0 ? "Genesis" : "Please Input"}
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Deposit button */}
-          <button
-            onClick={handleDeposit}
-            disabled={!tokenAmount || isNaN(Number.parseFloat(tokenAmount)) || Number.parseFloat(tokenAmount) <= 0}
-            className="w-full h-10 rounded-lg bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-700 hover:via-pink-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium flex items-center justify-center transition-all duration-300 mt-3 shadow-[0_4px_10px_-2px_rgba(168,85,247,0.4)]"
-            style={{ position: "relative", zIndex: 3 }}
-          >
-            {Number.parseFloat(tokenAmount) > 0 ? "Genesis" : "Please Input"}
-          </button>
+          {/* 仅桌面端的Deposit按钮 */}
+          {isDesktop && (
+            <div className="mt-3 mb-3">
+              <button
+                onClick={handleDeposit}
+                disabled={!tokenAmount || isNaN(Number.parseFloat(tokenAmount)) || Number.parseFloat(tokenAmount) <= 0}
+                className="w-full h-8 rounded-lg bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-700 hover:via-pink-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium flex items-center justify-center transition-all duration-300 shadow-[0_4px_10px_-2px_rgba(168,85,247,0.4)]"
+                style={{ position: "relative", zIndex: 3 }}
+              >
+                {Number.parseFloat(tokenAmount) > 0 ? "Genesis" : "Please Input"}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

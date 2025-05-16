@@ -812,7 +812,7 @@ export function PositionsTable() {
               const totalPages = Math.ceil(positionsData.length / 5)
               const pages = []
 
-              // 确定显示的页码范围
+              // 确定显示的页码范���
               let startPage = Math.max(1, currentPage - 1)
               const endPage = Math.min(startPage + 2, totalPages)
 

@@ -6,7 +6,6 @@ import { useState, useRef, useEffect } from "react"
 import { ArrowLeft, Settings, ChevronDown, ChevronUp, ArrowRightLeft } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { ParticleCanvas } from "@/components/particle-canvas"
 import { TokenIcon } from "@/components/ui/token-icon"
 import { TokenSelectionModal } from "@/components/token-selection-modal"
 import { COMMON_TOKENS } from "@/constants/tokens"
@@ -212,8 +211,6 @@ export default function AddLiquidityPage() {
 
   return (
     <div className="relative flex flex-col min-h-screen">
-      {/* 背景元素 */}
-      <ParticleCanvas className="fixed inset-0 -z-10" />
 
       {/* 主要内容 */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 py-16 relative">

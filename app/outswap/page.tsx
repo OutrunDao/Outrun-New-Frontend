@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { SectionHeading } from "@/components/ui/section-heading"
 import { FeatureCard } from "@/components/ui/feature-card"
-import { ParticleCanvas } from "@/components/particle-canvas"
 import { EnhancedSwapInterface } from "@/components/enhanced-swap-interface"
 
 export default function OutSwapPage() {
@@ -22,15 +21,9 @@ export default function OutSwapPage() {
 
   return (
     <div ref={containerRef} className="relative flex flex-col min-h-screen">
-      {/* Background elements */}
-      {/* <div className="fixed inset-0 bg-gradient-to-b from-[#0f0326] via-[#1a0445] to-[#000000] -z-20" /> */}
-      <ParticleCanvas className="fixed inset-0 -z-10" />
 
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden pt-20">
-        {/* 移除这个重复的网格背景，因为我们已经在GlobalBackground中添加了全局网格 */}
-        {/* <div className="absolute inset-0 bg-grid-pattern bg-center opacity-10" /> */}
-
         {/* Hero overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326]/40 via-[#1a0445]/40 to-[#000000]/30 opacity-30" />
 

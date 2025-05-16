@@ -6,7 +6,6 @@ import { ArrowRight, Coins, TrendingUp, Layers, Clock, Globe, Lock } from "lucid
 
 import { Button } from "@/components/ui/button"
 import { FeatureCard } from "@/components/ui/feature-card"
-import { ParticleCanvas } from "@/components/particle-canvas"
 import { SectionHeading } from "@/components/ui/section-heading"
 
 export default function OutStakePage() {
@@ -18,8 +17,6 @@ export default function OutStakePage() {
 
   return (
     <div ref={containerRef} className="relative flex flex-col min-h-screen">
-      {/* Background elements */}
-      <ParticleCanvas className="fixed inset-0 -z-10" />
 
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden pt-20">

@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation" // 导入useRouter
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, ChevronDown, ChevronRight, ChevronUp } from "lucide-react"
 import { usePathname } from "next/navigation"
@@ -53,6 +54,7 @@ const navItems: NavItem[] = [
 ]
 
 export function Navbar() {
+  const router = useRouter() // 使用Next.js的路由器
   const isMobile = useMobile()
   const pathname = usePathname() // Get the current path
   const isHomePage = pathname === "/" // Check if we're on the home page
@@ -147,9 +149,23 @@ export function Navbar() {
     return () => clearTimeout(timer)
   }, [])
 
-  // 切换移动端子菜单的展开/折叠状态
-  const toggleMobileSubmenu = (title: string) => {
+  // 修改移动端菜单的实现，解决无法收回和切换的问题
+
+  // 1. 修改toggleMobileSubmenu函数，确保它能正确切换子菜单状态
+  const toggleMobileSubmenu = (title: string, e?: React.MouseEvent) => {
+    // 如果提供了事件对象，阻止冒泡
+    if (e) {
+      e.stopPropagation()
+    }
+
+    // 切换子菜单状态
     setExpandedMobileSubmenu((prev) => (prev === title ? null : title))
+  }
+
+  // 创建一个新的导航函数，使用Next.js的router.push而不是window.location
+  const navigateTo = (href: string) => {
+    setIsMenuOpen(false)
+    router.push(href)
   }
 
   // 检查当前路径是否匹配某个导航项或其子项
@@ -315,77 +331,65 @@ export function Navbar() {
                   const isExpanded = expandedMobileSubmenu === item.title
 
                   return (
-                    <div key={item.title} className="rounded-xl overflow-hidden">
-                      <div
-                        className={`flex items-center cursor-pointer rounded-xl overflow-hidden ${
-                          isActive ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20" : "hover:bg-white/5"
-                        }`}
-                        onClick={() => {
-                          if (item.children) {
-                            toggleMobileSubmenu(item.title)
-                          } else {
-                            setIsMenuOpen(false)
-                            // 如果没有子菜单，直接导航到链接
-                            window.location.href = item.href
-                          }
-                        }}
-                      >
+                    <div key={item.title} className="overflow-hidden">
+                      {/* 菜单项标题行 - 使用flex布局并添加间距 */}
+                      <div className="flex items-center gap-2">
+                        {/* 菜单项文本部分 - 完全圆角 */}
                         <div
-                          className={`flex-1 py-3 px-4 text-base font-medium ${
+                          className={`flex-1 py-3 px-4 text-base font-medium cursor-pointer ${
                             isActive ? "text-white" : "text-white/80"
-                          }`}
+                          } hover:bg-white/5 rounded-xl transition-colors duration-200`}
+                          onClick={() => {
+                            navigateTo(item.href)
+                          }}
                         >
                           {item.title}
                         </div>
 
+                        {/* 箭头按钮部分 - 完全圆角 */}
                         {item.children && (
-                          <div
+                          <button
                             className={`p-3 flex items-center justify-center ${
                               isActive ? "text-white" : "text-white/60"
-                            }`}
+                            } hover:bg-white/5 rounded-xl transition-colors duration-200`}
                             aria-expanded={isExpanded}
+                            onClick={(e) => toggleMobileSubmenu(item.title, e)}
                           >
                             {isExpanded ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
-                          </div>
+                          </button>
                         )}
                       </div>
 
+                      {/* 子菜单容器 */}
                       {item.children && (
-                        <AnimatePresence initial={false}>
-                          {isExpanded && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.3, ease: "easeInOut" }}
-                              className="overflow-hidden mobile-submenu-container"
-                            >
-                              <div className="mobile-submenu-bg absolute inset-0 -z-10"></div>
-                              <div className="mobile-submenu-grid absolute inset-0 -z-5"></div>
-                              <div className="py-2 px-2 relative z-10">
-                                {item.children.map((child) => {
-                                  const isChildActive = pathname === child.href
+                        <div
+                          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                            isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                          }`}
+                        >
+                          <div className="py-2 px-2 relative z-10">
+                            {item.children.map((child) => {
+                              const isChildActive = pathname === child.href
 
-                                  return (
-                                    <Link
-                                      key={child.title}
-                                      href={child.href}
-                                      className={`flex items-center py-2.5 px-6 rounded-lg my-1 text-sm mobile-submenu-item ${
-                                        isChildActive
-                                          ? "bg-gradient-to-r from-purple-600/30 to-pink-600/30 text-white"
-                                          : "text-white/70 hover:text-white hover:bg-white/5"
-                                      }`}
-                                      onClick={() => setIsMenuOpen(false)}
-                                    >
-                                      <span>{child.title}</span>
-                                      <ChevronRight className="ml-auto h-4 w-4 opacity-60" />
-                                    </Link>
-                                  )
-                                })}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
+                              return (
+                                <div
+                                  key={child.title}
+                                  className={`flex items-center py-2.5 px-6 rounded-lg my-1 text-sm mobile-submenu-item cursor-pointer ${
+                                    isChildActive
+                                      ? "bg-gradient-to-r from-purple-600/30 to-pink-600/30 text-white"
+                                      : "text-white/70 hover:text-white hover:bg-white/5"
+                                  } transition-colors duration-200`}
+                                  onClick={() => {
+                                    navigateTo(child.href)
+                                  }}
+                                >
+                                  <span>{child.title}</span>
+                                  <ChevronRight className="ml-auto h-4 w-4 opacity-60" />
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
                       )}
                     </div>
                   )

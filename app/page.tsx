@@ -8,8 +8,6 @@ import { Button } from "@/components/ui/button"
 import { RetroSun } from "@/components/retro-sun"
 import { ModuleCard } from "@/components/module-card"
 import { GradientCard } from "@/components/gradient-card"
-// Re-add ParticleCanvas import
-import { ParticleCanvas } from "@/components/particle-canvas"
 
 export default function Home() {
   const { scrollYProgress } = useScroll()
@@ -21,8 +19,6 @@ export default function Home() {
 
   return (
     <div ref={containerRef} className="relative">
-      {/* Add ParticleCanvas component to maintain consistency with other pages */}
-      <ParticleCanvas className="fixed inset-0 -z-10" />
 
       {/* Hero Section */}
       <section className="relative min-h-[75vh] flex items-center overflow-hidden">

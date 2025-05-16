@@ -6,7 +6,6 @@ import { useState, useEffect } from "react"
 import { Search, ChevronDown, ChevronLeft, ChevronRight, Star, SortDesc, SortAsc } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { SectionHeading } from "@/components/ui/section-heading"
-import { ParticleCanvas } from "@/components/particle-canvas"
 import { useRouter } from "next/navigation"
 import { MOCK_PROJECTS } from "@/data/memeverse-projects"
 import { ChainTooltip } from "@/components/memeverse/chain-tooltip"
@@ -136,6 +135,7 @@ export default function MemeverseBoardPage() {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc") // 默认降序
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const router = useRouter()
 
   // Get sort options applicable to the current stage and mode
   const getSortOptions = () => {
@@ -287,7 +287,7 @@ export default function MemeverseBoardPage() {
         <Button
           variant="outline"
           size="sm"
-          className={`rounded-full bg-black/30 border ${
+          className={`rounded-full w-8 h-8 flex items-center justify-center p-0 bg-black/30 border ${
             currentPage === 1
               ? "border-purple-500/20 text-pink-300/50 cursor-not-allowed"
               : "border-purple-500/30 text-pink-300 hover:border-pink-400/50"
@@ -304,9 +304,9 @@ export default function MemeverseBoardPage() {
             key={number}
             variant="outline"
             size="sm"
-            className={`rounded-full ${
+            className={`rounded-full w-8 h-8 flex items-center justify-center p-0 ${
               currentPage === number
-                ? "bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 text-white border-none shadow-[0_0_10px_rgba(168,85,247,0.5)]"
+                ? "bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 text-white border-transparent shadow-[0_0_10px_rgba(168,85,247,0.5)]"
                 : "bg-black/30 border border-purple-500/30 text-pink-300 hover:border-pink-400/50"
             }`}
             onClick={() => handlePageChange(number)}
@@ -319,7 +319,7 @@ export default function MemeverseBoardPage() {
         <Button
           variant="outline"
           size="sm"
-          className={`rounded-full bg-black/30 border ${
+          className={`rounded-full w-8 h-8 flex items-center justify-center p-0 bg-black/30 border ${
             currentPage === totalPages
               ? "border-purple-500/20 text-pink-300/50 cursor-not-allowed"
               : "border-purple-500/30 text-pink-300 hover:border-pink-400/50"
@@ -389,10 +389,7 @@ export default function MemeverseBoardPage() {
   }, [activeDropdown])
 
   return (
-    <div className="relative flex flex-col min-h-screen">
-      {/* Background elements */}
-      <ParticleCanvas className="fixed inset-0 -z-10" />
-
+    <div className="flex flex-col min-h-screen">
       {/* Page content */}
       <div className="container px-4 md:px-6 mx-auto py-24">
         {/* Page title */}
@@ -401,14 +398,28 @@ export default function MemeverseBoardPage() {
           description="Discover and participate in the latest consensus launching through the Memeverse"
           gradient="from-purple-400 via-pink-500 to-blue-500"
           align="center"
-          className="mb-12"
+          className="mb-12 lg:mb-12 mb-8"
         />
 
         {/* Search and filters */}
         <div className="mb-8">
-          <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
-            {/* Search box */}
-            <div className="relative w-full md:w-96">
+          {/* 移动端布局 - 只在移动端显示 */}
+          <div className="flex flex-col gap-6 lg:hidden">
+            {/* Consensus Launch按钮 - 移动端位置 */}
+            <Button
+              className="bg-gradient-to-r from-purple-600/80 via-pink-500/80 to-purple-600/80 border-[1.5px] border-cyan-400/70 hover:border-cyan-300 text-white font-bold py-2.5 px-6 rounded-lg shadow-[0_0_15px_rgba(236,72,153,0.6)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(236,72,153,0.8)] relative overflow-hidden group w-auto mx-auto -mt-2 lg:mt-0"
+              onClick={() => router.push("/memeverse/create")}
+            >
+              <div className="flex items-center justify-center gap-2 relative z-10">
+                <span className="text-base font-semibold bg-gradient-to-r from-cyan-300 via-white to-cyan-300 bg-clip-text text-transparent">
+                  Consensus Launch
+                </span>
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-600/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </Button>
+
+            {/* 搜索框 - 移动端位置 */}
+            <div className="relative w-full">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-pink-400" />
               </div>
@@ -421,8 +432,8 @@ export default function MemeverseBoardPage() {
               />
             </div>
 
-            {/* Filters */}
-            <div className="flex flex-wrap gap-2 w-full md:w-auto items-center">
+            {/* 筛选器 - 移动端位置 */}
+            <div className="flex flex-wrap gap-2 w-full items-center">
               {/* Chain filter dropdown menu */}
               <div className="relative dropdown-container">
                 <Button
@@ -448,16 +459,16 @@ export default function MemeverseBoardPage() {
                   </div>
                 </Button>
                 {isChainDropdownOpen && (
-                  <div className="absolute z-50 mt-2 w-48 rounded-md bg-black/80 backdrop-blur-md border border-purple-500/30 shadow-lg animate-in fade-in-50 zoom-in-95 duration-200">
+                  <div className="absolute z-50 mt-2 w-48 rounded-md bg-gradient-to-br from-purple-950/90 via-[#150538]/95 to-indigo-950/90 backdrop-blur-md border border-purple-500/40 shadow-[0_4px_20px_rgba(138,75,175,0.3)] animate-in fade-in-50 zoom-in-95 duration-200">
                     <div className="py-1">
                       {CHAIN_FILTERS.map((chain) => (
                         <button
                           key={chain.id}
                           className={`flex items-center w-full px-4 py-2 text-sm ${
                             activeChainFilter === chain.id
-                              ? "bg-gradient-to-r from-purple-600/30 to-pink-500/30 text-pink-300"
-                              : "text-pink-300 hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-500/20"
-                          } transition-colors duration-200`}
+                              ? "bg-gradient-to-r from-purple-600/40 to-pink-500/40 text-pink-200 shadow-[0_0_10px_rgba(168,85,247,0.2)_inset]"
+                              : "text-pink-300 hover:bg-gradient-to-r hover:from-purple-600/30 hover:to-pink-500/30 hover:text-pink-200"
+                          } transition-all duration-300 rounded-sm`}
                           onClick={() => {
                             setActiveChainFilter(chain.id)
                             setIsChainDropdownOpen(false)
@@ -489,16 +500,16 @@ export default function MemeverseBoardPage() {
                   </div>
                 </Button>
                 {isStageDropdownOpen && (
-                  <div className="absolute z-50 mt-2 w-48 rounded-md bg-black/80 backdrop-blur-md border border-purple-500/30 shadow-lg animate-in fade-in-50 zoom-in-95 duration-200">
+                  <div className="absolute z-50 mt-2 w-48 rounded-md bg-gradient-to-br from-purple-950/90 via-[#150538]/95 to-indigo-950/90 backdrop-blur-md border border-purple-500/40 shadow-[0_4px_20px_rgba(138,75,175,0.3)] animate-in fade-in-50 zoom-in-95 duration-200">
                     <div className="py-1">
                       {STAGE_FILTERS.map((stage) => (
                         <button
                           key={stage.id}
                           className={`w-full text-left px-4 py-2 text-sm ${
                             activeStageFilter === stage.id
-                              ? "bg-gradient-to-r from-purple-600/30 to-pink-500/30 text-pink-300"
-                              : "text-pink-300 hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-500/20"
-                          } transition-colors duration-200`}
+                              ? "bg-gradient-to-r from-purple-600/40 to-pink-500/40 text-pink-200 shadow-[0_0_10px_rgba(168,85,247,0.2)_inset]"
+                              : "text-pink-300 hover:bg-gradient-to-r hover:from-purple-600/30 hover:to-pink-500/30 hover:text-pink-200"
+                          } transition-all duration-300 rounded-sm`}
                           onClick={() => {
                             setActiveStageFilter(stage.id)
                             setIsStageDropdownOpen(false)
@@ -528,16 +539,192 @@ export default function MemeverseBoardPage() {
                   </div>
                 </Button>
                 {isSortDropdownOpen && (
-                  <div className="absolute z-50 mt-2 w-48 rounded-md bg-black/80 backdrop-blur-md border border-purple-500/30 shadow-lg animate-in fade-in-50 zoom-in-95 duration-200">
+                  <div className="absolute z-50 mt-2 w-48 rounded-md bg-gradient-to-br from-purple-950/90 via-[#150538]/95 to-indigo-950/90 backdrop-blur-md border border-purple-500/40 shadow-[0_4px_20px_rgba(138,75,175,0.3)] animate-in fade-in-50 zoom-in-95 duration-200">
                     <div className="py-1">
                       {getSortOptions().map((option) => (
                         <button
                           key={option.id}
                           className={`flex items-center w-full px-4 py-2 text-sm ${
                             sortOption === option.id
-                              ? "bg-gradient-to-r from-purple-600/30 to-pink-500/30 text-pink-300"
-                              : "text-pink-300 hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-500/20"
-                          } transition-colors duration-200`}
+                              ? "bg-gradient-to-r from-purple-600/40 to-pink-500/40 text-pink-200 shadow-[0_0_10px_rgba(168,85,247,0.2)_inset]"
+                              : "text-pink-300 hover:bg-gradient-to-r hover:from-purple-600/30 hover:to-pink-500/30 hover:text-pink-200"
+                          } transition-all duration-300 rounded-sm`}
+                          onClick={() => {
+                            setSortOption(option.id)
+                            setIsSortDropdownOpen(false)
+                            setActiveDropdown(null) // Reset activeDropdown state
+                          }}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Sort direction button */}
+              <Button
+                variant="outline"
+                size="sm"
+                className="p-0 w-8 h-8 flex justify-center items-center bg-black/30 border border-purple-500/30 rounded-full hover:bg-purple-900/30 hover:border-pink-400/50"
+                onClick={toggleSortDirection}
+              >
+                {sortDirection === "asc" ? (
+                  <SortAsc className="h-4 w-4 text-pink-300" />
+                ) : (
+                  <SortDesc className="h-4 w-4 text-pink-300" />
+                )}
+              </Button>
+            </div>
+          </div>
+
+          {/* PC端布局 - 只在PC端显示 */}
+          <div className="hidden lg:flex lg:flex-row gap-4 items-start lg:items-center justify-between">
+            {/* Search box */}
+            <div className="relative w-full lg:w-96">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-pink-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search projects..."
+                className="w-full pl-10 pr-4 py-2 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder:text-pink-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 focus:border-pink-500/50 hover:border-pink-400/30"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+
+            {/* Create button - PC端位置 */}
+            <Button
+              className="bg-gradient-to-r from-purple-600/80 via-pink-500/80 to-purple-600/80 border-[1.5px] border-cyan-400/70 hover:border-cyan-300 text-white font-bold py-2.5 px-6 rounded-lg shadow-[0_0_15px_rgba(236,72,153,0.6)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(236,72,153,0.8)] relative overflow-hidden group"
+              onClick={() => router.push("/memeverse/create")}
+            >
+              <div className="flex items-center gap-2 relative z-10">
+                <span className="text-base font-semibold bg-gradient-to-r from-cyan-300 via-white to-cyan-300 bg-clip-text text-transparent">
+                  Consensus Launch
+                </span>
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-600/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </Button>
+
+            {/* Filters - PC端位置 */}
+            <div className="flex flex-wrap gap-2 w-full lg:w-auto items-center">
+              {/* Chain filter dropdown menu */}
+              <div className="relative dropdown-container">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-black/30 border border-purple-500/30 text-pink-300 hover:bg-purple-900/30 hover:border-pink-400/50 rounded-full transition-all duration-300 px-4"
+                  onClick={toggleChainDropdown}
+                >
+                  <div className="flex items-center justify-center gap-1">
+                    {activeChainFilter !== "all" ? (
+                      <div className="flex items-center gap-1.5">
+                        <img
+                          src={CHAIN_FILTERS.find((c) => c.id === activeChainFilter)?.icon || "/placeholder.svg"}
+                          alt={activeChainFilter}
+                          className="w-4 h-4"
+                        />
+                        {CHAIN_FILTERS.find((c) => c.id === activeChainFilter)?.label}
+                      </div>
+                    ) : (
+                      "All Chains"
+                    )}
+                    <ChevronDown className="h-3.5 w-3.5" />
+                  </div>
+                </Button>
+                {isChainDropdownOpen && (
+                  <div className="absolute z-50 mt-2 w-48 rounded-md bg-gradient-to-br from-purple-950/90 via-[#150538]/95 to-indigo-950/90 backdrop-blur-md border border-purple-500/40 shadow-[0_4px_20px_rgba(138,75,175,0.3)] animate-in fade-in-50 zoom-in-95 duration-200">
+                    <div className="py-1">
+                      {CHAIN_FILTERS.map((chain) => (
+                        <button
+                          key={chain.id}
+                          className={`flex items-center w-full px-4 py-2 text-sm ${
+                            activeChainFilter === chain.id
+                              ? "bg-gradient-to-r from-purple-600/40 to-pink-500/40 text-pink-200 shadow-[0_0_10px_rgba(168,85,247,0.2)_inset]"
+                              : "text-pink-300 hover:bg-gradient-to-r hover:from-purple-600/30 hover:to-pink-500/30 hover:text-pink-200"
+                          } transition-all duration-300 rounded-sm`}
+                          onClick={() => {
+                            setActiveChainFilter(chain.id)
+                            setIsChainDropdownOpen(false)
+                            setActiveDropdown(null) // Reset activeDropdown state
+                          }}
+                        >
+                          {chain.icon && (
+                            <img src={chain.icon || "/placeholder.svg"} alt={chain.label} className="w-4 h-4 mr-2" />
+                          )}
+                          {chain.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Stage filter dropdown menu */}
+              <div className="relative dropdown-container">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-black/30 border border-purple-500/30 text-pink-300 hover:bg-purple-900/30 hover:border-pink-400/50 rounded-full transition-all duration-300 px-4"
+                  onClick={toggleStageDropdown}
+                >
+                  <div className="flex items-center justify-center gap-1">
+                    {STAGE_FILTERS.find((s) => s.id === activeStageFilter)?.label}
+                    <ChevronDown className="h-3.5 w-3.5" />
+                  </div>
+                </Button>
+                {isStageDropdownOpen && (
+                  <div className="absolute z-50 mt-2 w-48 rounded-md bg-gradient-to-br from-purple-950/90 via-[#150538]/95 to-indigo-950/90 backdrop-blur-md border border-purple-500/40 shadow-[0_4px_20px_rgba(138,75,175,0.3)] animate-in fade-in-50 zoom-in-95 duration-200">
+                    <div className="py-1">
+                      {STAGE_FILTERS.map((stage) => (
+                        <button
+                          key={stage.id}
+                          className={`w-full text-left px-4 py-2 text-sm ${
+                            activeStageFilter === stage.id
+                              ? "bg-gradient-to-r from-purple-600/40 to-pink-500/40 text-pink-200 shadow-[0_0_10px_rgba(168,85,247,0.2)_inset]"
+                              : "text-pink-300 hover:bg-gradient-to-r hover:from-purple-600/30 hover:to-pink-500/30 hover:text-pink-200"
+                          } transition-all duration-300 rounded-sm`}
+                          onClick={() => {
+                            setActiveStageFilter(stage.id)
+                            setIsStageDropdownOpen(false)
+                            setActiveDropdown(null) // Reset activeDropdown state
+                            setSortOption("createdAt") // Reset to default sorting
+                          }}
+                        >
+                          {stage.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Sort filter */}
+              <div className="relative dropdown-container">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-black/30 border border-purple-500/30 text-pink-300 hover:bg-purple-900/30 hover:border-pink-400/50 rounded-full transition-all duration-300 px-4"
+                  onClick={toggleSortDropdown}
+                >
+                  <div className="flex items-center justify-center gap-1">
+                    {getCurrentSortLabel()}
+                    <ChevronDown className="h-3.5 w-3.5" />
+                  </div>
+                </Button>
+                {isSortDropdownOpen && (
+                  <div className="absolute z-50 mt-2 w-48 rounded-md bg-gradient-to-br from-purple-950/90 via-[#150538]/95 to-indigo-950/90 backdrop-blur-md border border-purple-500/40 shadow-[0_4px_20px_rgba(138,75,175,0.3)] animate-in fade-in-50 zoom-in-95 duration-200">
+                    <div className="py-1">
+                      {getSortOptions().map((option) => (
+                        <button
+                          key={option.id}
+                          className={`flex items-center w-full px-4 py-2 text-sm ${
+                            sortOption === option.id
+                              ? "bg-gradient-to-r from-purple-600/40 to-pink-500/40 text-pink-200 shadow-[0_0_10px_rgba(168,85,247,0.2)_inset]"
+                              : "text-pink-300 hover:bg-gradient-to-r hover:from-purple-600/30 hover:to-pink-500/30 hover:text-pink-200"
+                          } transition-all duration-300 rounded-sm`}
                           onClick={() => {
                             setSortOption(option.id)
                             setIsSortDropdownOpen(false)
@@ -599,7 +786,7 @@ export default function MemeverseBoardPage() {
         )}
 
         {/* Project list */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {currentProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
@@ -761,9 +948,6 @@ function ProjectCard({ project }: { project: any }) {
           <div
             className={`bg-gradient-to-br ${getBackgroundGradient()} rounded-lg overflow-hidden relative z-10 m-[1px]`}
           >
-            {/* Grid background */}
-            <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10"></div>
-
             <div className="p-2.5 relative z-10">
               <div className="flex justify-between items-center mb-1.5">
                 <div className="flex items-center max-w-[180px] overflow-hidden">
@@ -813,7 +997,7 @@ function ProjectCard({ project }: { project: any }) {
                 </div>
 
                 {/* Right project information */}
-                <div className="flex-1 pl-3 flex flex-col min-w-0 h-[120px] md:h-auto md:min-h-[120px] relative">
+                <div className="flex-1 pl-3 flex flex-col min-w-0 h-[120px] lg:h-auto lg:min-h-[120px] relative">
                   {/* Project description - fixed at the top */}
                   <p
                     className="text-cyan-300/70 text-xs mb-1.5 whitespace-nowrap overflow-hidden text-ellipsis transition-colors duration-200 hover:text-cyan-200/90"

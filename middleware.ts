@@ -31,7 +31,7 @@ export function middleware(request: NextRequest) {
 // 更精确地排除Service Worker相关路径
 export const config = {
   matcher: [
-    // 排除API路由、静态文件、图像优化、favicon和所有JavaScript文件
+    // 排除API路由、静态���件、图像优化、favicon和所有JavaScript文件
     "/((?!api|_next/static|_next/image|favicon.ico|.*\\.js$).*)",
     // 排除所有可能的Service Worker路径
     "/((?!__v0_sw.js|sw.js|service-worker.js|workbox-*.js).*)",

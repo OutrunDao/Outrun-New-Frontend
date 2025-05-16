@@ -82,8 +82,8 @@ export function ParticleCanvas({ className = "" }: ParticleCanvasProps) {
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
           size: Math.random() * 2 + 1,
-          speedX: (Math.random() - 0.5) * 0.2,
-          speedY: (Math.random() - 0.5) * 0.2,
+          speedX: (Math.random() - 0.5) * 0.3,
+          speedY: (Math.random() - 0.5) * 0.3,
           color: colors[colorIndex],
           opacity: Math.random() * 0.5 + 0.2,
         })

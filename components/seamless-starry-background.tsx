@@ -155,13 +155,27 @@ export function SeamlessStarryBackground() {
   }, [setCanvasDimensions, generateStars, isVisible])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className={`fixed inset-0 w-full h-full -z-20 transition-opacity duration-300`}
-      style={{
-        pointerEvents: "none",
-        opacity: isVisible ? 1 : 0,
-      }}
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        className={`fixed inset-0 w-full h-full -z-20 transition-opacity duration-300`}
+        style={{
+          pointerEvents: "none",
+          opacity: isVisible ? 1 : 0,
+        }}
+      />
+      {/* 添加网格背景层 */}
+      <div
+        className={`fixed inset-0 w-full h-full -z-19 transition-opacity duration-300`}
+        style={{
+          pointerEvents: "none",
+          opacity: isVisible ? 0.14 : 0,
+          backgroundImage:
+            "linear-gradient(rgba(168, 85, 247, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(168, 85, 247, 0.1) 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
+          backgroundPosition: "center center",
+        }}
+      />
+    </>
   )
 }

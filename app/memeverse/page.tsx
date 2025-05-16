@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import { SectionHeading } from "@/components/ui/section-heading"
 import { FeatureCard } from "@/components/ui/feature-card"
 import { UseCaseCard } from "@/components/ui/use-case-card"
-import { ParticleCanvas } from "@/components/particle-canvas"
 import { useRouter } from "next/navigation"
 
 export default function MemeversePage() {
@@ -21,9 +20,6 @@ export default function MemeversePage() {
 
   return (
     <div ref={containerRef} className="relative flex flex-col min-h-screen">
-      {/* Background elements - UPDATED to match main page */}
-      {/* <div className="fixed inset-0 bg-gradient-to-b from-[#0f0326] via-[#1a0445] to-[#000000] -z-20" /> */}
-      <ParticleCanvas className="fixed inset-0 -z-10" />
 
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden pt-20">
@@ -128,7 +124,7 @@ export default function MemeversePage() {
         </div>
       </section>
 
-      {/* How It Works - COMPLETELY REDESIGNED */}
+      {/* How It Works */}
       <section className="py-10 md:py-16 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0f0326]/0 via-[#1a0445]/50 to-[#0f0326]/0 opacity-50" />
 

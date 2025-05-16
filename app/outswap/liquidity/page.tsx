@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { Plus, Filter, X, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ParticleCanvas } from "@/components/particle-canvas"
 import { LiquidityPoolsTable } from "@/components/liquidity-pools-table"
 import { PositionsTable } from "@/components/positions-table"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -41,14 +40,9 @@ export default function LiquidityPage() {
 
   return (
     <div ref={containerRef} className="relative flex flex-col min-h-screen">
-      {/* Background elements */}
-      <ParticleCanvas className="fixed inset-0 -z-10" />
 
       {/* Hero Section - simplified display on mobile */}
       <section className={`relative ${isMobile ? "pt-24 pb-4" : "pt-24 pb-6"} overflow-hidden`}>
-        {/* Grid background */}
-        <div className="absolute inset-0 bg-grid-pattern bg-center opacity-10" />
-
         {/* Hero overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326]/40 via-[#1a0445]/40 to-[#000000]/30 opacity-30" />
 

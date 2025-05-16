@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { ParticleCanvas } from "@/components/particle-canvas"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft } from "lucide-react"
 
@@ -212,7 +211,7 @@ export default function VerseDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0f0326]">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-t-purple-500 border-r-transparent border-b-pink-500 border-l-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-pink-300">Loading memeverse details...</p>
@@ -223,7 +222,7 @@ export default function VerseDetailPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#0f0326] p-4">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
         <div className="text-center max-w-md">
           <h1 className="text-3xl font-bold text-pink-500 mb-4">Memeverse Not Found</h1>
           <p className="text-pink-300 mb-8">{error}</p>
@@ -241,7 +240,7 @@ export default function VerseDetailPage() {
 
   if (!verse) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#0f0326] p-4">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
         <div className="text-center max-w-md">
           <h1 className="text-3xl font-bold text-pink-500 mb-4">Memeverse Not Found</h1>
           <p className="text-pink-300 mb-8">Unable to load verse details. Please return to the board and try again.</p>
@@ -265,12 +264,9 @@ export default function VerseDetailPage() {
   }
 
   return (
-    <div className="relative min-h-screen" style={{ overflow: "visible" }}>
-      {/* Background elements */}
-      <ParticleCanvas className="fixed inset-0 -z-10" />
-
+    <div className="min-h-screen">
       {/* Page content - increased top spacing */}
-      <div className="max-w-5xl px-4 md:px-6 mx-auto py-12" style={{ overflow: "visible" }}>
+      <div className="max-w-5xl px-4 md:px-6 mx-auto py-12 pt-28">
         {/* Back button - Outrun风格美化 */}
         <Button
           onClick={handleBackClick}
@@ -289,7 +285,7 @@ export default function VerseDetailPage() {
 
           {/* 发光边框效果 */}
           <span
-            className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            className="absolute inset-00 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             style={{
               boxShadow: "inset 0 0 8px rgba(236, 72, 153, 0.6), 0 0 12px rgba(168, 85, 247, 0.4)",
             }}
@@ -304,7 +300,7 @@ export default function VerseDetailPage() {
           </div>
         </Button>
 
-        {/* Project header information */}
+        {/* 调整项目头部信息卡片的背景透明度 */}
         <div
           className="relative rounded-xl overflow-hidden p-4 md:p-6 mb-8"
           style={{
@@ -312,9 +308,8 @@ export default function VerseDetailPage() {
             border: "1px solid rgba(236,72,153,0.3)",
           }}
         >
-          {/* 背景渐变 */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326] via-[#1a0445] to-[#0f0326] backdrop-blur-xl"></div>
-
+          {/* 降低背景渐变的不透明度 */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326]/90 via-[#1a0445]/90 to-[#0f0326]/90 backdrop-blur-sm"></div>
           {/* 网格背景 */}
           <div
             className="absolute inset-0 opacity-10"
@@ -326,12 +321,7 @@ export default function VerseDetailPage() {
             }}
           ></div>
 
-          {/* 底部发光效果 */}
-
-          <div
-            className="relative flex flex-col lg:flex-row gap-4 md:gap-6 items-start"
-            style={{ overflow: "visible" }}
-          >
+          <div className="relative flex flex-col lg:flex-row gap-4 md:gap-6 items-start">
             {/* Use vertical layout on small and medium screens */}
             <div className="w-full lg:hidden flex flex-col gap-4">
               <ProjectDetails project={verse} stageStyle={stageStyle} onBackClick={handleBackClick} />
@@ -356,7 +346,7 @@ export default function VerseDetailPage() {
           </div>
         </div>
 
-        {/* Tab content with integrated tab navigation - 重新设计的标签导航 */}
+        {/* 同样调整标签内容区域的背景透明度 */}
         <div
           className="relative rounded-xl overflow-hidden"
           style={{
@@ -364,9 +354,8 @@ export default function VerseDetailPage() {
             border: "1px solid rgba(236,72,153,0.3)",
           }}
         >
-          {/* 背景渐变 */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326] via-[#1a0445] to-[#0f0326] backdrop-blur-xl"></div>
-
+          {/* 降低背景渐变的不透明度并减少模糊效果 */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0f0326]/90 via-[#1a0445]/90 to-[#0f0326]/90 backdrop-blur-sm"></div>
           {/* 网格背景 */}
           <div
             className="absolute inset-0 opacity-10"
@@ -377,8 +366,6 @@ export default function VerseDetailPage() {
               backgroundPosition: "center center",
             }}
           ></div>
-
-          {/* 底部发光效果 */}
 
           {/* 重新设计的标签导航 */}
           <div className="relative">

@@ -1,14 +1,11 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ParticleCanvas } from "@/components/particle-canvas"
 import { EnhancedSwapInterface } from "@/components/enhanced-swap-interface"
 
 export default function SwapPage() {
   return (
     <div className="relative min-h-screen flex items-center justify-center">
-      {/* Background elements */}
-      <ParticleCanvas className="fixed inset-0 -z-10" />
 
       <div className="container px-4 md:px-6 mx-auto py-24">
         <div className="max-w-4xl mx-auto">

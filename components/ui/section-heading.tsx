@@ -19,7 +19,7 @@ export function SectionHeading({
   }
 
   return (
-    <div className={cn("max-w-3xl", alignmentClasses[align], className)}>
+    <div className={cn("w-fit", alignmentClasses[align], className)}>
       {badge && (
         <div className={cn("inline-block mb-4", badgeClassName)}>
           <div className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-xs font-medium text-zinc-300 border border-white/5">
@@ -29,7 +29,7 @@ export function SectionHeading({
       )}
       <h2
         className={cn(
-          "text-3xl md:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r",
+          "text-[1.7rem] md:text-[2.1rem] font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r",
           gradient,
           "mb-4",
           titleClassName,
@@ -37,9 +37,6 @@ export function SectionHeading({
       >
         {title}
       </h2>
-      {description && (
-        <p className={cn("text-zinc-300 text-lg leading-relaxed", descriptionClassName)}>{description}</p>
-      )}
     </div>
   )
 }

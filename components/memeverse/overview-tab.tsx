@@ -65,7 +65,7 @@ export function OverviewTab({
       {/* 使用两列布局 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* 左侧卡片：项目信息和社交链接 */}
-        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 border border-purple-500/40 shadow-[0_4px_20px_-4px_rgba(168,85,247,0.2)]">
+        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 border border-purple-500/40 shadow-[0_4px_20px_-4px_rgba(168,85,247,0.2)] flex flex-col h-full">
           <h2 className="text-xl font-bold mb-4 flex items-center">
             <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 text-transparent bg-clip-text">
               {name}
@@ -76,7 +76,7 @@ export function OverviewTab({
 
           {/* Social media icons */}
           {(website || xLink || telegram || discord) && (
-            <div className="flex space-x-6">
+            <div className="flex space-x-6 mt-auto">
               {website && (
                 <a
                   href={website}
@@ -87,8 +87,8 @@ export function OverviewTab({
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="22"
-                    height="22"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -113,8 +113,8 @@ export function OverviewTab({
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="22"
-                    height="22"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                   >
@@ -133,8 +133,8 @@ export function OverviewTab({
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="22"
-                    height="22"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                   >
@@ -153,8 +153,8 @@ export function OverviewTab({
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="22"
-                    height="22"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                   >
@@ -166,21 +166,23 @@ export function OverviewTab({
           )}
         </div>
 
-        {/* 右侧卡片：Genesis Progress */}
-        {isGenesis && (
+        {/* 右侧卡片：Genesis Progress - 修改这里，确保在Refund阶段也显示 */}
+        {(isGenesis || stage === "Refund") && (
           <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 border border-purple-500/40 shadow-[0_4px_20px_-4px_rgba(168,85,247,0.2)]">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-pink-300">Genesis Progress</h3>
-              <Button
-                variant="outline"
-                size="xs"
-                className="bg-black/40 border border-purple-500/40 text-pink-300 hover:bg-purple-900/40 hover:border-pink-400/60 hover:text-pink-200 rounded-full transition-all duration-300 flex items-center text-xs px-3 py-1 h-7"
-              >
-                <span className="flex items-center">
-                  Next Stage
-                  <ChevronsRight className="h-3 w-3 ml-0.5" />
-                </span>
-              </Button>
+              {stage !== "Refund" && (
+                <Button
+                  variant="outline"
+                  size="xs"
+                  className="bg-black/40 border border-purple-500/40 text-pink-300 hover:bg-purple-900/40 hover:border-pink-400/60 hover:text-pink-200 rounded-full transition-all duration-300 flex items-center text-xs px-3 py-1 h-7"
+                >
+                  <span className="flex items-center">
+                    Next Stage
+                    <ChevronsRight className="h-3 w-3 ml-0.5" />
+                  </span>
+                </Button>
+              )}
             </div>
 
             {/* 新的进度条设计 */}
@@ -218,14 +220,26 @@ export function OverviewTab({
 
             {/* 添加说明文本，使用青色高亮形成对比 */}
             <p className="text-xs text-pink-200/80 mt-4 leading-tight">
-              At the end of Genesis, if the Genesis Fund reaches or exceeds{" "}
-              <span className={highlightClass}>10 UETH</span>, the Memeverse will enter the Locked Stage, with all
-              Genesis Funds used to deploy <span className={highlightClass}>{symbol || "Memecoin"}</span> and{" "}
-              <span className={highlightClass}>POL</span> (Proof of Liquidity) token liquidity pools, and Genesis users
-              can claim <span className={highlightClass}>POL</span> tokens. If the Genesis Fund falls short of{" "}
-              <span className={highlightClass}>10 UETH</span> by the genesis end time, the Memeverse will enter the
-              Refund Stage, allowing Genesis users to redeem their deposited{" "}
-              <span className={highlightClass}>UETH</span>.
+              {stage === "Refund" ? (
+                <>
+                  Unfortunately, the Genesis Fund for <span className={highlightClass}>{symbol || "Memecoin"}</span>{" "}
+                  only reached <span className={highlightClass}>{genesisFund.toFixed(2)} UETH</span>, falling short of
+                  the <span className={highlightClass}>10 UETH</span> target. The Memeverse has entered the{" "}
+                  <span className={highlightClass}>Refund Stage</span>, allowing Genesis users to redeem their deposited{" "}
+                  <span className={highlightClass}>UETH</span>.
+                </>
+              ) : (
+                <>
+                  At the end of Genesis, if the Genesis Fund reaches or exceeds{" "}
+                  <span className={highlightClass}>10 UETH</span>, the Memeverse will enter the Locked Stage, with all
+                  Genesis Funds used to deploy <span className={highlightClass}>{symbol || "Memecoin"}</span> and{" "}
+                  <span className={highlightClass}>POL</span> (Proof of Liquidity) token liquidity pools, and Genesis
+                  users can claim <span className={highlightClass}>POL</span> tokens. If the Genesis Fund falls short of{" "}
+                  <span className={highlightClass}>10 UETH</span> by the genesis end time, the Memeverse will enter the
+                  Refund Stage, allowing Genesis users to redeem their deposited{" "}
+                  <span className={highlightClass}>UETH</span>.
+                </>
+              )}
             </p>
           </div>
         )}

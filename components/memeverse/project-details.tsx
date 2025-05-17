@@ -163,11 +163,9 @@ export function ProjectDetails({ project, stageStyle, onBackClick }: ProjectDeta
             {/* Genesis End Time / Created At card */}
             <div className="flex-1 bg-black/20 rounded-lg border border-purple-500/30 flex flex-col justify-center backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300">
               <div className="px-3 py-2">
-                <div className="text-xs text-pink-300/80 font-medium">
-                  {project.stage === "Genesis" ? "Genesis End Time" : "Created At"}
-                </div>
+                <div className="text-xs text-pink-300/80 font-medium">Genesis End Time</div>
                 <div className="text-sm font-semibold text-pink-100 overflow-hidden text-ellipsis whitespace-nowrap">
-                  {formatCustomDateTime(project.stage === "Genesis" ? project.genesisEndTime : project.createdAt)}
+                  {formatCustomDateTime(project.genesisEndTime || project.createdAt || new Date())}
                 </div>
               </div>
             </div>
@@ -177,7 +175,10 @@ export function ProjectDetails({ project, stageStyle, onBackClick }: ProjectDeta
               <div className="px-3 py-2">
                 <div className="text-xs text-pink-300/80 font-medium">Unlock Time</div>
                 <div className="text-sm font-semibold text-pink-100 overflow-hidden text-ellipsis whitespace-nowrap">
-                  {project.unlockTime ? formatCustomDateTime(project.unlockTime) : "N/A"}
+                  {formatCustomDateTime(
+                    project.unlockTime ||
+                      new Date(project.createdAt).setMonth(new Date(project.createdAt).getMonth() + 3),
+                  )}
                 </div>
               </div>
             </div>

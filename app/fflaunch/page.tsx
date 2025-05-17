@@ -17,7 +17,6 @@ export default function FFLaunchPage() {
 
   return (
     <div ref={containerRef} className="relative flex flex-col min-h-screen">
-
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden pt-20">
         {/* Hero overlay - UPDATED to match main page */}
@@ -142,7 +141,7 @@ export default function FFLaunchPage() {
             {/* Stage 1: Apply Stage */}
             <div className="relative mb-20">
               <div className="flex flex-col md:flex-row items-start">
-                <div className="flex items-center md:w-1/2 md:justify-end md:pr-8 mb-4 md:mb-0">
+                <div className="hidden md:flex items-center md:w-1/2 md:justify-end md:pr-8">
                   <div className="relative z-10 md:text-right">
                     <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-600 text-white font-bold mb-3 shadow-glow-purple">
                       1
@@ -154,7 +153,17 @@ export default function FFLaunchPage() {
                     </p>
                   </div>
                 </div>
-                <div className="md:w-1/2 md:pl-8 pl-12">
+                <div className="md:w-1/2 md:pl-8 pl-12 w-full">
+                  <div className="md:hidden mb-4">
+                    <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-600 text-white font-bold mb-3 shadow-glow-purple">
+                      1
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Apply Stage</h3>
+                    <p className="text-zinc-300 text-sm max-w-md">
+                      Project teams develop smart contracts and apply to the Outrun Audit Team with detailed project
+                      information.
+                    </p>
+                  </div>
                   <div className="bg-black/60 backdrop-blur-sm rounded-xl p-4 border border-purple-500/20 shadow-glow-sm">
                     <h4 className="text-base font-semibold text-purple-400 mb-2">Key Actions</h4>
                     <ul className="space-y-1">
@@ -183,7 +192,17 @@ export default function FFLaunchPage() {
             {/* Stage 2: Audit Stage */}
             <div className="relative mb-20">
               <div className="flex flex-col md:flex-row items-start">
-                <div className="md:w-1/2 md:pr-8 order-2 md:order-1">
+                <div className="md:w-1/2 md:pr-8 order-2 md:order-1 pl-12 md:pl-0">
+                  <div className="md:hidden mb-4">
+                    <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-pink-600 text-white font-bold mb-3 shadow-glow-pink">
+                      2
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Audit Stage</h3>
+                    <p className="text-zinc-300 text-sm max-w-md">
+                      The Outrun Audit Team thoroughly reviews the project and audits all contracts to ensure safety and
+                      compliance.
+                    </p>
+                  </div>
                   <div className="bg-black/60 backdrop-blur-sm rounded-xl p-4 border border-pink-500/20 shadow-glow-sm">
                     <h4 className="text-base font-semibold text-pink-400 mb-2">Key Actions</h4>
                     <ul className="space-y-1">
@@ -202,7 +221,7 @@ export default function FFLaunchPage() {
                     </ul>
                   </div>
                 </div>
-                <div className="flex items-center md:w-1/2 md:justify-start md:pl-8 mb-4 md:mb-0 pl-12 order-1 md:order-2">
+                <div className="hidden md:flex items-center md:w-1/2 md:justify-start md:pl-8 order-1 md:order-2">
                   <div className="relative z-10">
                     <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-pink-600 text-white font-bold mb-3 shadow-glow-pink">
                       2
@@ -222,7 +241,7 @@ export default function FFLaunchPage() {
             {/* Stage 3: Genesis Stage */}
             <div className="relative mb-20">
               <div className="flex flex-col md:flex-row items-start">
-                <div className="flex items-center md:w-1/2 md:justify-end md:pr-8 mb-4 md:mb-0">
+                <div className="hidden md:flex items-center md:w-1/2 md:justify-end md:pr-8">
                   <div className="relative z-10 md:text-right">
                     <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold mb-3 shadow-glow-blue">
                       3
@@ -234,7 +253,17 @@ export default function FFLaunchPage() {
                     </p>
                   </div>
                 </div>
-                <div className="md:w-1/2 md:pl-8 pl-12">
+                <div className="md:w-1/2 md:pl-8 pl-12 w-full">
+                  <div className="md:hidden mb-4">
+                    <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold mb-3 shadow-glow-blue">
+                      3
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Genesis Stage</h3>
+                    <p className="text-zinc-300 text-sm max-w-md">
+                      Investors deposit UPT tokens into the LaunchPool, with funds allocated for both liquidity and
+                      token generation.
+                    </p>
+                  </div>
                   <div className="bg-black/60 backdrop-blur-sm rounded-xl p-4 border border-blue-500/20 shadow-glow-sm">
                     <h4 className="text-base font-semibold text-blue-400 mb-2">Fund Allocation</h4>
                     <ul className="space-y-1">
@@ -269,7 +298,17 @@ export default function FFLaunchPage() {
             {/* Stage 4: Liquidity Lock Stage */}
             <div className="relative mb-20">
               <div className="flex flex-col md:flex-row items-start">
-                <div className="md:w-1/2 md:pr-8 order-2 md:order-1">
+                <div className="md:w-1/2 md:pr-8 order-2 md:order-1 pl-12 md:pl-0">
+                  <div className="md:hidden mb-4">
+                    <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-cyan-600 text-white font-bold mb-3 shadow-glow-cyan">
+                      4
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Liquidity Lock Stage</h3>
+                    <p className="text-zinc-300 text-sm max-w-md">
+                      Project tokens are minted and paired with UPT to form trading pairs. Liquidity is locked until the
+                      unlockTime.
+                    </p>
+                  </div>
                   <div className="bg-black/60 backdrop-blur-sm rounded-xl p-4 border border-cyan-500/20 shadow-glow-sm">
                     <h4 className="text-base font-semibold text-cyan-400 mb-2">Key Actions</h4>
                     <ul className="space-y-1">
@@ -296,7 +335,7 @@ export default function FFLaunchPage() {
                     </ul>
                   </div>
                 </div>
-                <div className="flex items-center md:w-1/2 md:justify-start md:pl-8 mb-4 md:mb-0 pl-12 order-1 md:order-2">
+                <div className="hidden md:flex items-center md:w-1/2 md:justify-start md:pl-8 order-1 md:order-2">
                   <div className="relative z-10">
                     <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-cyan-600 text-white font-bold mb-3 shadow-glow-cyan">
                       4
@@ -316,7 +355,7 @@ export default function FFLaunchPage() {
             {/* Stage 5: Liquidity Unlock Stage */}
             <div className="relative mb-20">
               <div className="flex flex-col md:flex-row items-start">
-                <div className="flex items-center md:w-1/2 md:justify-end md:pr-8 mb-4 md:mb-0">
+                <div className="hidden md:flex items-center md:w-1/2 md:justify-end md:pr-8">
                   <div className="relative z-10 md:text-right">
                     <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-600 text-white font-bold mb-3 shadow-glow-green">
                       5
@@ -328,7 +367,17 @@ export default function FFLaunchPage() {
                     </p>
                   </div>
                 </div>
-                <div className="md:w-1/2 md:pl-8 pl-12">
+                <div className="md:w-1/2 md:pl-8 pl-12 w-full">
+                  <div className="md:hidden mb-4">
+                    <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-600 text-white font-bold mb-3 shadow-glow-green">
+                      5
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Liquidity Unlock Stage</h3>
+                    <p className="text-zinc-300 text-sm max-w-md">
+                      After the unlockTime is reached, investors can redeem their liquidity proportional to their
+                      initial deposits.
+                    </p>
+                  </div>
                   <div className="bg-black/60 backdrop-blur-sm rounded-xl p-4 border border-green-500/20 shadow-glow-sm">
                     <h4 className="text-base font-semibold text-green-400 mb-2">Key Features</h4>
                     <ul className="space-y-1">
@@ -357,7 +406,17 @@ export default function FFLaunchPage() {
             {/* Stage 6: Remaining Token Generation */}
             <div className="relative">
               <div className="flex flex-col md:flex-row items-start">
-                <div className="md:w-1/2 md:pr-8 order-2 md:order-1">
+                <div className="md:w-1/2 md:pr-8 order-2 md:order-1 pl-12 md:pl-0">
+                  <div className="md:hidden mb-4">
+                    <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-yellow-600 text-white font-bold mb-3 shadow-glow-yellow">
+                      6
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Remaining Token Generation</h3>
+                    <p className="text-zinc-300 text-sm max-w-md">
+                      After 14 days in the unlock stage, the project team can generate any remaining tokens to the
+                      TimeLockVault contract.
+                    </p>
+                  </div>
                   <div className="bg-black/60 backdrop-blur-sm rounded-xl p-4 border border-yellow-500/20 shadow-glow-sm">
                     <h4 className="text-base font-semibold text-yellow-400 mb-2">Final Stage</h4>
                     <ul className="space-y-1">
@@ -380,7 +439,7 @@ export default function FFLaunchPage() {
                     </ul>
                   </div>
                 </div>
-                <div className="flex items-center md:w-1/2 md:justify-start md:pl-8 mb-4 md:mb-0 pl-12 order-1 md:order-2">
+                <div className="hidden md:flex items-center md:w-1/2 md:justify-start md:pl-8 order-1 md:order-2">
                   <div className="relative z-10">
                     <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-yellow-600 text-white font-bold mb-3 shadow-glow-yellow">
                       6

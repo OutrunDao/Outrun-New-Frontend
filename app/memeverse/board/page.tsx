@@ -912,17 +912,17 @@ function ProjectCard({ project }: { project: any }) {
 
   // Handle card click event
   const handleCardClick = () => {
-    // Only DDIN and MDRG projects can navigate to detail page
-    if (project.symbol === "DDIN" || project.symbol === "MDRG") {
+    // 所有项目都导航到detail页面
+    if (project.symbol === "DDIN" || project.symbol === "MDRG" || project.symbol === "QPEPE") {
       router.push(`/memeverse/${project.id}/detail/`)
     } else {
-      // For other projects, show an alert
+      // 对于其他项目，显示提示信息
       alert("详情页面正在建设中...")
     }
   }
 
   // Determine if the project is clickable
-  const isClickable = project.symbol === "DDIN" || project.symbol === "MDRG"
+  const isClickable = project.symbol === "DDIN" || project.symbol === "MDRG" || project.symbol === "QPEPE"
 
   return (
     <div
@@ -1018,10 +1018,10 @@ function ProjectCard({ project }: { project: any }) {
                       </div>
                     </div>
 
-                    {/* Show Total raised in Genesis and Refund stages */}
+                    {/* Show Total Raised in Genesis and Refund stages */}
                     {(project.stage === "Genesis" || project.stage === "Refund") && (
                       <div className="text-pink-300/70 text-xs">
-                        Total raised:{" "}
+                        Total Raised:{" "}
                         <span className="text-pink-200 font-medium">
                           {project.raisedAmount.toFixed(2)} {project.raisedToken}
                         </span>
@@ -1062,11 +1062,21 @@ function ProjectCard({ project }: { project: any }) {
                       </div>
                     )}
 
-                    {/* Show Population in all stages */}
-                    <div className="text-pink-300/70 text-xs">
-                      Population:{" "}
-                      <span className="text-pink-200 font-medium">{project.population.toLocaleString()}</span>
-                    </div>
+                    {/* Show Unlock Time in Genesis stage, Population in other stages */}
+                    {/* 对于Genesis阶段，显示Unlock Time而不是Population */}
+                    {project.stage === "Genesis" ? (
+                      <div className="text-pink-300/70 text-xs">
+                        Unlock Time:{" "}
+                        <span className="text-pink-200 font-medium">
+                          {project.unlockTime ? formatDateTime(project.unlockTime) : "TBA"}
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="text-pink-300/70 text-xs">
+                        Population:{" "}
+                        <span className="text-pink-200 font-medium">{project.population.toLocaleString()}</span>
+                      </div>
+                    )}
 
                     {/* Progress bar and percentage - displayed in Genesis stage */}
                     {project.stage === "Genesis" && (

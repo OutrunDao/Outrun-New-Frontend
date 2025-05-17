@@ -8,107 +8,9 @@ import { ChevronLeft } from "lucide-react"
 // Import components
 import { ProjectDetails } from "@/components/memeverse/project-details"
 import { DepositSection } from "@/components/memeverse/deposit-section"
+import { RefundSection } from "@/components/memeverse/refund-section"
 import { OverviewTab } from "@/components/memeverse/overview-tab"
-
-// Mock data - only DDIN and MDRG projects
-const MOCK_VERSE = [
-  {
-    id: 30, // DDIN ID in projects list
-    name: "Digital Dinosaurs",
-    symbol: "DDIN",
-    description:
-      "Prehistoric reptilian token with evolutionary governance and cross-chain compatibility. Digital Dinosaurs combines ancient wisdom with cutting-edge blockchain technology to create a sustainable ecosystem for long-term growth.",
-    stage: "Genesis",
-    mode: "normal",
-    raisedAmount: 30.75,
-    raisedToken: "UETH",
-    population: 62,
-    marketCap: 270000,
-    progress: 21.5,
-    genesisEndTime: "2023-09-30T15:30:00Z",
-    createdAt: "2023-06-30T14:15:00Z",
-    unlockTime: "2023-10-30T15:30:00Z",
-    omnichain: [
-      { name: "Ethereum", chainid: 1, icon: "/networks/ethereum.svg" },
-      { name: "Arbitrum", chainid: 42161, icon: "/networks/arbitrum.svg" },
-      { name: "Polygon", chainid: 137, icon: "/networks/polygon.svg" },
-    ],
-    website: "https://digitaldinosaurs.io",
-    twitter: "https://twitter.com/digitaldinosaurs",
-    telegram: "https://t.me/digitaldinosaurs",
-    discord: "https://discord.gg/digitaldinosaurs",
-    features: [
-      "Deflationary tokenomics with automatic burn mechanism",
-      "Cross-chain compatibility for maximum accessibility",
-      "DAO governance allowing token holders to vote on ecosystem decisions",
-      "Staking rewards with variable APY based on lock-up period",
-      "NFT integration planned for Q4 2023",
-    ],
-    development: [
-      "Metaverse integration with virtual dinosaur sanctuary",
-      "Mobile app for tracking portfolio and staking rewards",
-      "Strategic partnerships with major blockchain projects",
-      "Educational platform for blockchain and paleontology enthusiasts",
-    ],
-  },
-  {
-    id: 23, // MDRG ID in projects list
-    name: "Meta Dragons",
-    symbol: "MDRG",
-    description:
-      "Metaverse dragon collectibles with play-to-earn mechanics and cross-chain interoperability. Meta Dragons creates an immersive virtual world where players can collect, breed, and battle digital dragons while earning rewards.",
-    stage: "Genesis",
-    mode: "flash",
-    raisedAmount: 145.2,
-    raisedToken: "UETH",
-    population: 92,
-    marketCap: 420000,
-    progress: 45.2,
-    genesisEndTime: "2023-06-19T15:30:00Z",
-    createdAt: "2023-05-06T14:20:00Z",
-    unlockTime: "2023-07-19T15:30:00Z",
-    omnichain: [
-      { name: "Ethereum", chainid: 1, icon: "/networks/ethereum.svg" },
-      { name: "Polygon", chainid: 137, icon: "/networks/polygon.svg" },
-    ],
-    website: "https://metadragons.io",
-    twitter: "https://twitter.com/metadragons",
-    telegram: "https://t.me/metadragons",
-    discord: "https://discord.gg/metadragons",
-    features: [
-      "Play-to-earn game mechanics with daily quests and rewards",
-      "Unique dragon NFTs with genetic traits and breeding system",
-      "Cross-chain marketplace for trading dragons and items",
-      "Guild system for cooperative gameplay and shared rewards",
-      "Weekly tournaments with substantial prize pools",
-    ],
-    development: [
-      "Mobile app for on-the-go dragon management",
-      "3D metaverse expansion with customizable dragon lairs",
-      "Cross-game partnerships for dragon usage in multiple games",
-      "Real-world merchandise and collectibles",
-    ],
-    stakingApy: 1250.75,
-    treasuryFund: 1800000,
-  },
-]
-
-// Format date time function to display in UTC time
-function formatDateTime(dateTimeStr: string): string {
-  const date = new Date(dateTimeStr)
-
-  // 获取 UTC 年、月、日
-  const year = date.getUTCFullYear()
-  const month = String(date.getUTCMonth() + 1).padStart(2, "0")
-  const day = String(date.getUTCDate()).padStart(2, "0")
-
-  // 获取 UTC 小时、分钟
-  const hours = String(date.getUTCHours()).padStart(2, "0")
-  const minutes = String(date.getUTCMinutes()).padStart(2, "0")
-
-  // 返回格式化的 UTC 日期时间字符串
-  return `${year}-${month}-${day} ${hours}:${minutes} (UTC)`
-}
+import { MOCK_PROJECTS } from "@/data/memeverse-projects"
 
 // 修改Stage颜色映射，使用更加统一的渐变和阴影效果
 const STAGE_COLORS: Record<string, { bg: string; text: string; glow: string; gradient: string }> = {
@@ -160,6 +62,14 @@ const TABS = [
   // { id: "roadmap", label: "Roadmap" },
 ]
 
+// 确保所有项目都有社交媒体链接
+const DEFAULT_SOCIAL_LINKS = {
+  website: "https://outrun.network",
+  twitter: "https://twitter.com/outrunnetwork",
+  telegram: "https://t.me/outrunnetwork",
+  discord: "https://discord.gg/outrun",
+}
+
 export default function VerseDetailPage() {
   const router = useRouter()
   const params = useParams()
@@ -179,9 +89,25 @@ export default function VerseDetailPage() {
 
     // Simulate API request
     setTimeout(() => {
-      const foundVerse = MOCK_VERSE.find((p) => p.id.toString() === verseId.toString())
+      const foundVerse = MOCK_PROJECTS.find((p) => p.id.toString() === verseId.toString())
       if (foundVerse) {
-        setVerse(foundVerse)
+        // 确保项目有社交媒体链接和必要的时间字段
+        const currentDate = new Date()
+        const threeMonthsLater = new Date(currentDate)
+        threeMonthsLater.setMonth(currentDate.getMonth() + 3)
+
+        const verseWithAllFields = {
+          ...foundVerse,
+          website: foundVerse.website || DEFAULT_SOCIAL_LINKS.website,
+          twitter: foundVerse.twitter || DEFAULT_SOCIAL_LINKS.twitter,
+          telegram: foundVerse.telegram || DEFAULT_SOCIAL_LINKS.telegram,
+          discord: foundVerse.discord || DEFAULT_SOCIAL_LINKS.discord,
+          // 确保时间字段存在
+          createdAt: foundVerse.createdAt || currentDate.toISOString(),
+          genesisEndTime: foundVerse.genesisEndTime || currentDate.toISOString(),
+          unlockTime: foundVerse.unlockTime || threeMonthsLater.toISOString(),
+        }
+        setVerse(verseWithAllFields)
         setLoading(false)
       } else {
         setError(`Cannot find memeverse with verseId ${verseId}`)
@@ -207,6 +133,12 @@ export default function VerseDetailPage() {
 
     // Show success message
     alert(`Successfully deposited ${amount} ${token.symbol}`)
+  }
+
+  // Handle refund
+  const handleRefund = () => {
+    // In a real app, this would call a contract function to process the refund
+    alert(`Successfully claimed refund of ${verse?.refundAmount} ${verse?.raisedToken}`)
   }
 
   if (loading) {
@@ -262,6 +194,14 @@ export default function VerseDetailPage() {
     glow: "",
     gradient: "from-gray-600 to-gray-500",
   }
+
+  // 确保控制台输出社交媒体链接，以便调试
+  console.log("Social links:", {
+    website: verse.website,
+    twitter: verse.twitter,
+    telegram: verse.telegram,
+    discord: verse.discord,
+  })
 
   return (
     <div className="min-h-screen">
@@ -325,23 +265,41 @@ export default function VerseDetailPage() {
             {/* Use vertical layout on small and medium screens */}
             <div className="w-full lg:hidden flex flex-col gap-4">
               <ProjectDetails project={verse} stageStyle={stageStyle} onBackClick={handleBackClick} />
-              <DepositSection
-                availableTokens={AVAILABLE_TOKENS}
-                providers={OUTSTAKE_PROVIDERS}
-                myGenesisFunds={myGenesisFunds}
-                onDeposit={handleDeposit}
-              />
+              {verse.stage === "Refund" ? (
+                <RefundSection
+                  totalRefundAmount={verse.raisedAmount}
+                  userRefundAmount={verse.refundAmount}
+                  refundToken={verse.raisedToken}
+                  onRefund={handleRefund}
+                />
+              ) : (
+                <DepositSection
+                  availableTokens={AVAILABLE_TOKENS}
+                  providers={OUTSTAKE_PROVIDERS}
+                  myGenesisFunds={myGenesisFunds}
+                  onDeposit={handleDeposit}
+                />
+              )}
             </div>
 
             {/* Use horizontal layout on large screens - adjust spacing for more uniformity */}
             <div className="hidden lg:flex lg:flex-row gap-6 items-start w-full justify-center">
               <ProjectDetails project={verse} stageStyle={stageStyle} onBackClick={handleBackClick} />
-              <DepositSection
-                availableTokens={AVAILABLE_TOKENS}
-                providers={OUTSTAKE_PROVIDERS}
-                myGenesisFunds={myGenesisFunds}
-                onDeposit={handleDeposit}
-              />
+              {verse.stage === "Refund" ? (
+                <RefundSection
+                  totalRefundAmount={verse.raisedAmount}
+                  userRefundAmount={verse.refundAmount}
+                  refundToken={verse.raisedToken}
+                  onRefund={handleRefund}
+                />
+              ) : (
+                <DepositSection
+                  availableTokens={AVAILABLE_TOKENS}
+                  providers={OUTSTAKE_PROVIDERS}
+                  myGenesisFunds={myGenesisFunds}
+                  onDeposit={handleDeposit}
+                />
+              )}
             </div>
           </div>
         </div>
